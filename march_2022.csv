@@ -1,0 +1,796 @@
+,educ,docc03,wageotc,count,wbhaom,female
+0,College,Community and social service occupations,42.13450050354004,2,Black,Male
+1,Advanced,Construction and extraction occupations,30.0,1,Black,Male
+2,College,"Education, training, and library occupations",35.82806699926203,11,Black,Female
+3,College,Office and administrative support occupations,26.559875011444092,20,Black,Female
+4,College,Architecture and engineering occupations,54.270196957058374,90,White,Male
+5,College,"Arts, design, entertainment, sports, and media occupations",31.863896854462162,31,White,Female
+6,High school,Sales and related occupations,29.5623321297728,81,White,Male
+7,High school,Sales and related occupations,17.947548098791213,105,White,Female
+8,Some college,Healthcare support occupations,18.43232522494551,69,White,Female
+9,Some college,Sales and related occupations,19.209003370541794,104,White,Female
+10,College,Office and administrative support occupations,38.89619830503302,59,White,Male
+11,Less than high school,Construction and extraction occupations,19.969210812539764,66,Hispanic,Male
+12,Some college,Computer and mathematical science occupations,33.92111682891846,4,Black,Male
+13,Advanced,"Education, training, and library occupations",27.612557867298957,23,Black,Female
+14,College,Management occupations,62.85012480644953,210,White,Male
+15,College,"Education, training, and library occupations",28.67242530437365,146,White,Female
+16,High school,Construction and extraction occupations,19.480708258492605,14,Black,Male
+17,Some college,Office and administrative support occupations,25.65321181370662,52,White,Male
+18,High school,Office and administrative support occupations,29.361084359032766,56,White,Male
+19,High school,Production occupations,22.65601863861084,15,Black,Male
+20,Advanced,Healthcare practitioner and technical occupations,53.529631117470245,117,White,Female
+21,High school,Transportation and material moving occupations,22.514147391686073,52,Black,Male
+22,College,Management occupations,40.55697388119168,9,Black,Male
+23,High school,Sales and related occupations,14.478261879512242,14,Black,Female
+24,Advanced,Community and social service occupations,35.0851703726727,46,White,Female
+25,Some college,Protective service occupations,22.77161808013916,10,Black,Male
+26,College,Production occupations,39.28665190476637,26,White,Male
+27,High school,Office and administrative support occupations,22.29204200295841,17,Black,Male
+28,Less than high school,Transportation and material moving occupations,23.063841183980305,9,Black,Male
+29,Advanced,Business and financial operations occupations,54.46759104728699,8,Black,Male
+30,Less than high school,Office and administrative support occupations,26.666666666666668,6,Hispanic,Female
+31,Advanced,Management occupations,69.25773076398657,109,White,Male
+32,College,"Installation, maintenance, and repair occupations",15.950000047683716,2,Black,Male
+33,Some college,Management occupations,47.49933168568562,97,White,Male
+34,High school,Transportation and material moving occupations,23.75761471854316,180,White,Male
+35,College,Community and social service occupations,28.588033615014492,39,White,Female
+36,Some college,Transportation and material moving occupations,20.029152212471796,29,Black,Male
+37,Some college,Production occupations,26.504124566410365,89,White,Male
+38,Some college,Production occupations,18.57851371765137,25,White,Female
+39,Advanced,Computer and mathematical science occupations,75.53574859074183,35,White,Male
+40,Advanced,Community and social service occupations,47.88933154514858,7,Hispanic,Female
+41,Less than high school,Transportation and material moving occupations,18.834129277397604,34,White,Male
+42,Advanced,Community and social service occupations,48.55598068237305,17,White,Male
+43,Advanced,Architecture and engineering occupations,141.40892028808594,1,Black,Male
+44,Advanced,Computer and mathematical science occupations,51.74824666976929,4,Black,Female
+45,Some college,Construction and extraction occupations,30.467581585200147,99,White,Male
+46,Some college,Office and administrative support occupations,22.94018947177463,225,White,Female
+47,High school,Production occupations,28.688487896552452,130,White,Male
+48,Some college,Healthcare practitioner and technical occupations,29.098227876377855,127,White,Female
+49,Some college,Sales and related occupations,15.83372050523758,16,Black,Male
+50,High school,Transportation and material moving occupations,21.34717880686124,48,White,Female
+51,High school,"Installation, maintenance, and repair occupations",25.88790180132939,104,White,Male
+52,Advanced,Computer and mathematical science occupations,53.58606815338135,14,White,Female
+53,Some college,Legal occupations,24.18596076965332,12,White,Female
+54,College,Office and administrative support occupations,26.59478906038645,148,White,Female
+55,Advanced,Business and financial operations occupations,58.371577825301735,39,White,Male
+56,High school,Management occupations,41.74143309234291,93,White,Male
+57,Some college,"Education, training, and library occupations",17.43269260893477,47,White,Female
+58,High school,Healthcare practitioner and technical occupations,17.858906269073486,4,White,Male
+59,Less than high school,Personal care and service occupations,11.843673501695905,14,White,Female
+60,High school,Construction and extraction occupations,28.20520677248637,150,White,Male
+61,Some college,Management occupations,28.886851040940535,76,White,Female
+62,Advanced,Sales and related occupations,40.60273798774271,17,White,Female
+63,College,Business and financial operations occupations,54.4873523495414,132,White,Male
+64,College,Healthcare practitioner and technical occupations,40.38330866949899,140,White,Female
+65,College,Sales and related occupations,43.326760055573004,123,White,Male
+66,High school,Production occupations,26.925604104995728,28,Hispanic,Male
+67,High school,Production occupations,18.424191379547118,20,Hispanic,Female
+68,College,Transportation and material moving occupations,28.77811581293742,30,White,Male
+69,High school,Office and administrative support occupations,20.878931856155397,195,White,Female
+70,Advanced,Legal occupations,72.55798477596707,36,White,Male
+71,Some college,Protective service occupations,30.674253608241226,33,White,Male
+72,Advanced,Protective service occupations,64.74328327178955,4,Black,Male
+73,College,Computer and mathematical science occupations,67.7554261478377,81,White,Male
+74,Some college,Healthcare practitioner and technical occupations,29.150262225757945,22,White,Male
+75,High school,Production occupations,14.824843182283288,17,Black,Female
+76,College,"Education, training, and library occupations",34.70543879431647,37,White,Male
+77,Some college,Computer and mathematical science occupations,43.598337491353355,36,White,Male
+78,Advanced,"Life, physical, and social science occupations",39.55052461295292,29,White,Female
+79,College,"Installation, maintenance, and repair occupations",33.92782474517822,25,White,Male
+80,Some college,Healthcare practitioner and technical occupations,25.05959457397461,25,Black,Female
+81,College,Office and administrative support occupations,23.152044252915815,22,Hispanic,Female
+82,College,Sales and related occupations,29.835359573364258,12,Black,Female
+83,Some college,"Farming, fishing, and forestry occupations",20.41935443878174,2,Black,Male
+84,Some college,"Farming, fishing, and forestry occupations",18.0,1,Black,Female
+85,College,Business and financial operations occupations,38.26657188349757,116,White,Female
+86,Advanced,Personal care and service occupations,17.49742202758789,5,White,Male
+87,High school,Building and grounds cleaning and maintenance occupations,14.563906359118084,43,White,Female
+88,Some college,Building and grounds cleaning and maintenance occupations,18.648295587963528,36,White,Male
+89,College,Management occupations,52.14416749136789,14,Hispanic,Male
+90,Some college,Community and social service occupations,18.035749912261963,4,Black,Female
+91,Some college,"Installation, maintenance, and repair occupations",31.502478313446044,100,White,Male
+92,Some college,Sales and related occupations,32.51563777728956,98,White,Male
+93,Less than high school,Sales and related occupations,12.447569449742636,24,White,Female
+94,Some college,Building and grounds cleaning and maintenance occupations,24.230749130249023,1,Multiple races,Male
+95,High school,"Installation, maintenance, and repair occupations",18.051900005340578,10,Black,Male
+96,Some college,Personal care and service occupations,16.861508738426934,42,White,Female
+97,College,Sales and related occupations,30.919307518005372,10,Black,Male
+98,College,Office and administrative support occupations,19.717857360839844,7,Black,Male
+99,High school,Transportation and material moving occupations,16.41023349761963,12,Black,Female
+100,Some college,Office and administrative support occupations,20.597450536840103,17,Black,Male
+101,Some college,Transportation and material moving occupations,23.675803130932067,89,White,Male
+102,High school,Protective service occupations,9.615249633789062,1,Multiple races,Female
+103,Some college,Production occupations,28.37644386291504,12,Black,Male
+104,Less than high school,Construction and extraction occupations,24.719903588294983,26,White,Male
+105,Less than high school,Healthcare support occupations,16.303571428571427,14,White,Female
+106,Advanced,Office and administrative support occupations,25.55862522125244,8,Black,Female
+107,High school,Production occupations,20.069177515366498,34,White,Female
+108,High school,Sales and related occupations,15.006195675243031,22,Black,Male
+109,Some college,Sales and related occupations,19.063514028276717,14,Black,Female
+110,High school,Protective service occupations,25.906923508644105,30,White,Male
+111,Some college,Office and administrative support occupations,20.775220615107838,41,Black,Female
+112,College,Healthcare practitioner and technical occupations,35.416901497613814,21,Black,Female
+113,College,Protective service occupations,34.83481216430664,4,Black,Male
+114,Some college,Office and administrative support occupations,23.1654541015625,20,Hispanic,Male
+115,Advanced,"Education, training, and library occupations",35.50975875744874,174,White,Female
+116,Advanced,Management occupations,44.79348050167686,95,White,Female
+117,College,Management occupations,44.89767596309568,162,White,Female
+118,High school,Sales and related occupations,14.267191696166993,10,Asian,Female
+119,Advanced,Office and administrative support occupations,33.03844437105902,29,White,Female
+120,Some college,Architecture and engineering occupations,42.122931321462,36,White,Male
+121,Less than high school,"Arts, design, entertainment, sports, and media occupations",10.835333188374838,3,White,Male
+122,College,Construction and extraction occupations,36.848536574322246,23,White,Male
+123,High school,Construction and extraction occupations,23.89885665575663,60,Hispanic,Male
+124,Less than high school,"Installation, maintenance, and repair occupations",22.81786065943101,17,White,Male
+125,Some college,Management occupations,36.57174936930338,3,Native American,Male
+126,High school,Healthcare support occupations,15.691666793823241,5,Asian,Female
+127,High school,Construction and extraction occupations,22.73696517944336,3,Asian,Male
+128,Advanced,Healthcare practitioner and technical occupations,51.69394552140009,21,Asian,Female
+129,Less than high school,"Arts, design, entertainment, sports, and media occupations",13.751875019073486,5,White,Female
+130,High school,Personal care and service occupations,22.040476481119793,3,Asian,Male
+131,College,Healthcare practitioner and technical occupations,34.614785766601564,15,Hispanic,Female
+132,Some college,Sales and related occupations,20.210364151000977,5,Asian,Female
+133,High school,Sales and related occupations,27.012500127156574,6,Asian,Male
+134,Less than high school,Sales and related occupations,14.0,2,Asian,Female
+135,Some college,Business and financial operations occupations,30.889781006177266,30,White,Male
+136,Some college,Healthcare practitioner and technical occupations,34.0,1,Native American,Female
+137,Some college,Healthcare practitioner and technical occupations,57.060201009114586,3,Asian,Female
+138,College,"Life, physical, and social science occupations",38.679669314417346,29,White,Male
+139,Advanced,Building and grounds cleaning and maintenance occupations,21.63450050354004,1,White,Male
+140,High school,Food preparation and serving related occupations,16.087857382638113,7,Multiple races,Male
+141,High school,Management occupations,24.651714617555793,44,White,Female
+142,Less than high school,Food preparation and serving related occupations,14.493024984995523,24,Hispanic,Male
+143,College,Healthcare practitioner and technical occupations,31.590150833129883,4,Native American,Female
+144,Less than high school,Office and administrative support occupations,15.947999954223633,12,White,Female
+145,Less than high school,Management occupations,22.18093831198556,7,White,Male
+146,Advanced,Legal occupations,60.58581352233887,2,Native American,Female
+147,Advanced,Healthcare practitioner and technical occupations,73.20256629080143,53,White,Male
+148,High school,Computer and mathematical science occupations,30.00431474049886,9,White,Male
+149,Advanced,Healthcare support occupations,45.0,1,Native American,Male
+150,College,Transportation and material moving occupations,22.40511088901096,9,Black,Male
+151,Some college,Transportation and material moving occupations,17.29506254196167,12,Black,Female
+152,Some college,Food preparation and serving related occupations,18.631572129296476,61,White,Female
+153,College,Protective service occupations,38.15453758239746,10,White,Female
+154,College,"Installation, maintenance, and repair occupations",51.852230072021484,4,Hispanic,Male
+155,High school,Sales and related occupations,16.213614563147228,24,Hispanic,Female
+156,High school,Business and financial operations occupations,19.0,1,Native American,Male
+157,College,Protective service occupations,31.92867228190104,30,White,Male
+158,High school,Food preparation and serving related occupations,17.154891679453296,43,White,Male
+159,High school,Sales and related occupations,21.212499618530273,4,Native American,Female
+160,High school,Sales and related occupations,23.8069585164388,3,Native American,Male
+161,High school,Building and grounds cleaning and maintenance occupations,33.22999954223633,2,Native American,Male
+162,Some college,Office and administrative support occupations,19.738568115234376,5,Native American,Female
+163,High school,Transportation and material moving occupations,24.024999618530273,2,Native American,Male
+164,Some college,Business and financial operations occupations,29.860337144987923,70,White,Female
+165,College,"Education, training, and library occupations",26.03946590423584,3,Asian,Male
+166,Less than high school,Food preparation and serving related occupations,11.640999794006348,3,Asian,Male
+167,Some college,Community and social service occupations,15.366666793823242,3,Native American,Female
+168,High school,Food preparation and serving related occupations,17.012710981201707,57,White,Female
+169,High school,Business and financial operations occupations,41.12738936288016,7,Hispanic,Female
+170,Some college,Healthcare support occupations,17.939960352579753,30,Black,Female
+171,High school,Office and administrative support occupations,23.0,3,Native American,Male
+172,High school,Transportation and material moving occupations,23.68165678136489,17,Asian,Male
+173,Advanced,"Life, physical, and social science occupations",57.57880791255406,35,White,Male
+174,Some college,Transportation and material moving occupations,19.6140196463641,34,White,Female
+175,College,Legal occupations,45.603405793507896,12,White,Female
+176,Advanced,Protective service occupations,41.32222995758057,10,White,Male
+177,Advanced,"Education, training, and library occupations",44.13030279836347,62,White,Male
+178,College,Sales and related occupations,30.779239942232767,75,White,Female
+179,Some college,Community and social service occupations,20.137792587280273,5,White,Male
+180,Advanced,"Education, training, and library occupations",32.01715246836344,12,Hispanic,Female
+181,Advanced,Architecture and engineering occupations,72.67031051372659,29,White,Male
+182,Some college,Office and administrative support occupations,19.68792908767174,58,Hispanic,Female
+183,Advanced,Sales and related occupations,95.13861216031589,13,White,Male
+184,Some college,"Education, training, and library occupations",21.887616293770925,21,White,Male
+185,High school,"Education, training, and library occupations",21.827561701497725,31,White,Female
+186,High school,Healthcare support occupations,17.784836031355947,53,White,Female
+187,Advanced,Business and financial operations occupations,46.187989895160385,52,White,Female
+188,Advanced,Healthcare practitioner and technical occupations,49.569358253479,10,Asian,Male
+189,College,Transportation and material moving occupations,28.235187292099,4,Hispanic,Male
+190,High school,Architecture and engineering occupations,23.229563236236572,4,White,Female
+191,College,Healthcare practitioner and technical occupations,43.9028426806132,24,Asian,Female
+192,College,Personal care and service occupations,30.99875020980835,8,White,Male
+193,High school,Transportation and material moving occupations,18.959226433659943,71,Hispanic,Male
+194,College,"Education, training, and library occupations",27.75080672899882,12,Hispanic,Female
+195,Advanced,Management occupations,49.21170417467753,12,Black,Female
+196,Some college,"Installation, maintenance, and repair occupations",33.08258509635925,16,Hispanic,Male
+197,Advanced,Business and financial operations occupations,57.64688568115234,10,Asian,Female
+198,Some college,Construction and extraction occupations,27.230555481380886,18,Hispanic,Male
+199,Some college,Management occupations,33.769803047180176,14,Hispanic,Female
+200,High school,Building and grounds cleaning and maintenance occupations,13.086666742960611,6,Black,Female
+201,College,Food preparation and serving related occupations,27.194120049476624,16,White,Male
+202,Some college,Business and financial operations occupations,33.09556143624442,7,Hispanic,Male
+203,High school,"Installation, maintenance, and repair occupations",25.20460250160911,22,Hispanic,Male
+204,High school,Office and administrative support occupations,20.825873843106358,55,Hispanic,Female
+205,College,Computer and mathematical science occupations,89.17194470492277,22,Asian,Male
+206,Some college,"Installation, maintenance, and repair occupations",14.069642543792725,4,Hispanic,Female
+207,Advanced,Sales and related occupations,38.46149826049805,1,Hispanic,Male
+208,College,Architecture and engineering occupations,66.29589886135525,9,Asian,Male
+209,High school,Healthcare support occupations,16.855252141537875,23,Hispanic,Female
+210,College,Community and social service occupations,25.076094031333923,8,Hispanic,Female
+211,High school,Food preparation and serving related occupations,18.299999237060547,1,Native American,Female
+212,Less than high school,Sales and related occupations,14.323900032043458,15,Hispanic,Female
+213,Less than high school,"Farming, fishing, and forestry occupations",15.53125,8,White,Male
+214,Less than high school,"Farming, fishing, and forestry occupations",15.856860494613647,20,Hispanic,Male
+215,Some college,Transportation and material moving occupations,26.5,1,Native American,Female
+216,High school,Sales and related occupations,21.411897432236444,21,Hispanic,Male
+217,Less than high school,Transportation and material moving occupations,13.683333237965902,6,Hispanic,Female
+218,High school,Transportation and material moving occupations,15.391477281397039,22,Hispanic,Female
+219,College,Healthcare support occupations,22.403024890206076,22,White,Female
+220,College,Building and grounds cleaning and maintenance occupations,14.780000686645508,1,Hispanic,Male
+221,College,Legal occupations,28.75,2,Hispanic,Male
+222,High school,"Education, training, and library occupations",11.0,1,Native American,Female
+223,High school,"Farming, fishing, and forestry occupations",16.824999809265137,2,Hispanic,Female
+224,Less than high school,Construction and extraction occupations,12.5,2,Hispanic,Female
+225,Some college,Healthcare support occupations,17.686601093837194,14,White,Male
+226,College,Healthcare practitioner and technical occupations,54.01965581959691,29,White,Male
+227,College,Community and social service occupations,14.422999382019043,1,Multiple races,Male
+228,Some college,"Life, physical, and social science occupations",22.65862512588501,4,White,Female
+229,Some college,Architecture and engineering occupations,26.855933952331544,10,Hispanic,Male
+230,Less than high school,Food preparation and serving related occupations,14.032426221030098,14,Hispanic,Female
+231,College,Business and financial operations occupations,33.3200344172391,11,Black,Female
+232,High school,Building and grounds cleaning and maintenance occupations,13.674022810799736,14,Hispanic,Female
+233,Less than high school,Production occupations,21.872897293832565,18,White,Male
+234,Less than high school,Food preparation and serving related occupations,13.805574099222818,36,White,Female
+235,Some college,Personal care and service occupations,20.471713172064888,9,White,Male
+236,Advanced,Construction and extraction occupations,20.09000015258789,1,Hispanic,Male
+237,High school,Production occupations,25.31735692705427,7,Asian,Male
+238,Some college,"Life, physical, and social science occupations",17.25,1,Asian,Female
+239,College,Computer and mathematical science occupations,49.71831358932867,41,White,Female
+240,Less than high school,Sales and related occupations,21.584391832351685,20,White,Male
+241,College,Architecture and engineering occupations,41.07995891571045,14,White,Female
+242,Advanced,Management occupations,71.0919655693902,9,Black,Male
+243,High school,Protective service occupations,19.778729279836018,12,White,Female
+244,High school,Personal care and service occupations,25.0,2,Multiple races,Female
+245,Some college,Healthcare support occupations,16.833333333333332,3,Multiple races,Female
+246,High school,Food preparation and serving related occupations,11.415392875671387,14,Black,Female
+247,Less than high school,Personal care and service occupations,13.053571428571429,7,White,Male
+248,Some college,Food preparation and serving related occupations,17.982487710316978,30,White,Male
+249,Some college,Office and administrative support occupations,19.851111094156902,9,Asian,Female
+250,Less than high school,Building and grounds cleaning and maintenance occupations,17.63420475853814,18,Hispanic,Male
+251,Some college,Healthcare practitioner and technical occupations,25.534223629878117,13,Hispanic,Female
+252,Less than high school,Office and administrative support occupations,12.583333333333334,9,White,Male
+253,High school,Community and social service occupations,16.95957326889038,4,White,Male
+254,High school,"Education, training, and library occupations",15.84199990166558,9,Black,Female
+255,Some college,Community and social service occupations,20.775785446166992,3,Black,Male
+256,Some college,Personal care and service occupations,19.230749130249023,1,Native American,Female
+257,Some college,Protective service occupations,16.691749845232284,7,Black,Female
+258,Some college,Management occupations,24.38299980163574,5,Black,Male
+259,High school,Personal care and service occupations,16.780952135721844,6,Black,Female
+260,High school,Business and financial operations occupations,25.30833339691162,6,Black,Female
+261,High school,"Farming, fishing, and forestry occupations",19.931251525878906,15,White,Male
+262,College,Business and financial operations occupations,22.0,1,Native American,Female
+263,Less than high school,Construction and extraction occupations,57.352230072021484,4,Asian,Male
+264,Less than high school,Building and grounds cleaning and maintenance occupations,16.5,1,Asian,Female
+265,Some college,Sales and related occupations,17.970977263017133,22,Hispanic,Female
+266,Advanced,Computer and mathematical science occupations,76.47161536216736,40,Asian,Male
+267,Advanced,"Education, training, and library occupations",35.03456522623698,15,Asian,Female
+268,Advanced,Office and administrative support occupations,71.49100837707519,10,White,Male
+269,College,Architecture and engineering occupations,49.12157964706421,8,Hispanic,Male
+270,Less than high school,Transportation and material moving occupations,17.387152791023254,16,Hispanic,Male
+271,High school,Protective service occupations,23.47549993341619,11,Black,Male
+272,Some college,"Installation, maintenance, and repair occupations",32.36149978637695,5,Asian,Male
+273,Some college,"Life, physical, and social science occupations",19.622222185134888,3,White,Male
+274,Some college,Transportation and material moving occupations,18.565112787134506,17,Hispanic,Male
+275,Some college,Production occupations,23.646716817220053,15,Hispanic,Male
+276,College,Business and financial operations occupations,41.1570907831192,16,Asian,Female
+277,College,Computer and mathematical science occupations,64.86378563774957,18,Asian,Female
+278,High school,Business and financial operations occupations,40.34460004170736,6,Hispanic,Male
+279,Advanced,Management occupations,50.0,1,Multiple races,Female
+280,High school,Business and financial operations occupations,28.845998764038086,1,Multiple races,Female
+281,High school,Management occupations,23.208107312520344,12,Hispanic,Male
+282,College,Management occupations,61.883474101190984,23,Asian,Male
+283,Advanced,Computer and mathematical science occupations,66.14175338745117,15,Asian,Female
+284,College,Sales and related occupations,41.99546778202057,8,Hispanic,Female
+285,College,Computer and mathematical science occupations,46.30028395219283,11,Hispanic,Male
+286,High school,Building and grounds cleaning and maintenance occupations,20.953707412437158,54,White,Male
+287,High school,Healthcare practitioner and technical occupations,20.833333333333332,3,Hispanic,Male
+288,College,Office and administrative support occupations,28.967729356553818,9,Hispanic,Male
+289,College,Management occupations,32.21997261047363,12,Hispanic,Female
+290,Some college,Transportation and material moving occupations,15.333333333333334,6,Hispanic,Female
+291,College,Sales and related occupations,65.99834648768108,6,Asian,Male
+292,High school,Food preparation and serving related occupations,18.55480094389482,22,Hispanic,Male
+293,College,"Life, physical, and social science occupations",35.367804209391274,21,White,Female
+294,Advanced,Management occupations,65.28699340820313,10,Asian,Female
+295,Advanced,Food preparation and serving related occupations,24.610667037963868,5,White,Female
+296,High school,Food preparation and serving related occupations,15.357002489028439,31,Hispanic,Female
+297,Advanced,Sales and related occupations,50.62866735458374,4,Asian,Male
+298,High school,"Education, training, and library occupations",20.928178514753068,7,Hispanic,Female
+299,College,Community and social service occupations,21.15377426147461,2,Hispanic,Male
+300,College,"Education, training, and library occupations",64.2315491267613,7,Hispanic,Male
+301,Some college,"Education, training, and library occupations",35.07500076293945,1,Asian,Male
+302,Some college,"Education, training, and library occupations",18.0,2,Asian,Female
+303,Less than high school,"Farming, fishing, and forestry occupations",14.5,6,Hispanic,Female
+304,Advanced,Management occupations,103.28398370742798,12,Asian,Male
+305,Some college,"Arts, design, entertainment, sports, and media occupations",23.94444402058919,3,Hispanic,Female
+306,Some college,Healthcare practitioner and technical occupations,22.960714101791382,4,Hispanic,Male
+307,High school,Office and administrative support occupations,21.431851810879177,18,Hispanic,Male
+308,College,Personal care and service occupations,15.0,1,Hispanic,Female
+309,College,Construction and extraction occupations,39.73074913024902,2,Black,Male
+310,Some college,Food preparation and serving related occupations,16.0,8,Black,Male
+311,High school,Office and administrative support occupations,27.4037504196167,4,Multiple races,Female
+312,Some college,Sales and related occupations,23.831829086426765,31,Hispanic,Male
+313,College,"Life, physical, and social science occupations",30.0,1,Black,Male
+314,College,"Education, training, and library occupations",32.74942874908447,5,Asian,Female
+315,Advanced,"Life, physical, and social science occupations",32.86666679382324,3,Asian,Female
+316,Advanced,"Life, physical, and social science occupations",28.36524987220764,4,Asian,Male
+317,Some college,"Arts, design, entertainment, sports, and media occupations",48.10686492919922,16,White,Male
+318,Some college,Protective service occupations,47.72542724609375,5,Hispanic,Male
+319,Some college,Production occupations,25.077727404507723,11,Asian,Male
+320,Less than high school,Sales and related occupations,15.0,4,Asian,Male
+321,College,Healthcare practitioner and technical occupations,41.734589385986325,5,Asian,Male
+322,Some college,Food preparation and serving related occupations,18.795138835906982,12,Hispanic,Male
+323,Advanced,"Life, physical, and social science occupations",40.76724910736084,4,Black,Female
+324,College,Healthcare support occupations,14.493750095367432,4,Asian,Female
+325,College,Management occupations,45.206423392662636,13,Asian,Female
+326,Advanced,Management occupations,37.342944383621216,4,Hispanic,Female
+327,Some college,Construction and extraction occupations,28.509582837422688,6,Asian,Male
+328,Advanced,Architecture and engineering occupations,43.09596748352051,5,Asian,Female
+329,High school,"Arts, design, entertainment, sports, and media occupations",25.72868537902832,4,Hispanic,Female
+330,Less than high school,Production occupations,20.46656152476435,23,Hispanic,Male
+331,High school,Protective service occupations,14.0,1,Hispanic,Female
+332,Less than high school,Office and administrative support occupations,16.132653100149973,7,Hispanic,Male
+333,Some college,"Arts, design, entertainment, sports, and media occupations",26.936414285139605,11,White,Female
+334,High school,Food preparation and serving related occupations,19.251780782427108,7,Asian,Male
+335,High school,Building and grounds cleaning and maintenance occupations,16.865218957265217,21,Hispanic,Male
+336,College,Community and social service occupations,26.67875099182129,2,Asian,Female
+337,Advanced,Business and financial operations occupations,65.35146019675516,11,Asian,Male
+338,College,Business and financial operations occupations,33.4422082901001,6,Asian,Male
+339,Some college,Management occupations,42.90157814025879,15,Black,Female
+340,High school,Computer and mathematical science occupations,35.09600067138672,1,Asian,Male
+341,High school,"Farming, fishing, and forestry occupations",16.035714285714285,7,Hispanic,Male
+342,College,Personal care and service occupations,22.00948987688337,7,Asian,Female
+343,College,Production occupations,38.89418697357178,4,Asian,Male
+344,College,Healthcare support occupations,16.0,1,Hispanic,Male
+345,Some college,Healthcare support occupations,15.724999904632568,2,Hispanic,Male
+346,High school,Food preparation and serving related occupations,14.807687520980835,8,Asian,Female
+347,College,Production occupations,17.0,4,Asian,Female
+348,Some college,Food preparation and serving related occupations,14.796685791015625,5,Asian,Female
+349,College,Transportation and material moving occupations,25.658438682556152,15,White,Female
+350,College,Food preparation and serving related occupations,21.145833333333332,3,Multiple races,Male
+351,Advanced,Sales and related occupations,20.243499755859375,3,Hispanic,Female
+352,Advanced,Legal occupations,93.448561668396,4,Black,Male
+353,College,Food preparation and serving related occupations,13.824999809265137,1,Asian,Female
+354,Some college,Building and grounds cleaning and maintenance occupations,20.554972224765354,9,Hispanic,Female
+355,Some college,Personal care and service occupations,18.593762397766113,3,Hispanic,Male
+356,High school,Transportation and material moving occupations,21.607142857142858,7,Asian,Female
+357,Advanced,"Arts, design, entertainment, sports, and media occupations",51.74161648750305,16,White,Female
+358,Less than high school,Building and grounds cleaning and maintenance occupations,18.506605996025932,18,Hispanic,Female
+359,High school,Management occupations,19.979194323221844,9,Hispanic,Female
+360,College,Personal care and service occupations,23.52081094469343,14,White,Female
+361,Advanced,Legal occupations,60.10177864566926,31,White,Female
+362,Advanced,Business and financial operations occupations,56.05332946777344,6,Hispanic,Female
+363,Advanced,"Life, physical, and social science occupations",141.40892028808594,1,Hispanic,Male
+364,Advanced,Transportation and material moving occupations,32.26302115122477,6,White,Male
+365,College,Legal occupations,45.78571319580078,1,Asian,Female
+366,Some college,Sales and related occupations,30.54761941092355,7,Asian,Male
+367,High school,Protective service occupations,16.987500190734863,2,Asian,Female
+368,Advanced,Architecture and engineering occupations,73.9721766251784,13,Asian,Male
+369,High school,Management occupations,28.665666898091633,6,Black,Female
+370,High school,Management occupations,32.4375,1,Asian,Male
+371,High school,Management occupations,17.274999856948853,4,Asian,Female
+372,Some college,Management occupations,32.30918184916178,6,Asian,Male
+373,College,Architecture and engineering occupations,32.9266242980957,2,Asian,Female
+374,Advanced,"Education, training, and library occupations",63.22160748073033,7,Hispanic,Male
+375,Less than high school,Management occupations,24.038415908813477,3,Hispanic,Male
+376,Some college,Office and administrative support occupations,18.070625066757202,8,Multiple races,Female
+377,College,"Arts, design, entertainment, sports, and media occupations",38.015936342875165,30,White,Male
+378,Some college,Healthcare support occupations,25.589667002360027,3,Black,Male
+379,College,Computer and mathematical science occupations,32.480682373046875,3,Multiple races,Female
+380,High school,Protective service occupations,15.0,1,Multiple races,Male
+381,College,"Arts, design, entertainment, sports, and media occupations",20.64131259918213,4,Hispanic,Female
+382,Less than high school,"Installation, maintenance, and repair occupations",19.591040747506277,14,Hispanic,Male
+383,Less than high school,Production occupations,17.03333330154419,12,Hispanic,Female
+384,High school,"Arts, design, entertainment, sports, and media occupations",33.992666244506836,3,Hispanic,Male
+385,High school,Community and social service occupations,33.17300033569336,1,Hispanic,Male
+386,Advanced,Healthcare practitioner and technical occupations,39.75831944601877,14,Black,Female
+387,Advanced,Office and administrative support occupations,72.0,1,Asian,Male
+388,High school,Personal care and service occupations,13.599090814590454,6,Asian,Female
+389,Advanced,"Arts, design, entertainment, sports, and media occupations",58.85990929603577,16,White,Male
+390,High school,Office and administrative support occupations,33.20120010375977,5,Asian,Male
+391,Less than high school,Personal care and service occupations,12.880952517191568,3,Hispanic,Female
+392,High school,Architecture and engineering occupations,37.295833587646484,3,Hispanic,Male
+393,High school,Healthcare support occupations,19.712960109710693,25,Black,Female
+394,Less than high school,Food preparation and serving related occupations,10.88756251335144,8,Black,Female
+395,College,Transportation and material moving occupations,46.0,3,Asian,Male
+396,Advanced,"Education, training, and library occupations",37.556230545043945,2,Native American,Female
+397,Advanced,Legal occupations,43.601789474487305,4,Asian,Male
+398,High school,Personal care and service occupations,18.142857142857142,7,Hispanic,Female
+399,College,"Arts, design, entertainment, sports, and media occupations",15.0,1,Asian,Female
+400,Less than high school,Sales and related occupations,16.192749881744383,10,Hispanic,Male
+401,Some college,Architecture and engineering occupations,38.22100067138672,2,Asian,Male
+402,College,Computer and mathematical science occupations,41.072999000549316,4,Hispanic,Female
+403,Some college,Architecture and engineering occupations,45.1922492980957,1,Hispanic,Female
+404,College,Business and financial operations occupations,25.257586585150825,9,Hispanic,Female
+405,Some college,Management occupations,40.02312244068492,11,Hispanic,Male
+406,Less than high school,"Arts, design, entertainment, sports, and media occupations",24.299999237060547,2,Hispanic,Female
+407,Some college,Personal care and service occupations,14.095979690551758,4,Asian,Female
+408,College,Building and grounds cleaning and maintenance occupations,24.34707889556885,10,White,Male
+409,Some college,Healthcare support occupations,16.139119653140796,17,Hispanic,Female
+410,Less than high school,Food preparation and serving related occupations,12.718269201425406,26,White,Male
+411,College,Sales and related occupations,19.628124952316284,8,Asian,Female
+412,High school,Business and financial operations occupations,27.559465004050214,23,White,Female
+413,Some college,"Arts, design, entertainment, sports, and media occupations",34.61524963378906,1,Asian,Female
+414,Some college,Healthcare support occupations,18.675000031789143,6,Asian,Female
+415,College,Office and administrative support occupations,28.166666666666668,6,Asian,Male
+416,High school,Protective service occupations,25.670999908447264,10,Hispanic,Male
+417,High school,Office and administrative support occupations,21.846715562483844,34,Black,Female
+418,High school,Architecture and engineering occupations,23.75,1,Asian,Male
+419,High school,Healthcare practitioner and technical occupations,15.18500018119812,4,Hispanic,Female
+420,College,Food preparation and serving related occupations,18.354999923706053,5,Hispanic,Female
+421,College,Food preparation and serving related occupations,21.666666666666668,3,Hispanic,Male
+422,Advanced,Computer and mathematical science occupations,38.814083099365234,3,Hispanic,Male
+423,College,Community and social service occupations,27.19512176513672,1,Multiple races,Female
+424,High school,Food preparation and serving related occupations,16.60510199410575,14,Black,Male
+425,High school,"Education, training, and library occupations",50.0,1,Hispanic,Male
+426,High school,Computer and mathematical science occupations,21.5,2,Hispanic,Female
+427,College,Sales and related occupations,47.03178405761719,4,Hispanic,Male
+428,College,Construction and extraction occupations,25.89000015258789,5,Hispanic,Male
+429,Some college,Computer and mathematical science occupations,36.373049926757815,5,Hispanic,Male
+430,Some college,Business and financial operations occupations,23.933805847167967,10,Hispanic,Female
+431,Advanced,Architecture and engineering occupations,63.37150637308756,9,White,Female
+432,College,Business and financial operations occupations,49.30213858864524,11,Hispanic,Male
+433,Some college,"Farming, fishing, and forestry occupations",25.613608890109592,9,White,Male
+434,College,Legal occupations,52.13476975758871,6,White,Male
+435,Some college,Computer and mathematical science occupations,26.847974121570587,16,White,Female
+436,High school,Protective service occupations,17.288437843322754,4,Black,Female
+437,High school,Personal care and service occupations,23.125,2,Hispanic,Male
+438,Advanced,Protective service occupations,85.77159118652344,2,Hispanic,Male
+439,High school,"Arts, design, entertainment, sports, and media occupations",25.31500005722046,4,White,Female
+440,College,Legal occupations,50.90258916219076,3,Hispanic,Female
+441,Some college,"Education, training, and library occupations",13.799930572509766,6,Hispanic,Female
+442,Less than high school,Sales and related occupations,13.929166634877523,6,Black,Female
+443,Some college,"Installation, maintenance, and repair occupations",121.4167251586914,1,Asian,Female
+444,Some college,"Arts, design, entertainment, sports, and media occupations",50.0,1,Asian,Male
+445,College,Legal occupations,45.650001525878906,1,Asian,Male
+446,Some college,Food preparation and serving related occupations,13.430404901504517,12,Hispanic,Female
+447,College,Management occupations,97.34535217285156,3,Multiple races,Male
+448,Some college,Construction and extraction occupations,18.0,4,Black,Male
+449,Advanced,Transportation and material moving occupations,26.230749130249023,2,Asian,Female
+450,Advanced,"Arts, design, entertainment, sports, and media occupations",84.2208890914917,2,Hispanic,Male
+451,Less than high school,Building and grounds cleaning and maintenance occupations,23.075000762939453,1,Asian,Male
+452,Less than high school,Management occupations,27.38915761311849,6,White,Female
+453,Some college,Building and grounds cleaning and maintenance occupations,19.927375316619873,4,Hispanic,Male
+454,College,Office and administrative support occupations,22.871620390150284,9,Asian,Female
+455,High school,Construction and extraction occupations,18.853333791097004,3,Multiple races,Male
+456,Some college,Construction and extraction occupations,19.882624864578247,4,White,Female
+457,High school,Community and social service occupations,25.112500190734863,2,Black,Female
+458,Advanced,Office and administrative support occupations,23.395416895548504,3,Asian,Female
+459,Some college,Building and grounds cleaning and maintenance occupations,16.686683146158853,15,White,Female
+460,College,Community and social service occupations,28.66525375843048,16,White,Male
+461,High school,Legal occupations,32.08008321126302,3,White,Female
+462,High school,Business and financial operations occupations,38.222347259521484,17,White,Male
+463,Less than high school,Protective service occupations,13.779999732971191,2,Hispanic,Female
+464,College,Building and grounds cleaning and maintenance occupations,33.90909194946289,1,White,Female
+465,College,"Farming, fishing, and forestry occupations",29.28464158376058,6,White,Male
+466,College,Office and administrative support occupations,25.827629566192627,4,Multiple races,Female
+467,Some college,Community and social service occupations,28.237500190734863,2,Hispanic,Male
+468,Less than high school,Computer and mathematical science occupations,15.0,1,Black,Male
+469,College,"Farming, fishing, and forestry occupations",17.903812408447266,4,White,Female
+470,Advanced,Healthcare support occupations,17.083333333333332,3,White,Female
+471,Advanced,Computer and mathematical science occupations,62.74434471130371,4,Black,Male
+472,Less than high school,Building and grounds cleaning and maintenance occupations,15.94422492980957,10,White,Male
+473,Advanced,Healthcare practitioner and technical occupations,73.81356811523438,4,Hispanic,Male
+474,Some college,Business and financial operations occupations,22.51912498474121,2,Black,Male
+475,Advanced,Construction and extraction occupations,37.2300001780192,3,White,Male
+476,High school,Community and social service occupations,24.095791498819988,6,White,Female
+477,Advanced,Community and social service occupations,26.31108283996582,4,Black,Male
+478,College,Community and social service occupations,30.903249740600586,8,Black,Female
+479,College,Production occupations,30.375,4,Black,Female
+480,Advanced,Transportation and material moving occupations,35.226535161336265,6,White,Female
+481,High school,Transportation and material moving occupations,18.334916591644287,4,Multiple races,Male
+482,College,Food preparation and serving related occupations,18.996153831481934,13,White,Female
+483,Advanced,Personal care and service occupations,20.2702693939209,1,Black,Female
+484,Advanced,"Arts, design, entertainment, sports, and media occupations",26.201875686645508,2,Asian,Male
+485,Some college,Production occupations,16.9,5,Black,Female
+486,Some college,"Installation, maintenance, and repair occupations",26.39026117324829,4,Multiple races,Male
+487,College,"Education, training, and library occupations",16.644433975219727,2,Black,Male
+488,College,Production occupations,25.973145802815754,12,White,Female
+489,Advanced,Business and financial operations occupations,50.560751597086586,3,Black,Female
+490,Less than high school,Healthcare support occupations,14.452222294277615,9,Hispanic,Female
+491,Less than high school,Production occupations,14.952222188313803,9,White,Female
+492,High school,Personal care and service occupations,19.152623256047566,30,White,Female
+493,Some college,Personal care and service occupations,15.0,1,Black,Male
+494,Advanced,"Arts, design, entertainment, sports, and media occupations",31.78000020980835,2,Asian,Female
+495,Advanced,"Life, physical, and social science occupations",74.27918815612793,2,Hispanic,Female
+496,College,Management occupations,59.18871318592745,17,Black,Female
+497,Advanced,Healthcare practitioner and technical occupations,47.64296770095825,10,Black,Male
+498,Advanced,Office and administrative support occupations,30.321592807769775,4,Hispanic,Female
+499,College,Healthcare support occupations,21.262499809265137,4,Black,Female
+500,High school,"Life, physical, and social science occupations",18.75,1,Black,Female
+501,College,Business and financial operations occupations,71.08828902244568,8,Black,Male
+502,Advanced,Business and financial operations occupations,74.31572341918945,3,Hispanic,Male
+503,College,Computer and mathematical science occupations,66.11450089348688,9,Black,Male
+504,Advanced,Legal occupations,64.90374755859375,1,Multiple races,Female
+505,College,Food preparation and serving related occupations,20.84000015258789,5,Black,Male
+506,Some college,"Education, training, and library occupations",19.164944330851238,9,Black,Female
+507,Some college,Personal care and service occupations,18.13450050354004,2,Black,Female
+508,Advanced,Legal occupations,121.4167251586914,1,Asian,Female
+509,College,"Arts, design, entertainment, sports, and media occupations",32.030648708343506,4,Black,Female
+510,College,"Education, training, and library occupations",26.34612464904785,2,Multiple races,Female
+511,Advanced,"Installation, maintenance, and repair occupations",30.546188354492188,5,White,Male
+512,Some college,Healthcare practitioner and technical occupations,22.063333320617676,5,Black,Male
+513,Less than high school,Food preparation and serving related occupations,13.277777671813965,3,Black,Male
+514,College,"Arts, design, entertainment, sports, and media occupations",141.40892028808594,1,Black,Male
+515,Less than high school,Office and administrative support occupations,13.539999961853027,4,Black,Female
+516,Advanced,Legal occupations,70.80002880096436,2,Hispanic,Female
+517,Less than high school,Production occupations,19.081250190734863,4,Black,Male
+518,High school,Building and grounds cleaning and maintenance occupations,19.822769165039062,13,Black,Male
+519,Less than high school,Healthcare practitioner and technical occupations,15.277777671813965,1,Black,Female
+520,College,Personal care and service occupations,41.19047546386719,1,Hispanic,Male
+521,Advanced,"Farming, fishing, and forestry occupations",18.837209343910217,2,White,Male
+522,Some college,Personal care and service occupations,10.288749933242798,4,Hispanic,Female
+523,College,Healthcare support occupations,18.4375,4,Hispanic,Female
+524,College,Building and grounds cleaning and maintenance occupations,16.0,2,Black,Female
+525,High school,Healthcare practitioner and technical occupations,23.121645877235814,19,White,Female
+526,Some college,Food preparation and serving related occupations,14.30476188659668,5,Black,Female
+527,High school,Business and financial operations occupations,48.07674789428711,1,Asian,Male
+528,Some college,"Education, training, and library occupations",10.48075008392334,2,Black,Male
+529,Less than high school,Food preparation and serving related occupations,14.099999904632568,2,Multiple races,Male
+530,Less than high school,Healthcare support occupations,13.42123810450236,6,Black,Female
+531,Some college,Protective service occupations,22.96500015258789,2,Multiple races,Male
+532,High school,Personal care and service occupations,15.05861790974935,3,Black,Male
+533,College,"Life, physical, and social science occupations",24.899999618530273,2,Hispanic,Female
+534,College,Transportation and material moving occupations,19.76824975013733,4,Hispanic,Female
+535,Advanced,Healthcare practitioner and technical occupations,32.09096145629883,8,Hispanic,Female
+536,College,Healthcare support occupations,15.420000076293945,5,White,Male
+537,College,Computer and mathematical science occupations,33.430349349975586,5,Black,Female
+538,Some college,Protective service occupations,16.25,1,Hispanic,Female
+539,Some college,Office and administrative support occupations,37.83749961853027,2,Asian,Male
+540,High school,Production occupations,17.0,4,Asian,Female
+541,High school,Legal occupations,18.0,1,Hispanic,Female
+542,College,Production occupations,33.51249980926514,4,Hispanic,Male
+543,High school,"Arts, design, entertainment, sports, and media occupations",28.28749990463257,4,White,Male
+544,Some college,Protective service occupations,27.112166086832683,3,White,Female
+545,High school,Office and administrative support occupations,21.05874991416931,8,Asian,Female
+546,Some college,Construction and extraction occupations,17.0,1,Hispanic,Female
+547,College,Architecture and engineering occupations,34.61524963378906,1,Native American,Female
+548,College,Healthcare practitioner and technical occupations,38.91341654459635,3,Hispanic,Male
+549,High school,Healthcare support occupations,19.088041877746583,5,White,Male
+550,High school,Management occupations,28.25,6,Black,Male
+551,High school,"Installation, maintenance, and repair occupations",31.25,1,Black,Female
+552,Some college,Architecture and engineering occupations,23.504220962524414,1,Black,Female
+553,Advanced,Personal care and service occupations,31.48979949951172,3,White,Female
+554,College,Healthcare practitioner and technical occupations,47.18666776021322,3,Multiple races,Female
+555,High school,Architecture and engineering occupations,46.36911169687907,12,White,Male
+556,College,Personal care and service occupations,21.024999618530273,2,Black,Female
+557,Advanced,"Education, training, and library occupations",54.63261737823486,5,Black,Male
+558,Some college,Production occupations,18.394392830984934,7,Hispanic,Female
+559,Advanced,Architecture and engineering occupations,27.399999618530273,1,Black,Female
+560,Some college,Office and administrative support occupations,17.333333333333332,3,Multiple races,Male
+561,College,Architecture and engineering occupations,36.666500854492185,5,Black,Male
+562,Some college,Business and financial operations occupations,47.14100011189779,3,Black,Female
+563,Less than high school,Production occupations,15.757142702738443,3,Black,Female
+564,Less than high school,Personal care and service occupations,18.5,1,Black,Male
+565,High school,"Farming, fishing, and forestry occupations",14.350000381469727,1,Black,Male
+566,Some college,"Farming, fishing, and forestry occupations",17.5,1,Hispanic,Male
+567,Less than high school,Transportation and material moving occupations,17.41695809364319,4,Black,Female
+568,College,Transportation and material moving occupations,21.20220112800598,4,Black,Female
+569,Advanced,"Education, training, and library occupations",41.32313397351433,17,Asian,Male
+570,College,Office and administrative support occupations,35.0,1,Multiple races,Male
+571,College,"Installation, maintenance, and repair occupations",25.151710510253906,2,Asian,Male
+572,Some college,Production occupations,14.666666666666666,3,Asian,Female
+573,Advanced,Healthcare support occupations,42.0,1,Asian,Male
+574,High school,"Installation, maintenance, and repair occupations",38.47999877929688,5,Asian,Male
+575,Some college,Building and grounds cleaning and maintenance occupations,14.891666412353516,3,Asian,Male
+576,College,Management occupations,44.224998474121094,1,Multiple races,Female
+577,College,Building and grounds cleaning and maintenance occupations,12.300000190734863,1,Asian,Female
+578,Advanced,Healthcare support occupations,30.69866689046224,3,Asian,Female
+579,Some college,Transportation and material moving occupations,25.90269203186035,10,Asian,Male
+580,Advanced,Management occupations,49.42291768391927,3,Multiple races,Male
+581,Some college,Management occupations,34.10000038146973,2,Multiple races,Female
+582,Some college,Community and social service occupations,26.016666412353516,4,Asian,Female
+583,High school,Healthcare support occupations,11.199999968210856,3,Multiple races,Female
+584,Less than high school,Production occupations,11.03499984741211,2,Asian,Female
+585,Less than high school,"Farming, fishing, and forestry occupations",9.0,1,Asian,Female
+586,Some college,Protective service occupations,31.25,1,Asian,Male
+587,Some college,Sales and related occupations,22.052406946818035,3,Multiple races,Male
+588,Less than high school,Personal care and service occupations,10.100000381469727,1,Asian,Female
+589,Advanced,Healthcare practitioner and technical occupations,52.231706619262695,2,Multiple races,Female
+590,Less than high school,"Farming, fishing, and forestry occupations",19.230499267578125,1,Asian,Male
+591,Some college,Business and financial operations occupations,40.844444274902344,2,Asian,Male
+592,Some college,Food preparation and serving related occupations,16.805555661519367,3,Asian,Male
+593,High school,Office and administrative support occupations,22.040000915527344,1,Multiple races,Male
+594,Some college,Transportation and material moving occupations,20.84612464904785,2,Multiple races,Male
+595,High school,"Education, training, and library occupations",41.3531608581543,1,Asian,Female
+596,High school,"Installation, maintenance, and repair occupations",48.07674789428711,1,Asian,Female
+597,Less than high school,Transportation and material moving occupations,11.0,1,Asian,Male
+598,Less than high school,Transportation and material moving occupations,19.317727175625887,11,White,Female
+599,Less than high school,Food preparation and serving related occupations,9.294000053405762,5,Asian,Female
+600,Less than high school,"Installation, maintenance, and repair occupations",18.0,1,Hispanic,Female
+601,Less than high school,"Education, training, and library occupations",9.92690622806549,8,White,Female
+602,Less than high school,"Education, training, and library occupations",11.0,1,White,Male
+603,Some college,Business and financial operations occupations,22.5,2,Multiple races,Female
+604,Some college,Community and social service occupations,24.948666254679363,3,Hispanic,Female
+605,Some college,Healthcare support occupations,14.375,2,Native American,Female
+606,Some college,"Education, training, and library occupations",12.375,2,Multiple races,Female
+607,Some college,Food preparation and serving related occupations,17.735043048858643,2,Multiple races,Female
+608,Advanced,Architecture and engineering occupations,45.06999969482422,2,Hispanic,Male
+609,Advanced,Sales and related occupations,10.10574984550476,2,Black,Female
+610,Advanced,Business and financial operations occupations,41.82674789428711,1,Multiple races,Male
+611,Advanced,Management occupations,108.43446191151936,6,Hispanic,Male
+612,College,"Arts, design, entertainment, sports, and media occupations",28.365249633789062,1,Hispanic,Male
+613,Some college,Healthcare practitioner and technical occupations,26.70919418334961,5,Asian,Male
+614,Advanced,Legal occupations,94.15901374816895,4,Hispanic,Male
+615,Some college,Computer and mathematical science occupations,28.845998764038086,1,Asian,Male
+616,High school,"Installation, maintenance, and repair occupations",49.33543109893799,4,White,Female
+617,High school,Computer and mathematical science occupations,20.795000076293945,5,White,Female
+618,High school,Healthcare practitioner and technical occupations,37.83333206176758,1,Native American,Male
+619,Less than high school,Computer and mathematical science occupations,21.63450050354004,1,White,Male
+620,College,Office and administrative support occupations,20.700000762939453,1,Native American,Female
+621,High school,Sales and related occupations,24.506250381469727,2,Multiple races,Male
+622,High school,Legal occupations,45.5,1,White,Male
+623,Less than high school,Building and grounds cleaning and maintenance occupations,17.5,2,Black,Female
+624,Some college,Building and grounds cleaning and maintenance occupations,34.48074913024902,2,Black,Male
+625,Some college,Community and social service occupations,21.591499710083006,10,White,Female
+626,Some college,"Farming, fishing, and forestry occupations",26.25,2,Hispanic,Female
+627,High school,"Farming, fishing, and forestry occupations",16.31000010172526,3,White,Female
+628,High school,Personal care and service occupations,17.036964267492294,4,White,Male
+629,High school,Construction and extraction occupations,20.875,2,Hispanic,Female
+630,High school,Production occupations,19.089374542236328,4,Native American,Male
+631,College,Protective service occupations,28.845998764038086,1,Native American,Male
+632,Some college,Food preparation and serving related occupations,17.25,2,Native American,Female
+633,Some college,"Installation, maintenance, and repair occupations",25.742250442504883,3,Native American,Male
+634,Less than high school,Food preparation and serving related occupations,10.0,1,Native American,Male
+635,Advanced,Healthcare support occupations,25.480749130249023,1,White,Male
+636,Advanced,Community and social service occupations,34.20187568664551,2,Black,Female
+637,Some college,Computer and mathematical science occupations,22.0,2,Black,Female
+638,College,Protective service occupations,46.2459659576416,4,Hispanic,Male
+639,High school,"Education, training, and library occupations",6.923000335693359,1,Black,Male
+640,Some college,Production occupations,28.845998764038086,1,Multiple races,Male
+641,High school,Healthcare practitioner and technical occupations,19.064083099365234,3,Black,Female
+642,Less than high school,Management occupations,14.25,2,Black,Female
+643,Some college,Legal occupations,23.0,1,Black,Female
+644,Some college,"Arts, design, entertainment, sports, and media occupations",13.260000228881836,2,Black,Female
+645,Some college,"Installation, maintenance, and repair occupations",35.66939010620117,5,Black,Male
+646,High school,Healthcare support occupations,11.533333460489908,3,Black,Male
+647,Less than high school,Building and grounds cleaning and maintenance occupations,10.588031027052137,9,White,Female
+648,High school,Healthcare practitioner and technical occupations,23.549999237060547,1,Black,Male
+649,College,Healthcare practitioner and technical occupations,21.983624935150146,4,Black,Male
+650,Advanced,Office and administrative support occupations,32.42363580067953,3,Black,Male
+651,High school,Business and financial operations occupations,29.035499572753906,2,Asian,Female
+652,Advanced,Computer and mathematical science occupations,48.461402893066406,1,Native American,Female
+653,College,Production occupations,16.824583689371746,3,Hispanic,Female
+654,Advanced,Transportation and material moving occupations,32.96685791015625,1,Multiple races,Male
+655,Advanced,Food preparation and serving related occupations,30.875,2,Hispanic,Female
+656,High school,Computer and mathematical science occupations,42.10499954223633,2,Black,Male
+657,Less than high school,Management occupations,15.0,2,Hispanic,Female
+658,Less than high school,"Arts, design, entertainment, sports, and media occupations",13.5,1,Asian,Female
+659,High school,Production occupations,32.586666107177734,3,Multiple races,Male
+660,Advanced,Legal occupations,73.80706405639648,2,Black,Female
+661,College,"Farming, fishing, and forestry occupations",21.0,1,Hispanic,Male
+662,College,Building and grounds cleaning and maintenance occupations,16.09608332316081,3,Hispanic,Female
+663,College,Personal care and service occupations,15.4078950881958,1,Native American,Female
+664,Some college,Management occupations,68.7214241027832,2,Multiple races,Male
+665,College,Personal care and service occupations,15.0,1,Black,Male
+666,College,Architecture and engineering occupations,31.0,1,Multiple races,Male
+667,College,Construction and extraction occupations,22.25,2,White,Female
+668,Some college,Sales and related occupations,15.615333557128906,2,Native American,Female
+669,Less than high school,Architecture and engineering occupations,16.0,1,White,Male
+670,College,Sales and related occupations,50.0,1,Native American,Male
+671,Some college,Transportation and material moving occupations,17.925000190734863,2,Asian,Female
+672,College,Production occupations,18.375,2,Black,Male
+673,Some college,"Arts, design, entertainment, sports, and media occupations",23.549999237060547,1,Black,Male
+674,High school,"Life, physical, and social science occupations",26.0,2,White,Female
+675,Advanced,Production occupations,29.264219760894775,4,White,Male
+676,High school,"Installation, maintenance, and repair occupations",23.0,1,Native American,Male
+677,High school,Computer and mathematical science occupations,11.25,1,Hispanic,Male
+678,Less than high school,Office and administrative support occupations,10.0,1,Native American,Female
+679,Some college,"Installation, maintenance, and repair occupations",48.07500076293945,1,White,Female
+680,College,Transportation and material moving occupations,22.059999465942383,1,Native American,Female
+681,Some college,Legal occupations,25.0,1,Hispanic,Male
+682,High school,Architecture and engineering occupations,15.25,1,Hispanic,Female
+683,Advanced,Sales and related occupations,39.18237495422363,2,Asian,Female
+684,College,"Life, physical, and social science occupations",46.02558263142904,3,Asian,Male
+685,Advanced,Production occupations,18.0,1,Hispanic,Female
+686,Some college,Computer and mathematical science occupations,32.93262481689453,2,Hispanic,Female
+687,Less than high school,Production occupations,15.5,1,Asian,Male
+688,Some college,Legal occupations,27.375,2,Hispanic,Female
+689,College,Protective service occupations,14.0,1,Asian,Male
+690,Some college,Computer and mathematical science occupations,26.442249298095703,1,Multiple races,Male
+691,High school,"Life, physical, and social science occupations",30.364248911539715,3,White,Male
+692,College,"Education, training, and library occupations",17.307498931884766,1,Native American,Male
+693,Less than high school,Healthcare support occupations,15.0,1,Hispanic,Male
+694,High school,Office and administrative support occupations,15.381904792785644,5,Native American,Female
+695,High school,Production occupations,23.075000762939453,1,Native American,Female
+696,Less than high school,Transportation and material moving occupations,13.5,1,Native American,Male
+697,High school,Community and social service occupations,13.0,1,Native American,Female
+698,Some college,"Arts, design, entertainment, sports, and media occupations",25.475000381469727,1,Multiple races,Male
+699,Less than high school,Building and grounds cleaning and maintenance occupations,14.633333206176758,3,Black,Male
+700,Less than high school,Construction and extraction occupations,24.0,2,Black,Male
+701,Less than high school,Community and social service occupations,22.88450050354004,1,Black,Female
+702,Advanced,Community and social service occupations,68.6234499613444,3,Asian,Male
+703,Advanced,Personal care and service occupations,48.45000076293945,1,Hispanic,Female
+704,Advanced,"Installation, maintenance, and repair occupations",28.825000762939453,1,Black,Female
+705,Advanced,Architecture and engineering occupations,40.86524963378906,1,Hispanic,Female
+706,High school,Healthcare practitioner and technical occupations,25.46674919128418,2,Asian,Female
+707,Less than high school,Personal care and service occupations,14.375,2,Hispanic,Male
+708,College,Business and financial operations occupations,34.09080378214518,3,Multiple races,Female
+709,High school,"Arts, design, entertainment, sports, and media occupations",40.0,1,Black,Male
+710,College,Architecture and engineering occupations,43.653751373291016,2,Black,Female
+711,Less than high school,Management occupations,47.05263137817383,1,Multiple races,Female
+712,Advanced,Protective service occupations,22.34612464904785,2,White,Female
+713,High school,"Installation, maintenance, and repair occupations",19.0,1,Multiple races,Male
+714,High school,Sales and related occupations,11.0,1,Multiple races,Female
+715,High school,Construction and extraction occupations,30.31096299489339,3,Native American,Male
+716,High school,Production occupations,17.692299842834473,2,Multiple races,Female
+717,Advanced,"Education, training, and library occupations",34.72200012207031,1,Multiple races,Male
+718,Some college,Architecture and engineering occupations,25.010000228881836,2,White,Female
+719,College,"Life, physical, and social science occupations",27.799999237060547,1,Asian,Female
+720,College,Sales and related occupations,20.5998592376709,2,Multiple races,Female
+721,Less than high school,Community and social service occupations,64.0952377319336,1,White,Male
+722,High school,"Education, training, and library occupations",20.90468692779541,2,White,Male
+723,Less than high school,Transportation and material moving occupations,15.0,1,Multiple races,Male
+724,Less than high school,"Farming, fishing, and forestry occupations",14.0,1,White,Female
+725,Less than high school,Protective service occupations,32.6922492980957,1,White,Male
+726,Some college,Healthcare practitioner and technical occupations,27.0,1,Multiple races,Female
+727,College,Office and administrative support occupations,21.631625175476074,2,Native American,Male
+728,High school,Food preparation and serving related occupations,6.142857074737549,1,Multiple races,Female
+729,High school,Transportation and material moving occupations,12.0,1,Multiple races,Female
+730,High school,Protective service occupations,22.259474754333496,2,Native American,Female
+731,High school,Food preparation and serving related occupations,18.0,1,Native American,Male
+732,College,Management occupations,14.305333137512207,3,Native American,Male
+733,Less than high school,Production occupations,15.5,1,Native American,Male
+734,Advanced,Community and social service occupations,36.05750274658203,1,Multiple races,Female
+735,Advanced,Management occupations,39.400001525878906,1,Native American,Male
+736,Advanced,Sales and related occupations,37.980751037597656,1,Native American,Female
+737,Less than high school,"Life, physical, and social science occupations",21.25,2,Hispanic,Male
+738,College,Management occupations,26.0,1,Native American,Female
+739,Less than high school,Healthcare support occupations,22.0,1,Black,Male
+740,High school,Building and grounds cleaning and maintenance occupations,14.100000381469727,1,Asian,Female
+741,College,Building and grounds cleaning and maintenance occupations,16.0,1,Multiple races,Male
+742,College,Community and social service occupations,42.5,2,Asian,Male
+743,Less than high school,"Installation, maintenance, and repair occupations",17.0,1,Black,Male
+744,High school,Computer and mathematical science occupations,40.76919937133789,1,Black,Female
+745,Less than high school,Construction and extraction occupations,11.0,1,White,Female
+746,High school,"Education, training, and library occupations",22.559999465942383,1,Multiple races,Male
+747,Less than high school,Management occupations,31.625,1,Black,Male
+748,College,Construction and extraction occupations,13.0,1,Hispanic,Female
+749,Advanced,Production occupations,17.450000762939453,1,White,Female
+750,Some college,Management occupations,13.890000343322754,1,Native American,Female
+751,Some college,Sales and related occupations,9.0,1,Native American,Male
+752,Less than high school,Protective service occupations,10.0,1,White,Female
+753,Some college,Construction and extraction occupations,23.0,1,Asian,Female
+754,Advanced,Production occupations,38.46149826049805,1,Hispanic,Male
+755,High school,Architecture and engineering occupations,31.25,1,Black,Male
+756,Less than high school,Management occupations,36.25,1,Asian,Female
+757,Advanced,Computer and mathematical science occupations,113.12713623046875,1,Multiple races,Male
+758,Some college,"Education, training, and library occupations",25.807666778564453,2,Hispanic,Male
+759,High school,"Life, physical, and social science occupations",32.5,1,Hispanic,Male
+760,Advanced,Building and grounds cleaning and maintenance occupations,17.609999656677246,2,White,Female
+761,Less than high school,Building and grounds cleaning and maintenance occupations,25.0,1,Multiple races,Male
+762,Advanced,Computer and mathematical science occupations,39.3353328704834,2,Hispanic,Female
+763,High school,Computer and mathematical science occupations,31.0,1,Multiple races,Female
+764,College,Food preparation and serving related occupations,15.958333015441895,1,Asian,Male
+765,Some college,"Arts, design, entertainment, sports, and media occupations",34.615333557128906,1,Hispanic,Male
+766,Some college,Protective service occupations,28.845998764038086,1,Asian,Female
+767,Some college,Building and grounds cleaning and maintenance occupations,20.0,1,Multiple races,Female
+768,College,Protective service occupations,52.0,1,Hispanic,Female
+769,Less than high school,Business and financial operations occupations,14.0,1,Hispanic,Female
+770,Less than high school,Protective service occupations,9.0,1,Hispanic,Male
+771,Less than high school,Healthcare support occupations,25.0,1,White,Male
+772,Less than high school,Business and financial operations occupations,17.788249969482422,1,White,Female
+773,Advanced,"Installation, maintenance, and repair occupations",22.5,1,Asian,Male
+774,Advanced,"Arts, design, entertainment, sports, and media occupations",31.538333892822266,1,Hispanic,Female
+775,High school,Healthcare support occupations,17.692307710647583,2,Hispanic,Male
+776,College,Transportation and material moving occupations,50.0,1,Asian,Female
+777,Advanced,Transportation and material moving occupations,14.0,1,Asian,Male
+778,Some college,Sales and related occupations,31.91666603088379,1,Multiple races,Female
+779,High school,Management occupations,30.0,1,Native American,Male
+780,Some college,Construction and extraction occupations,25.5,2,Native American,Male
+781,Some college,"Education, training, and library occupations",26.75,1,Native American,Female
+782,Some college,"Farming, fishing, and forestry occupations",18.0,1,White,Female
+783,College,Building and grounds cleaning and maintenance occupations,10.666666984558105,1,Black,Male
+784,College,"Life, physical, and social science occupations",28.850000381469727,1,Multiple races,Female
+785,Some college,Production occupations,22.0,1,Native American,Male
+786,College,Healthcare support occupations,18.0,1,Asian,Male
+787,Advanced,Production occupations,30.288249969482422,1,Black,Female
+788,High school,Healthcare practitioner and technical occupations,18.0,1,Multiple races,Male
+789,Less than high school,Healthcare support occupations,14.970000267028809,1,Native American,Female
+790,Advanced,Transportation and material moving occupations,94.27261352539062,1,Black,Male
+791,Some college,Construction and extraction occupations,21.0,1,Multiple races,Female
+792,Less than high school,Business and financial operations occupations,52.173912048339844,1,White,Male
+793,Some college,Construction and extraction occupations,29.25,1,Multiple races,Male
+794,Advanced,"Life, physical, and social science occupations",37.25,1,Multiple races,Female
