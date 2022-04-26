@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <title>Income Gaps</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="./incomegaps.css">
+  </head>
+
+  <body>
+    <header>
+      <h1>Income Gaps</h1>
+      <div class="intro">
+        <span class="lead">
+          What does equal work, equal pay look like and how far away are we from achieving it?
+        </span>
+        <span>
+          This visualization explores differences in income between professions, gender, race / ethnicity, and education to better understand various pay gaps.
+        </span>
+      </div>
+    </header>
+    
+    <article>
+      <div id="vizControls">
+        <label for="metric">Dimension:</label>
+        <select name="metric" id="metric">
+          <option value="gender">Gender</option>
+          <option value="race">Race / Ethnicity</option>
+          <option value="education">Education</option>
+        </select>
+      </div>
+      <table id="vizTable">
+        <thead>
+          <tr>
+            <th class="cell-occupation">Name</th>
+            <th class="cell-pay">Pay</th>
+            <th class="cell-gap">Gap</th>
+            <th class="cell-gini">Gini</th>
+          </tr>
+        </thead>
+        <tbody id="vizTableBody">
+        </tbody>
+      </table>
+    </article>
+  </body>
+
+</html>

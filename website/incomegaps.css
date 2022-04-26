@@ -1,0 +1,105 @@
+article #vizControls {
+  text-align: center;
+  padding: 10px;
+  border-bottom: 1px solid #A0A0A0;
+}
+
+article #vizControls label {
+  font-weight: bold;
+}
+
+article #vizControls select {
+  min-width: 300px;
+  font-size: 18px;
+}
+
+article #vizTable {
+  width: 100%;
+  border-spacing: 10px;
+}
+
+article #vizTable th {
+  text-align: left;
+  border-bottom: 1px dotted #A0A0A0;
+}
+
+article #vizTable tr {
+  border-bottom: 1px dotted #C0C0C0;
+}
+
+article #vizTable .cell-gap {
+  min-width: 200px;
+}
+
+article #vizTable .cell-gini {
+  min-width: 50px;
+}
+
+article #vizTable .cell-occupation {
+  min-width: 100px;
+}
+
+article #vizTable .cell-pay {
+  min-width: 50px;
+}
+
+body {
+  padding: 0;
+  margin: 0;
+  font-family: "HelveticaNeue", "Helvetica Neue",  Helvetica, Arial;
+  color: #111;
+  font-size: 18px;
+}
+
+header h1 {
+  background-color: #333;
+  margin-top: 0;
+  margin-bottom: 0;
+  color: white;
+}
+
+header .intro {
+  border-bottom: 1px solid #C0C0C0;
+  padding-bottom: 15px;
+  padding-top: 15px;
+  background-color: #E0E0E0;
+}
+
+header .intro .lead {
+  font-weight: bold;
+}
+
+html {
+  padding: 0;
+  margin: 0;
+}
+
+@media (max-width: 800px) {
+  article #vizTable {
+    padding: 10px;
+  }
+  
+  header h1 {
+    padding: 10px;
+  }
+  
+  header .intro {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+}
+
+@media (min-width: 800px) {
+  article #vizTable {
+    padding: 10px 20px;
+  }
+  
+  header h1 {
+    padding: 10px 20px;
+  }
+  
+  header .intro {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+}
