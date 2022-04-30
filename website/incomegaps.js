@@ -3,7 +3,7 @@ let currentPresenter = null;
 let cachedDataset = null;
 
 
-class Record {
+/*class Record {
   
   constructor(name, pay, gapInfo, gini) {
     const self = this;
@@ -144,23 +144,27 @@ class Dataset {
     return 0;
   }
   
-}
+}*/
 
 
-function loadSourceDataNoCache() {
+function loadSourceDataRaw() {
   return new Promise((resolve, reject) => {
     Papa.parse(SOURCE_DATA_LOC, {
       download: true,
       complete: (results) => {
-        const resultsLoaded = new Dataset(results);
-        resolve(resultsLoaded);
+        resolve(results);
       }
     });
   });
 }
 
 
-function loadSourceData() {
+function loadSourceDataNoCache() {
+  return loadSourceDataRaw().then((raw) => new Dataset(raw));
+}
+
+
+/*function loadSourceData() {
   if (cachedDataset === null) {
     return loadSourceDataNoCache().then((result) => {
       cachedDataset = result;
@@ -335,4 +339,4 @@ function updateViz() {
 function onResize() {
   createNewPresenter();
   updateViz();
-}
+}*/
