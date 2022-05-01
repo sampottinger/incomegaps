@@ -139,7 +139,7 @@ class Dataset {
         const rollup = rawGroupings.get(name);
         const groupingMean = rollup["wageTotal"] / rollup["countTotal"];
         const percentDiff = ((groupingMean - meanPay) / meanPay) * 100;
-        retMap.set(name, percentDiff);
+        retMap.set(name, {"value": percentDiff, "pop": rollup["countTotal"]});
       } else {
         retMap.set(name, null);
       }
@@ -370,8 +370,21 @@ class VizPresenter {
 
     const innerElements = innerSelection.data((x) => {
         const simplified = [];
-        x.getGapInfo().forEach((value, name) => {
-          simplified.push({"name": name, "value": value});
+
+        let maxPop = 0;
+        x.getGapInfo().forEach((datum, name) => {
+          const pop = datum["pop"];
+          if (pop > maxPop) {
+            maxPop = pop;
+          }
+        });
+        const popScale = d3.scaleLinear().domain([0, Math.sqrt(maxPop)]).range([1, 8]);
+
+        x.getGapInfo().forEach((datum, name) => {
+          const value = datum["value"];
+          const pop = datum["pop"];
+          const size = popScale(Math.sqrt(pop));
+          simplified.push({"name": name, "value": value, "size": size});
         });
         return simplified;
     }, (x) => x["name"]);
@@ -383,14 +396,15 @@ class VizPresenter {
       .attr("transform", "translate(" + midX + ",10)")
       .attr("opacity", 0);
 
-    newGroups.each(function (x, i) {
-      GLPH_STRATEGIES[i](d3.select(this), i);
+    newGroups.each(function (datum, i) {
+      const radius = datum["size"];
+      GLPH_STRATEGIES[i](d3.select(this), i, radius);
     });
 
     newGroups.append("text")
       .classed("gap-label", true)
       .attr("x", 0)
-      .attr("y", 15);
+      .attr("y", 17);
 
     innerElements.exit().remove();
 
@@ -418,7 +432,8 @@ class VizPresenter {
       .transition()
       .attr("x", (x) => {
         let minX = midX;
-        x.getGapInfo().forEach((value, name) => {
+        x.getGapInfo().forEach((datum, name) => {
+          const value = datum["value"];
           const midX = self._maxGapWidth / 2;
           const newX = value === null ? midX : self._gapScale(value);
           if (newX < minX) {
@@ -430,7 +445,8 @@ class VizPresenter {
       .attr("width", (x) => {
         let minX = midX;
         let maxX = midX;
-        x.getGapInfo().forEach((value, name) => {
+        x.getGapInfo().forEach((datum, name) => {
+          const value = datum["value"];
           const midX = self._maxGapWidth / 2;
           const newX = value === null ? midX : self._gapScale(value);
           if (newX < minX) {

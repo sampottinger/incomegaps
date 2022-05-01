@@ -5,15 +5,15 @@ article .cell-gap-svg {
 
 article .cell-gap-svg .center-line {
   width: 1px;
-  y: 1;
-  height: 17px;
+  y: 0;
+  height: 23px;
   fill: #C0C0C0;
 }
 
 article .cell-gap-svg .gap-line {
-  y: 9;
-  height: 3px;
-  fill: #E0E0E0;
+  y: 10;
+  height: 1px;
+  fill: #D0D0D0;
 }
 
 article #vizControls {
