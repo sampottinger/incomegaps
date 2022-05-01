@@ -6,16 +6,8 @@
 <body>
   <div id="qunit"></div>
   <div id="qunit-fixture"></div>
-  
+
   <article>
-    <div id="vizControls">
-      <label for="metric">Dimension:</label>
-      <select name="metric" id="metric">
-        <option value="gender">Gender</option>
-        <option value="race">Race / Ethnicity</option>
-        <option value="education">Education</option>
-      </select>
-    </div>
     <table id="vizTable">
       <thead>
         <tr>
@@ -28,14 +20,15 @@
       <tbody id="vizTableBody">
       </tbody>
     </table>
+    <input type="text" id="metric" value="educ">
   </article>
-  
+
   <script src="./qunit-2.19.0.js"></script>
-  
+
   <script src="../dependencies/papaparse.min.js"></script>
   <script src="../dependencies/d3.min.js"></script>
-  
+
   <script src="../incomegaps.js"></script>
-  
+
   <script src="./tests.js"></script>
 </body>
