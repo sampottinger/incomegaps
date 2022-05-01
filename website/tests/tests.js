@@ -41,7 +41,7 @@ QUnit.module('incomeGaps', function() {
     });
   });
   
-  function testDataset(done, callback) {
+  function testDataset(done, assert, callback) {
     loadSourceData().then((dataset) => {
       callback(dataset);
       done();
@@ -53,7 +53,7 @@ QUnit.module('incomeGaps', function() {
   
   QUnit.test('dataset rollupQuery', function(assert) {
     const done = assert.async();
-    testDataset(done, (dataset) => {
+    testDataset(done, assert, (dataset) => {
       const grouped = dataset._rollupQuery("educ");
       assert.ok(grouped.has("Office and administrative support occupations"));
     });
@@ -61,7 +61,7 @@ QUnit.module('incomeGaps', function() {
   
   QUnit.test('dataset query', function(assert) {
     const done = assert.async();
-    testDataset(done, (dataset) => {
+    testDataset(done, assert, (dataset) => {
       const grouped = dataset.query("educ");
       assert.equal(grouped.length, 22);
     });
@@ -69,7 +69,7 @@ QUnit.module('incomeGaps', function() {
   
   QUnit.test('dataset gini', function(assert) {
     const done = assert.async();
-    testDataset(done, (dataset) => {
+    testDataset(done, assert, (dataset) => {
       const gini = dataset._getGini([
         {"wageTotal": 10 * 10, "countTotal": 10},
         {"wageTotal": 20 * 15, "countTotal": 15},
@@ -79,7 +79,7 @@ QUnit.module('incomeGaps', function() {
     });
   });
   
-  function testPresenter(done, callback) {
+  function testPresenter(done, assert, callback) {
     loadSourceData().then((dataset) => {
       const presenter = new VizPresenter(60, -0.5, 0.5, 1);
       const queryResults = dataset.query("educ");
@@ -99,7 +99,7 @@ QUnit.module('incomeGaps', function() {
   
   QUnit.test('presenter createSelection', function(assert) {
     const done = assert.async();
-    testPresenter(done, (presenter) => {
+    testPresenter(done, assert, (presenter) => {
       assert.ok(presenter !== undefined);
       assert.ok(presenter !== null);
     });
@@ -107,21 +107,21 @@ QUnit.module('incomeGaps', function() {
   
   QUnit.test('presenter getWidth', function(assert) {
     const done = assert.async();
-    testPresenter(done, (presenter) => {
+    testPresenter(done, assert, (presenter) => {
       assert.ok(presenter._getWidth("cell-occupation") > 0);
     });
   });
   
   QUnit.test('presenter createSelection', function(assert) {
     const done = assert.async();
-    testPresenter(done, (presenter, queryResults) => {
+    testPresenter(done, assert, (presenter, queryResults) => {
       assert.ok(presenter._createSelection(queryResults) !== null);
     });
   });
   
   QUnit.test('presenter createElements', function(assert) {
     const done = assert.async();
-    testPresenter(done, (presenter, queryResults) => {
+    testPresenter(done, assert, (presenter, queryResults) => {
       const selection = presenter._createSelection(queryResults);
       selection.exit().remove();
       presenter._createElements(selection);
@@ -134,7 +134,7 @@ QUnit.module('incomeGaps', function() {
   
   QUnit.test('presenter repeatCreate', function(assert) {
     const done = assert.async();
-    testPresenter(done, (presenter, queryResults) => {
+    testPresenter(done, assert, (presenter, queryResults) => {
       const selection = presenter._createSelection(queryResults);
       selection.exit().remove();
       presenter._createElements(selection);
@@ -142,6 +142,19 @@ QUnit.module('incomeGaps', function() {
         document.getElementsByClassName("cell-occupation").length,
         queryResults.length + 1
         );
+    });
+  });
+  
+  QUnit.test('presenter updateFixedElement', function(assert) {
+    const done = assert.async();
+    testPresenter(done, assert, (presenter, queryResults) => {
+      d3.select("#vizTableBody").html("");
+      const selection = presenter._createSelection(queryResults);
+      presenter._createElements(selection);
+      presenter._updateFixedElements(selection);
+      const barLabelElements = document.getElementsByClassName("bar-label");
+      const exampleElement = barLabelElements[0]
+      assert.equal(exampleElement.innerHTML, "a");
     });
   });
   

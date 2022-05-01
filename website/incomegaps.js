@@ -295,7 +295,7 @@ class VizPresenter {
       .classed("cell-gap", true);
     
     const newGapSvg = newGapElements.append("svg")
-      .classed("cell-gap-svg");
+      .classed("cell-gap-svg", true);
     
     const newGiniElements = newElements.append("td")
       .classed("cell-gini", true);
