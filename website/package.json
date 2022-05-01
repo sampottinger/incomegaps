@@ -1,0 +1,5 @@
+{
+  "devDependencies": {
+    "grunt-contrib-qunit": "^6.1.0"
+  }
+}
