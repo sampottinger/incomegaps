@@ -13,5 +13,7 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: 16
+      - name: Install dependencies
+        run: bash install_browser.sh
       - name: Compile with Grunt
         uses: elstudio/actions-js-build/build@v4
