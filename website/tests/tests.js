@@ -186,7 +186,7 @@ QUnit.module('incomeGaps', function() {
       const gapLabelElements = document.getElementsByClassName("gap-label");
       assert.ok(gapLabelElements.length > 0);
       const exampleElement = gapLabelElements[0]
-      assert.ok(exampleElement.innerHTML === "");
+      assert.ok(exampleElement.innerHTML !== "");
     });
   });
 
