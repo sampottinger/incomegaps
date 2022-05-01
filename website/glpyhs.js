@@ -9,19 +9,19 @@ const GROUP_FILLS = [
 ];
 
 const GLPH_STRATEGIES = [
-  (x) => drawEllipse(x, false),
-  (x) => drawRect(x, false),
-  (x) => drawRect(x, true),
-  (x) => drawTriangle(x, false),
-  (x) => drawTriangle(x, true),
-  (x) => drawDiamond(x, false),
-  (x) => drawDiamond(x, true)
+  (x, i) => drawEllipse(x, false, i),
+  (x, i) => drawRect(x, false, i),
+  (x, i) => drawRect(x, true, i),
+  (x, i) => drawTriangle(x, false, i),
+  (x, i) => drawTriangle(x, true, i),
+  (x, i) => drawDiamond(x, false, i),
+  (x, i) => drawDiamond(x, true, i)
 ];
 
 
-function drawEllipse(selection, rotate) {
+function drawEllipse(selection, rotate, i) {
   selection.append("ellipse")
-    .style("fill", (x, i) => GROUP_FILLS[i])
+    .style("fill", GROUP_FILLS[i])
     .classed("gap-indicator", true)
     .attr("cy", 0)
     .attr("cx", 0)
@@ -30,9 +30,9 @@ function drawEllipse(selection, rotate) {
 }
 
 
-function drawRect(selection, rotate) {
+function drawRect(selection, rotate, i) {
   const rects = selection.append("rect")
-    .style("fill", (x, i) => GROUP_FILLS[i])
+    .style("fill", GROUP_FILLS[i])
     .classed("gap-indicator", true)
     .attr("y", -7)
     .attr("x", -7)
@@ -45,9 +45,9 @@ function drawRect(selection, rotate) {
 }
 
 
-function drawTriangle(selection, rotate) {
+function drawTriangle(selection, rotate, i) {
   const rects = selection.append("polygon")
-    .style("fill", (x, i) => GROUP_FILLS[i])
+    .style("fill", GROUP_FILLS[i])
     .classed("gap-indicator", true)
     .attr("y", -7)
     .attr("x", -7)
@@ -58,9 +58,9 @@ function drawTriangle(selection, rotate) {
   }
 }
 
-function drawDiamond(selection, rotate) {
+function drawDiamond(selection, rotate, i) {
   const rects = selection.append("polygon")
-    .style("fill", (x, i) => GROUP_FILLS[i])
+    .style("fill", GROUP_FILLS[i])
     .classed("gap-indicator", true)
     .attr("y", -7)
     .attr("x", -7)

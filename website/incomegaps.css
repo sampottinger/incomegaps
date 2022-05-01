@@ -1,3 +1,21 @@
+article .cell-gap-svg {
+  width: 100%;
+  height: 30px;
+}
+
+article .cell-gap-svg .center-line {
+  width: 1px;
+  y: 1;
+  height: 17px;
+  fill: #C0C0C0;
+}
+
+article .cell-gap-svg .gap-line {
+  y: 9;
+  height: 3px;
+  fill: #E0E0E0;
+}
+
 article #vizControls {
   text-align: center;
   padding: 10px;
@@ -31,12 +49,21 @@ article #vizTable .cell-gap {
   min-width: 200px;
 }
 
+article #vizTable .cell-gap .gap-label {
+  font-size: 10px;
+  fill: #707070;
+  vertical-align: top;
+  text-anchor: middle;
+}
+
 article #vizTable .cell-gini {
   min-width: 50px;
 }
 
 article #vizTable .cell-occupation {
-  min-width: 100px;
+  min-width: 50px;
+  max-width: 100px;
+  word-wrap: break-word;
 }
 
 article #vizTable .cell-pay {
@@ -78,11 +105,11 @@ html {
   article #vizTable {
     padding: 10px;
   }
-  
+
   header h1 {
     padding: 10px;
   }
-  
+
   header .intro {
     padding-left: 10px;
     padding-right: 10px;
@@ -93,11 +120,11 @@ html {
   article #vizTable {
     padding: 10px 20px;
   }
-  
+
   header h1 {
     padding: 10px 20px;
   }
-  
+
   header .intro {
     padding-left: 20px;
     padding-right: 20px;

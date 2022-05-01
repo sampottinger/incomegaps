@@ -8,7 +8,7 @@ QUnit.module('incomeGaps', function() {
       assert.ok(dataset !== undefined);
       done();
     }).catch((err) => {
-      assert.equal(err, "");
+      assert.deepEqual(err, "");
       done();
     });
   });
@@ -23,7 +23,7 @@ QUnit.module('incomeGaps', function() {
 
       done();
     }).catch((err) => {
-      assert.equal(err, "");
+      assert.deepEqual(err, "");
       done();
     });
   });
@@ -36,7 +36,7 @@ QUnit.module('incomeGaps', function() {
       assert.ok(dataset._rawResults.length > 0);
       done();
     }).catch((err) => {
-      assert.equal(err, "");
+      assert.deepEqual(err, "");
       done();
     });
   });
@@ -46,7 +46,7 @@ QUnit.module('incomeGaps', function() {
       callback(dataset);
       done();
     }).catch((err) => {
-      assert.equal(err, "");
+      assert.deepEqual(err, "");
       done();
     });
   }
@@ -87,15 +87,31 @@ QUnit.module('incomeGaps', function() {
       try {
         callback(presenter, queryResults);
       } catch (e) {
-        assert.equal(e, "");
+        assert.deepEqual(e, "");
       }
 
       done();
     }).catch((err) => {
-      assert.equal(err, "");
+      assert.deepEqual(err, "");
       done();
     });
   }
+
+  QUnit.test('presenter numFormat', function(assert) {
+    const done = assert.async();
+    testPresenter(done, assert, (presenter) => {
+      assert.deepEqual(presenter._numFormat(1.235), "1.24");
+      assert.deepEqual(presenter._numFormat(-1.235), "-1.24");
+    });
+  });
+
+  QUnit.test('presenter numFormatSign', function(assert) {
+    const done = assert.async();
+    testPresenter(done, assert, (presenter) => {
+      assert.deepEqual(presenter._numFormatSign(1.235), "+1.2");
+      assert.deepEqual(presenter._numFormatSign(-1.235), "-1.2");
+    });
+  });
 
   QUnit.test('presenter createSelection', function(assert) {
     const done = assert.async();
