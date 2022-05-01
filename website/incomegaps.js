@@ -1,12 +1,4 @@
 const SOURCE_DATA_LOC = "/march_2022.csv";
-const GROUP_FILLS = [
-  "#a6cee3",
-  "#1f78b4",
-  "#b2df8a",
-  "#33a02c",
-  "#fb9a99",
-  "#e31a1c"
-];
 const MAX_PAY = 60;
 const MIN_GAP = -0.5;
 const MAX_GAP = 0.5;
@@ -368,13 +360,9 @@ class VizPresenter {
       .attr("transform", "translate(10," + midX + ")")
       .attr("opacity", 0);
 
-    newGroups.append("ellipse")
-      .style("fill", (x, i) => GROUP_FILLS[i])
-      .classed("gap-indicator", true)
-      .attr("cy", 0)
-      .attr("cx", 0)
-      .attr("rx", 7)
-      .attr("ry", 7);
+    newGroups.each(function (x, i) {
+      GLPH_STRATEGIES[i](d3.select(this));
+    });
 
     newGroups.append("text")
       .classed("gap-label", true)
