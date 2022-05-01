@@ -3,7 +3,7 @@ let currentPresenter = null;
 let cachedDataset = null;
 
 
-/*class Record {
+class Record {
   
   constructor(name, pay, gapInfo, gini) {
     const self = this;
@@ -144,13 +144,14 @@ class Dataset {
     return 0;
   }
   
-}*/
+}
 
 
 function loadSourceDataRaw() {
   return new Promise((resolve, reject) => {
     Papa.parse(SOURCE_DATA_LOC, {
       download: true,
+      header: true,
       complete: (results) => {
         resolve(results);
       }
@@ -160,11 +161,11 @@ function loadSourceDataRaw() {
 
 
 function loadSourceDataNoCache() {
-  return loadSourceDataRaw().then((raw) => new Dataset(raw));
+  return loadSourceDataRaw().then((raw) => new Dataset(raw["data"]));
 }
 
 
-/*function loadSourceData() {
+function loadSourceData() {
   if (cachedDataset === null) {
     return loadSourceDataNoCache().then((result) => {
       cachedDataset = result;
@@ -178,7 +179,7 @@ function loadSourceDataNoCache() {
 }
 
 
-class VizPresenter {
+/*class VizPresenter {
   
   constructor(maxPay, minGap, maxGap, maxGini) {
     const self = this;
