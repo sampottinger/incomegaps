@@ -17,6 +17,7 @@ import pandas
 
 USAGE_STR = 'python [dat file loc] [year] [month] [output loc]'
 NUM_ARGS = 4
+DUMP = False
 
 
 def load_data(loc: str, year: int, month: int) -> pandas.DataFrame:
@@ -30,10 +31,19 @@ def load_data(loc: str, year: int, month: int) -> pandas.DataFrame:
         Filtered data frame for the target year / month with educ, docc03, wageotc, wbhaom, female
         included. Only returns those with a finite non-None number for wageotc.
     """
-    all_data = pandas.read_stata('epi_cpsbasic_2022_3.dta')
-    target_year = all_data[all_data['year'] == year]
-    target_date = target_year[target_year['month'] == month]
-    var_subset = target_date[['educ', 'docc03', 'wageotc', 'wage', 'wbhaom', 'female']]
+    all_data = pandas.read_stata(loc, convert_missing=False, preserve_dtypes=False)
+
+    if year == 'all':
+        target_year = all_data
+    else:
+        target_year = all_data[all_data['year'] == year]
+
+    if month == 'all':
+        target_date = target_year
+    else:
+        target_date = target_year[target_year['month'] == month]
+
+    var_subset = target_date[['educ', 'docc03', 'wageotc', 'wage', 'wbhaom', 'female', 'orgwgt']]
     with_wage = var_subset[
         var_subset['wageotc'].apply(lambda x: numpy.isfinite(x))
     ].copy().reset_index()
@@ -77,9 +87,12 @@ def agg_data(source: pandas.DataFrame) -> typing.Dict:
                 'docc03': row['docc03'],
                 'wageotc': [],
                 'wbhaom': row['wbhaom'],
-                'female': row['female']
+                'female': row['female'],
+                'count': 0
             }
-        agg[key]['wageotc'].append(row['wageotc'])
+        weight = row['orgwgt'] if numpy.isfinite(row['orgwgt']) else 0
+        agg[key]['wageotc'].append(row['wageotc'] * weight)
+        agg[key]['count'] += weight
 
     return agg
 
@@ -95,14 +108,16 @@ def summarize_agg(agg: typing.Dict) -> typing.List[typing.Dict]:
     output_rows = []
 
     for record in agg.values():
-        output_rows.append({
-            'educ': record['educ'],
-            'docc03': record['docc03'],
-            'wageotc': statistics.mean(record['wageotc']),
-            'count': len(record['wageotc']),
-            'wbhaom': record['wbhaom'],
-            'female': record['female']
-        })
+        if record['count'] > 0:
+            mean_wage = sum(record['wageotc']) / record['count']
+            output_rows.append({
+                'educ': record['educ'],
+                'docc03': record['docc03'],
+                'wageotc': mean_wage,
+                'count': record['count'],
+                'wbhaom': record['wbhaom'],
+                'female': record['female']
+            })
 
     return output_rows
 
@@ -113,12 +128,16 @@ def main():
         print(USAGE_STR)
         return
 
+    maybe_convert = lambda x: 'all' if x == 'all' else int(x)
+
     input_loc = sys.argv[1]
-    year = int(sys.argv[2])
-    month = int(sys.argv[3])
+    year = maybe_convert(sys.argv[2])
+    month = maybe_convert(sys.argv[3])
     output_loc = sys.argv[4]
 
     loaded_data = load_data(input_loc, year, month)
+    if DUMP:
+        loaded_data.to_csv('dump.csv')
     aggregated_data = agg_data(loaded_data)
     summarized = summarize_agg(aggregated_data)
 
