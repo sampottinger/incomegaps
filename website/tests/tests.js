@@ -3,7 +3,7 @@ QUnit.module('incomeGaps', function() {
   QUnit.test('loadSourceDataRaw', function(assert) {
     const done = assert.async();
 
-    loadSourceDataRaw("../march_2022.csv").then((dataset) => {
+    loadSourceDataRaw("../2021.csv").then((dataset) => {
       assert.ok(dataset !== null);
       assert.ok(dataset !== undefined);
       done();
@@ -16,7 +16,7 @@ QUnit.module('incomeGaps', function() {
   QUnit.test('loadSourceDataNoCache', function(assert) {
     const done = assert.async();
 
-    loadSourceDataNoCache("../march_2022.csv").then((dataset) => {
+    loadSourceDataNoCache("../2021.csv").then((dataset) => {
       assert.ok(dataset !== null);
       assert.ok(dataset !== undefined);
       assert.ok(dataset._rawResults.length > 0);
@@ -30,7 +30,7 @@ QUnit.module('incomeGaps', function() {
 
   QUnit.test('loadSourceData', function(assert) {
     const done = assert.async();
-    loadSourceData("../march_2022.csv").then(loadSourceData).then((dataset) => {
+    loadSourceData("../2021.csv").then(loadSourceData).then((dataset) => {
       assert.ok(dataset !== null);
       assert.ok(dataset !== undefined);
       assert.ok(dataset._rawResults.length > 0);
@@ -42,7 +42,7 @@ QUnit.module('incomeGaps', function() {
   });
 
   function testDataset(done, assert, callback) {
-    loadSourceData("../march_2022.csv").then((dataset) => {
+    loadSourceData("../2021.csv").then((dataset) => {
       callback(dataset);
       done();
     }).catch((err) => {
@@ -80,7 +80,7 @@ QUnit.module('incomeGaps', function() {
   });
 
   function testPresenter(done, assert, callback) {
-    loadSourceData("../march_2022.csv").then((dataset) => {
+    loadSourceData("../2021.csv").then((dataset) => {
       const presenter = new VizPresenter(60, -0.5, 0.5, 1);
       const queryResults = dataset.query("educ");
 
