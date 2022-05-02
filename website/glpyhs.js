@@ -9,10 +9,10 @@ const GROUP_FILLS = [
 ];
 
 const GLPH_STRATEGIES = [
+  (x, i, radius) => drawTriangle(x, false, i, radius),
   (x, i, radius) => drawEllipse(x, false, i, radius),
   (x, i, radius) => drawRect(x, false, i, radius),
   (x, i, radius) => drawRect(x, true, i, radius),
-  (x, i, radius) => drawTriangle(x, false, i, radius),
   (x, i, radius) => drawTriangle(x, true, i, radius),
   (x, i, radius) => drawDiamond(x, false, i, radius),
   (x, i, radius) => drawDiamond(x, true, i, radius)
@@ -46,12 +46,10 @@ function drawRect(selection, rotate, i, radius) {
 
 
 function drawTriangle(selection, rotate, i, radius) {
-  const offLength = radius / Math.sqrt(2);
-
   const outputStrs = [
     "0," + (-1 * radius),
-    offLength + "," + offLength,
-    (-1 * offLength) + "," + (-1 * offLength),
+    radius + "," + radius,
+    (-1 * radius) + "," + radius,
   ];
 
   const rects = selection.append("polygon")
@@ -73,7 +71,7 @@ function drawDiamond(selection, rotate, i, radius) {
     "0," + (-1 * radius),
     offLength + "," + offLength,
     "0," + radius,
-    (-1 * offLength) + "," + (-1 * offLength),
+    (-1 * offLength) + "," + offLength,
   ];
 
   const rects = selection.append("polygon")

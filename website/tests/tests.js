@@ -192,17 +192,17 @@ QUnit.module('incomeGaps', function() {
     const done = assert.async();
     testPresenter(done, assert, (presenter, queryResults) => {
       d3.select("#vizTableBody").html("");
-      const selection = presenter.draw(queryResults);
+      const selection = presenter.draw(queryResults).then(() => {
+        assert.equal(
+          document.getElementsByClassName("cell-occupation").length,
+          queryResults.length + 1
+        );
 
-      assert.equal(
-        document.getElementsByClassName("cell-occupation").length,
-        queryResults.length + 1
-      );
-
-      const gapLabelElements = document.getElementsByClassName("gap-label");
-      assert.ok(gapLabelElements.length > 0);
-      const exampleElement = gapLabelElements[0]
-      assert.ok(exampleElement.innerHTML !== "");
+        const gapLabelElements = document.getElementsByClassName("gap-label");
+        assert.ok(gapLabelElements.length > 0);
+        const exampleElement = gapLabelElements[0]
+        assert.ok(exampleElement.innerHTML !== "");
+      });
     });
   });
 
