@@ -1,8 +1,8 @@
 const SOURCE_DATA_LOC = "/march_2022.csv";
 const MAX_PAY = 60;
-const MIN_GAP = -0.5;
-const MAX_GAP = 0.5;
-const MAX_GINI = 1;
+const MIN_GAP = -70;
+const MAX_GAP = 50;
+const MAX_GINI = 0.2;
 
 let currentPresenter = null;
 let cachedDataset = null;
@@ -139,9 +139,9 @@ class Dataset {
         const rollup = rawGroupings.get(name);
         const groupingMean = rollup["wageTotal"] / rollup["countTotal"];
         const percentDiff = ((groupingMean - meanPay) / meanPay) * 100;
-        retMap.set(name, percentDiff);
+        retMap.set(name, {"value": percentDiff, "pop": rollup["countTotal"]});
       } else {
-        retMap.set(name, null);
+        retMap.set(name, {"value": null, "pop": 0});
       }
     });
 
@@ -237,39 +237,60 @@ class VizPresenter {
   constructor(maxPay, minGap, maxGap, maxGini) {
     const self = this;
 
-    self._maxPayWidth = self._getWidth("cell-pay");
-    self._maxGapWidth = self._getWidth("cell-gap");
-    self._maxGiniWidth = self._getWidth("cell-gini");
+    self._maxPay = maxPay;
+    self._minGap = minGap;
+    self._maxGap = maxGap;
+    self._maxGini = maxGini;
 
-    self._payScale = d3.scaleLinear()
-      .domain([0, maxPay])
-      .range([0, self._maxPayWidth]);
+    self._updateWidths();
 
-    self._gapScale = d3.scaleLinear()
-      .domain([minGap, maxGap])
-      .range([0, self._maxGapWidth]);
-
-    self._giniScale = d3.scaleLinear()
-      .domain([0, maxGini])
-      .range([0, self._maxGiniWidth]);
-
-    self._numFormat = d3.format(".2f");
+    self._numFormat = (x) => d3.format(".2f")(x).replaceAll("−", "-");
+    self._numFormatSign = (x) => d3.format("+.1f")(x).replaceAll("−", "-");
   }
 
   draw(queryResults) {
     const self = this;
 
-    const selection = self._createSelection(queryResults);
+    return new Promise((resolve, reject) => {
+      const selection = self._createSelection(queryResults);
 
-    selection.exit().remove();
-    const selectionUpdated = self._createElements(selection);
-    self._updateFixedElements(selectionUpdated);
-    self._updateGapElements(selectionUpdated);
+      selection.exit().remove();
+      const selectionUpdated = self._createElements(selection);
+
+      self._updateFixedElements(selectionUpdated);
+
+      setTimeout(() => {
+        self._updateWidths();
+        self._updateGapElements(selectionUpdated);
+        resolve();
+      }, 1);
+    });
+  }
+
+  _updateWidths() {
+    const self = this;
+
+    self._maxPayWidth = self._getWidth("cell-pay");
+    self._maxGapWidth = self._getWidth("cell-gap");
+    self._maxGiniWidth = self._getWidth("cell-gini");
+
+    self._payScale = d3.scaleLinear()
+      .domain([0, self._maxPay])
+      .range([0, self._maxPayWidth]);
+
+    self._gapScale = d3.scaleLinear()
+      .domain([self._minGap, self._maxGap])
+      .range([20, self._maxGapWidth - 20]);
+
+    self._giniScale = d3.scaleLinear()
+      .domain([0, self._maxGini])
+      .range([0, self._maxGiniWidth]);
   }
 
   _getWidth(selector) {
     const self = this;
-    return document.getElementsByClassName(selector)[0].offsetWidth;
+    const firstElem = document.getElementsByClassName(selector)[0];
+    return firstElem.getBoundingClientRect()["width"];
   }
 
   _createSelection(queryResults) {
@@ -289,7 +310,7 @@ class VizPresenter {
 
     newElements.append("td")
       .classed("cell-occupation", true)
-      .html((x) => x.getName());
+      .html((x) => x.getName().replaceAll(" occupations", ""));
 
     const newPayElements = newElements.append("td")
       .classed("cell-pay", true);
@@ -298,13 +319,22 @@ class VizPresenter {
       .classed("bar-label", true);
 
     newPayElements.append("div")
-      .classed("bar-body", true);
+      .classed("bar-body", true)
+      .style("width", 0);
 
     const newGapElements = newElements.append("td")
       .classed("cell-gap", true);
 
     const newGapSvg = newGapElements.append("svg")
       .classed("cell-gap-svg", true);
+
+    newGapSvg.append("rect")
+      .classed("center-line", true);
+
+    const midX = self._gapScale(0);
+    newGapSvg.append("rect")
+      .classed("gap-line", true)
+      .attr("x", midX);
 
     const newGiniElements = newElements.append("td")
       .classed("cell-gini", true);
@@ -313,7 +343,8 @@ class VizPresenter {
       .classed("bar-label", true);
 
     newGiniElements.append("div")
-      .classed("bar-body", true);
+      .classed("bar-body", true)
+      .style("width", 0);
 
     return selection.merge(newElements);
   }
@@ -328,7 +359,7 @@ class VizPresenter {
 
     payElements.select(".bar-body")
       .transition()
-      .attr("width", (x) => self._payScale(x.getPay()));
+      .style("width", (x) => self._payScale(x.getPay()) + "px");
 
     const giniElements = selection.select(".cell-gini");
 
@@ -337,41 +368,56 @@ class VizPresenter {
 
     giniElements.select(".bar-body")
       .transition()
-      .attr("width", (x) => self._giniScale(x.getGini()));
+      .style("width", (x) => self._giniScale(x.getGini()) + "px");
   }
 
   _updateGapElements(selection) {
     const self = this;
 
-    const innerElements = selection.select(".cell-gap-svg")
-      .selectAll(".gap-group")
-      .data((x) => {
+    const innerSelection = selection.select(".cell-gap-svg")
+      .selectAll(".gap-group");
+
+    const innerElements = innerSelection.data((x) => {
         const simplified = [];
-        x.getGapInfo().forEach((value, name) => {
-          simplified.push({"name": name, "value": value});
+
+        let maxPop = 0;
+        x.getGapInfo().forEach((datum, name) => {
+          const pop = datum["pop"];
+          if (pop > maxPop) {
+            maxPop = pop;
+          }
+        });
+        const popScale = d3.scaleLinear().domain([0, Math.sqrt(maxPop)]).range([2, 8]);
+
+        x.getGapInfo().forEach((datum, name) => {
+          const value = datum["value"];
+          const pop = datum["pop"];
+          const size = popScale(Math.sqrt(pop));
+          simplified.push({"name": name, "value": value, "size": size});
         });
         return simplified;
-      }, (x) => x["name"]);
+    }, (x) => x["name"]);
 
-    const midX = self._maxGapWidth / 2;
+    const midX = self._gapScale(0);
     const newGroups = innerElements.enter()
       .append("g")
       .classed("gap-group", true)
-      .attr("transform", "translate(10," + midX + ")")
+      .attr("transform", "translate(" + midX + ",10)")
       .attr("opacity", 0);
 
-    newGroups.each(function (x, i) {
-      GLPH_STRATEGIES[i](d3.select(this));
+    newGroups.each(function (datum, i) {
+      const radius = datum["size"];
+      GLPH_STRATEGIES[i](d3.select(this), i, radius);
     });
 
     newGroups.append("text")
       .classed("gap-label", true)
       .attr("x", 0)
-      .attr("y", 10);
+      .attr("y", 17);
 
     innerElements.exit().remove();
 
-    const joinedInnerElements = selection.select(".cell-gap-svg");
+    const joinedInnerElements = d3.selectAll(".gap-group");
 
     joinedInnerElements.transition()
       .attr("transform", (x) => {
@@ -380,11 +426,53 @@ class VizPresenter {
         return "translate(" + newX + ", 10)";
       })
       .attr("opacity", (x) => {
-        return x["value"] === null ? 0 : 0.8;
+        if (x["pop"] < 1) {
+          return 0;
+        } else {
+          return x["value"] === null ? 0 : 0.8;
+        }
       });
 
     joinedInnerElements.select(".gap-label")
-      .html((x) => self._numFormat(x["value"]) + "%");
+      .html((x) => {
+        return self._numFormatSign(x["value"]) + "%";
+      });
+
+    selection.select(".cell-gap-svg").select(".center-line")
+      .attr("x", midX);
+
+    selection.select(".cell-gap-svg").select(".gap-line")
+      .transition()
+      .attr("x", (x) => {
+        let minX = midX;
+        x.getGapInfo().forEach((datum, name) => {
+          const value = datum["value"];
+          const midX = self._maxGapWidth / 2;
+          const newX = value === null ? midX : self._gapScale(value);
+          if (newX < minX && datum["pop"] > 0) {
+            minX = newX;
+          }
+        });
+        return minX;
+      })
+      .attr("width", (x) => {
+        let minX = midX;
+        let maxX = midX;
+        x.getGapInfo().forEach((datum, name) => {
+          const value = datum["value"];
+          const midX = self._maxGapWidth / 2;
+          const newX = value === null ? midX : self._gapScale(value);
+          if (datum["pop"] > 0) {
+            if (newX < minX) {
+              minX = newX;
+            }
+            if (newX > maxX) {
+              maxX = newX;
+            }
+          }
+        });
+        return maxX - minX;
+      });
   }
 
 }
@@ -406,7 +494,6 @@ function updateViz(callback) {
   return loadSourceData().then((result) => {
     const queryResults = result.query(curTarget);
     currentPresenter.draw(queryResults);
-    console.log(curTarget);
     return queryResults;
   });
 }

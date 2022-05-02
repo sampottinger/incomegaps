@@ -9,35 +9,35 @@ const GROUP_FILLS = [
 ];
 
 const GLPH_STRATEGIES = [
-  (x) => drawEllipse(x, false),
-  (x) => drawRect(x, false),
-  (x) => drawRect(x, true),
-  (x) => drawTriangle(x, false),
-  (x) => drawTriangle(x, true),
-  (x) => drawDiamond(x, false),
-  (x) => drawDiamond(x, true)
+  (x, i, radius) => drawTriangle(x, false, i, radius),
+  (x, i, radius) => drawEllipse(x, false, i, radius),
+  (x, i, radius) => drawRect(x, false, i, radius),
+  (x, i, radius) => drawRect(x, true, i, radius),
+  (x, i, radius) => drawTriangle(x, true, i, radius),
+  (x, i, radius) => drawDiamond(x, false, i, radius),
+  (x, i, radius) => drawDiamond(x, true, i, radius)
 ];
 
 
-function drawEllipse(selection, rotate) {
+function drawEllipse(selection, rotate, i, radius) {
   selection.append("ellipse")
-    .style("fill", (x, i) => GROUP_FILLS[i])
+    .style("fill", GROUP_FILLS[i])
     .classed("gap-indicator", true)
     .attr("cy", 0)
     .attr("cx", 0)
-    .attr("rx", 7)
-    .attr("ry", 7);
+    .attr("rx", radius)
+    .attr("ry", radius);
 }
 
 
-function drawRect(selection, rotate) {
+function drawRect(selection, rotate, i, radius) {
   const rects = selection.append("rect")
-    .style("fill", (x, i) => GROUP_FILLS[i])
+    .style("fill", GROUP_FILLS[i])
     .classed("gap-indicator", true)
-    .attr("y", -7)
-    .attr("x", -7)
-    .attr("width", 14)
-    .attr("height", 14);
+    .attr("y", -radius)
+    .attr("x", -radius)
+    .attr("width", radius * 2)
+    .attr("height", radius * 2);
 
   if (rotate) {
     rects.classed("rotate-glyph", true);
@@ -45,26 +45,41 @@ function drawRect(selection, rotate) {
 }
 
 
-function drawTriangle(selection, rotate) {
+function drawTriangle(selection, rotate, i, radius) {
+  const outputStrs = [
+    "0," + (-1 * radius),
+    radius + "," + radius,
+    (-1 * radius) + "," + radius,
+  ];
+
   const rects = selection.append("polygon")
-    .style("fill", (x, i) => GROUP_FILLS[i])
+    .style("fill", GROUP_FILLS[i])
     .classed("gap-indicator", true)
     .attr("y", -7)
     .attr("x", -7)
-    .attr("points", "0,-7 4.9497,4.9497 -4.9497,4.9497");
+    .attr("points", outputStrs.join(" "));
 
   if (rotate) {
     rects.classed("rotate-glyph", true);
   }
 }
 
-function drawDiamond(selection, rotate) {
+function drawDiamond(selection, rotate, i, radius) {
+  const offLength = radius / Math.sqrt(2);
+
+  const outputStrs = [
+    "0," + (-1 * radius),
+    offLength + "," + offLength,
+    "0," + radius,
+    (-1 * offLength) + "," + offLength,
+  ];
+
   const rects = selection.append("polygon")
-    .style("fill", (x, i) => GROUP_FILLS[i])
+    .style("fill", GROUP_FILLS[i])
     .classed("gap-indicator", true)
     .attr("y", -7)
     .attr("x", -7)
-    .attr("points", "0,-7 4.9497,4.9497 0,7 -4.9497,4.9497");
+    .attr("points", outputStrs.join(" "));
 
   if (rotate) {
     rects.classed("rotate-glyph", true);
