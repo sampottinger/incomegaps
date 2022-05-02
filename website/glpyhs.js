@@ -95,6 +95,7 @@ function drawTriangle(selection, rotate, i, radius) {
   }
 }
 
+
 function transitionTriangle(selection, rotate, i, radius) {
   const outputStrs = getTrianglePoints(radius);
 
@@ -113,6 +114,7 @@ function getDiamondPoints(radius) {
   ];
 }
 
+
 function drawDiamond(selection, rotate, i, radius) {
   const outputStrs = getDiamondPoints(7);
 
@@ -127,6 +129,7 @@ function drawDiamond(selection, rotate, i, radius) {
     shapes.classed("rotate-glyph", true);
   }
 }
+
 
 function transitionDiamond(selection, rotate, i, radius) {
   const outputStrs = getDiamondPoints(radius);
