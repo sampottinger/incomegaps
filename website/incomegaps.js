@@ -389,12 +389,15 @@ class VizPresenter {
         });
         const popScale = d3.scaleLinear().domain([0, Math.sqrt(maxPop)]).range([2, 8]);
 
+        let i = 0;
         x.getGapInfo().forEach((datum, name) => {
           const value = datum["value"];
           const pop = datum["pop"];
           const size = popScale(Math.sqrt(pop));
-          simplified.push({"name": name, "value": value, "size": size});
+          simplified.push({"name": name, "value": value, "size": size, "i": i});
+          i++;
         });
+
         return simplified;
     }, (x) => x["name"]);
 
@@ -405,8 +408,9 @@ class VizPresenter {
       .attr("transform", "translate(" + midX + ",10)")
       .attr("opacity", 0);
 
-    newGroups.each(function (datum, i) {
+    newGroups.each(function (datum) {
       const radius = datum["size"];
+      const i = datum["i"];
       GLPH_STRATEGIES[i](d3.select(this), i, radius);
     });
 
@@ -432,6 +436,12 @@ class VizPresenter {
           return x["value"] === null ? 0 : 0.8;
         }
       });
+
+    joinedInnerElements.each(function (datum) {
+      const radius = datum["size"];
+      const i = datum["i"];
+      GLPH_TRANSITIONS[i](d3.select(this), i, radius);
+    });
 
     joinedInnerElements.select(".gap-label")
       .html((x) => {
