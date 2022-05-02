@@ -1,7 +1,7 @@
 const SOURCE_DATA_LOC = "/2021.csv";
 const MAX_PAY = 60;
-const MIN_GAP = -70;
-const MAX_GAP = 50;
+const MIN_GAP = -80;
+const MAX_GAP = 80;
 const MAX_GINI = 0.2;
 
 let currentPresenter = null;
@@ -263,7 +263,7 @@ class VizPresenter {
         self._updateWidths();
         self._updateGapElements(selectionUpdated);
         resolve();
-      }, 1);
+      }, 200);
     });
   }
 
@@ -399,7 +399,7 @@ class VizPresenter {
         });
 
         return simplified;
-    }, (x) => x["name"]);
+    }, (x) => x["i"]);
 
     const midX = self._gapScale(0);
     const newGroups = innerElements.enter()

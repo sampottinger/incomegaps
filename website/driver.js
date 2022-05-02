@@ -2,4 +2,6 @@ updateViz();
 
 window.addEventListener("resize", onResize);
 
-document.getElementById("metric").addEventListener("change", () => updateViz);
+document.getElementById("metric").addEventListener("change", () => {
+  updateViz();
+});
