@@ -1,4 +1,4 @@
-article{
+article {
   margin-top: 20px;
   margin-left: 10px;
   margin-right: 10px;
@@ -142,11 +142,16 @@ body {
   font-size: 18px;
 }
 
-header h1 {
+header .headline {
+  padding-top: 25px;
+  padding-bottom: 20px;
   background-color: #333;
-  margin-top: 0;
-  margin-bottom: 0;
   color: white;
+}
+
+header h1 {
+  margin: 0;
+  padding: 0;
 }
 
 header .intro {
@@ -170,8 +175,9 @@ html {
     padding: 10px;
   }
 
-  header h1 {
-    padding: 10px;
+  header .headline {
+    padding-left: 10px;
+    padding-right: 10px;
   }
 
   header .intro {
@@ -185,12 +191,14 @@ html {
     padding: 10px 20px;
   }
 
-  header h1 {
-    padding: 10px 20px;
+  header .headline {
+    padding-left: 20px;
+    padding-right: 20px;
   }
 
   header .intro {
     padding-left: 20px;
     padding-right: 20px;
   }
+
 }

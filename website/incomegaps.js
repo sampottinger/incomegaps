@@ -8,6 +8,21 @@ let currentPresenter = null;
 let cachedDataset = null;
 
 
+function getGroupFills(index) {
+  return GROUP_FILLS[index];
+}
+
+
+function getGlyphStrategy(index) {
+  return GLPH_STRATEGIES[index];
+}
+
+
+function getGlyphTransition(index) {
+  return GLPH_TRANSITIONS[index];
+}
+
+
 class Record {
 
   constructor(name, pay, gapInfo, gini) {
