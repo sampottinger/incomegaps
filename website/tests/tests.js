@@ -85,12 +85,11 @@ QUnit.module('incomeGaps', function() {
       const queryResults = dataset.query("educ");
 
       try {
-        callback(presenter, queryResults);
+        callback(done, presenter, queryResults);
       } catch (e) {
         assert.deepEqual(e, "");
       }
 
-      done();
     }).catch((err) => {
       assert.deepEqual(err, "");
       done();
@@ -99,45 +98,50 @@ QUnit.module('incomeGaps', function() {
 
   QUnit.test('presenter numFormat', function(assert) {
     const done = assert.async();
-    testPresenter(done, assert, (presenter) => {
+    testPresenter(done, assert, (doneInner, presenter) => {
       assert.deepEqual(presenter._numFormat(1.235), "1.24");
       assert.deepEqual(presenter._numFormat(-1.235), "-1.24");
+      doneInner();
     });
   });
 
   QUnit.test('presenter numFormatSign', function(assert) {
     const done = assert.async();
-    testPresenter(done, assert, (presenter) => {
+    testPresenter(done, assert, (doneInner, presenter) => {
       assert.deepEqual(presenter._numFormatSign(1.235), "+1.2");
       assert.deepEqual(presenter._numFormatSign(-1.235), "-1.2");
+      doneInner();
     });
   });
 
   QUnit.test('presenter createSelection', function(assert) {
     const done = assert.async();
-    testPresenter(done, assert, (presenter) => {
+    testPresenter(done, assert, (doneInner, presenter) => {
       assert.ok(presenter !== undefined);
       assert.ok(presenter !== null);
+      doneInner();
     });
   });
 
   QUnit.test('presenter getWidth', function(assert) {
     const done = assert.async();
-    testPresenter(done, assert, (presenter) => {
+    testPresenter(done, assert, (doneInner, presenter) => {
       assert.ok(presenter._getWidth("cell-occupation") > 0);
+      doneInner();
     });
   });
 
   QUnit.test('presenter createSelection', function(assert) {
     const done = assert.async();
-    testPresenter(done, assert, (presenter, queryResults) => {
+    testPresenter(done, assert, (doneInner, presenter, queryResults) => {
       assert.ok(presenter._createSelection(queryResults) !== null);
+      doneInner();
     });
   });
 
   QUnit.test('presenter createElements', function(assert) {
     const done = assert.async();
-    testPresenter(done, assert, (presenter, queryResults) => {
+    testPresenter(done, assert, (doneInner, presenter, queryResults) => {
       const selection = presenter._createSelection(queryResults);
       selection.exit().remove();
       presenter._createElements(selection);
@@ -145,12 +149,13 @@ QUnit.module('incomeGaps', function() {
         document.getElementsByClassName("cell-occupation").length,
         queryResults.length + 1
       );
+      doneInner();
     });
   });
 
   QUnit.test('presenter repeatCreate', function(assert) {
     const done = assert.async();
-    testPresenter(done, assert, (presenter, queryResults) => {
+    testPresenter(done, assert, (doneInner, presenter, queryResults) => {
       const selection = presenter._createSelection(queryResults);
       selection.exit().remove();
       presenter._createElements(selection);
@@ -158,12 +163,13 @@ QUnit.module('incomeGaps', function() {
         document.getElementsByClassName("cell-occupation").length,
         queryResults.length + 1
       );
+      doneInner();
     });
   });
 
   QUnit.test('presenter updateFixedElements', function(assert) {
     const done = assert.async();
-    testPresenter(done, assert, (presenter, queryResults) => {
+    testPresenter(done, assert, (doneInner, presenter, queryResults) => {
       d3.select("#vizTableBody").html("");
       const selection = presenter._createSelection(queryResults);
       const selectionUpdated = presenter._createElements(selection);
@@ -171,12 +177,13 @@ QUnit.module('incomeGaps', function() {
       const barLabelElements = document.getElementsByClassName("bar-label");
       const exampleElement = barLabelElements[0]
       assert.ok(exampleElement.innerHTML !== "");
+      doneInner();
     });
   });
 
   QUnit.test('presenter updateGapElements', function(assert) {
     const done = assert.async();
-    testPresenter(done, assert, (presenter, queryResults) => {
+    testPresenter(done, assert, (doneInner, presenter, queryResults) => {
       d3.select("#vizTableBody").html("");
       const selection = presenter._createSelection(queryResults);
       const selectionUpdated = presenter._createElements(selection);
@@ -185,12 +192,13 @@ QUnit.module('incomeGaps', function() {
       assert.ok(gapLabelElements.length > 0);
       const exampleElement = gapLabelElements[0]
       assert.ok(exampleElement.innerHTML !== "");
+      doneInner();
     });
   });
 
   QUnit.test('presenter draw', function(assert) {
     const done = assert.async();
-    testPresenter(done, assert, (presenter, queryResults) => {
+    testPresenter(done, assert, (doneInner, presenter, queryResults) => {
       d3.select("#vizTableBody").html("");
       const selection = presenter.draw(queryResults).then(() => {
         assert.equal(
@@ -202,6 +210,7 @@ QUnit.module('incomeGaps', function() {
         assert.ok(gapLabelElements.length > 0);
         const exampleElement = gapLabelElements[0]
         assert.ok(exampleElement.innerHTML !== "");
+        doneInner();
       });
     });
   });
