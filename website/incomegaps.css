@@ -38,6 +38,7 @@ article #vizControls .top {
 
 article #vizTable {
   width: 100%;
+  border-spacing: 10px;
 }
 
 article #vizTable th {
@@ -47,10 +48,6 @@ article #vizTable th {
 
 article #vizTable tr .occupation-label {
   padding-right: 20px;
-}
-
-article #vizTable tr:hover {
-  background-color: #F5F5F5;
 }
 
 article #vizTable tr:hover {
