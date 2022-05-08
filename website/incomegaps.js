@@ -1,7 +1,7 @@
 const SOURCE_DATA_LOC = "/2021.csv";
 const MAX_PAY = 60;
-const MIN_GAP = -70;
-const MAX_GAP = 50;
+const MIN_GAP = -80;
+const MAX_GAP = 80;
 const MAX_GINI = 0.2;
 
 let currentPresenter = null;
@@ -263,7 +263,7 @@ class VizPresenter {
         self._updateWidths();
         self._updateGapElements(selectionUpdated);
         resolve();
-      }, 1);
+      }, 200);
     });
   }
 
@@ -389,14 +389,17 @@ class VizPresenter {
         });
         const popScale = d3.scaleLinear().domain([0, Math.sqrt(maxPop)]).range([2, 8]);
 
+        let i = 0;
         x.getGapInfo().forEach((datum, name) => {
           const value = datum["value"];
           const pop = datum["pop"];
           const size = popScale(Math.sqrt(pop));
-          simplified.push({"name": name, "value": value, "size": size});
+          simplified.push({"name": name, "value": value, "size": size, "i": i});
+          i++;
         });
+
         return simplified;
-    }, (x) => x["name"]);
+    }, (x) => x["i"]);
 
     const midX = self._gapScale(0);
     const newGroups = innerElements.enter()
@@ -405,8 +408,9 @@ class VizPresenter {
       .attr("transform", "translate(" + midX + ",10)")
       .attr("opacity", 0);
 
-    newGroups.each(function (datum, i) {
+    newGroups.each(function (datum) {
       const radius = datum["size"];
+      const i = datum["i"];
       GLPH_STRATEGIES[i](d3.select(this), i, radius);
     });
 
@@ -432,6 +436,12 @@ class VizPresenter {
           return x["value"] === null ? 0 : 0.8;
         }
       });
+
+    joinedInnerElements.each(function (datum) {
+      const radius = datum["size"];
+      const i = datum["i"];
+      GLPH_TRANSITIONS[i](d3.select(this), i, radius);
+    });
 
     joinedInnerElements.select(".gap-label")
       .html((x) => {

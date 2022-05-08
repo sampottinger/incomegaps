@@ -43,7 +43,17 @@ def load_data(loc: str, year: int, month: int) -> pandas.DataFrame:
     else:
         target_date = target_year[target_year['month'] == month]
 
-    var_subset = target_date[['educ', 'docc03', 'wageotc', 'wage', 'wbhaom', 'female', 'orgwgt']]
+    var_subset = target_date[[
+        'educ',
+        'docc03',
+        'wageotc',
+        'wage',
+        'wbhaom',
+        'female',
+        'orgwgt',
+        'region',
+        'citistat'
+    ]];
     with_wage = var_subset[
         var_subset['wageotc'].apply(lambda x: numpy.isfinite(x))
     ].copy().reset_index()
@@ -60,7 +70,10 @@ def get_key(row: typing.Dict) -> str:
         Key describing the group represented by a row. This key has educ, docc03, wbhaom, and
         female.
     """
-    key_pieces = map(lambda key: row[key], ['educ', 'docc03', 'wbhaom', 'female'])
+    key_pieces = map(
+        lambda key: row[key],
+        ['educ', 'docc03', 'wbhaom', 'female', 'region', 'citistat']
+    )
     key_pieces_str = map(lambda x: str(x), key_pieces)
     return '-'.join(key_pieces_str)
 
@@ -88,6 +101,8 @@ def agg_data(source: pandas.DataFrame) -> typing.Dict:
                 'wageotc': [],
                 'wbhaom': row['wbhaom'],
                 'female': row['female'],
+                'region': row['region'],
+                'citistat': row['citistat'],
                 'count': 0
             }
         weight = row['orgwgt'] if numpy.isfinite(row['orgwgt']) else 0
@@ -116,7 +131,9 @@ def summarize_agg(agg: typing.Dict) -> typing.List[typing.Dict]:
                 'wageotc': mean_wage,
                 'count': record['count'],
                 'wbhaom': record['wbhaom'],
-                'female': record['female']
+                'female': record['female'],
+                'region': record['region'],
+                'citistat': record['citistat']
             })
 
     return output_rows

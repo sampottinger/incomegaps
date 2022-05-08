@@ -33,7 +33,7 @@ article #vizTable .cell-gap {
 
 article #vizTable .cell-gap-svg .center-line {
   width: 1px;
-  y: 0;
+  y: 0px;
   height: 23px;
   fill: #C0C0C0;
 }
@@ -43,10 +43,11 @@ article #vizTable .cell-gap .gap-label {
   fill: #707070;
   vertical-align: top;
   text-anchor: middle;
+  opacity: 0;
 }
 
 article #vizTable .cell-gap-svg .gap-line {
-  y: 10;
+  y: 10px;
   height: 1px;
   fill: #D0D0D0;
 }
