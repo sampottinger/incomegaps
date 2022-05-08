@@ -31,7 +31,7 @@ const GLPH_TRANSITIONS = [
 
 function drawEllipse(selection, rotate, i, radius) {
   selection.append("ellipse")
-    .style("fill", GROUP_FILLS[i])
+    .style("fill", getGroupFills(i))
     .classed("gap-indicator", true)
     .attr("cy", 0)
     .attr("cx", 0)
@@ -49,7 +49,7 @@ function transitionEllipse(selection, rotate, i, radius) {
 
 function drawRect(selection, rotate, i, radius) {
   const rects = selection.append("rect")
-    .style("fill", GROUP_FILLS[i])
+    .style("fill", getGroupFills(i))
     .classed("gap-indicator", true)
     .attr("y", -7)
     .attr("x", -7)
@@ -84,7 +84,7 @@ function drawTriangle(selection, rotate, i, radius) {
   const outputStrs = getTrianglePoints(7);
 
   const shapes = selection.append("polygon")
-    .style("fill", GROUP_FILLS[i])
+    .style("fill", getGroupFills(i))
     .classed("gap-indicator", true)
     .attr("y", 0)
     .attr("x", 0)
@@ -119,7 +119,7 @@ function drawDiamond(selection, rotate, i, radius) {
   const outputStrs = getDiamondPoints(7);
 
   const shapes = selection.append("polygon")
-    .style("fill", GROUP_FILLS[i])
+    .style("fill", getGroupFills(i))
     .classed("gap-indicator", true)
     .attr("y", -7)
     .attr("x", -7)

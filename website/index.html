@@ -22,14 +22,24 @@
 
     <article>
       <div id="vizControls">
-        <label for="metric">Dimension:</label>
-        <select name="metric" id="metric">
-          <option value="female">Gender</option>
-          <option value="wbhaom">Race / Ethnicity</option>
-          <option value="educ">Education</option>
-          <option value="region">Region</option>
-          <option value="citistat">Citizenship</option>
-        </select>
+        <div class="top">
+          <label for="metric">Dimension:</label>
+          <select name="metric" id="metric">
+            <option value="female">Gender</option>
+            <option value="wbhaom">Race / Ethnicity</option>
+            <option value="educ">Education</option>
+            <option value="region">Region</option>
+            <option value="citistat">Citizenship</option>
+          </select>
+        </div>
+        <div class="bottom">
+          <div class="right">
+            <label for="groupSizeCheck"><input id="groupSizeCheck" type="checkbox" checked> Show Group Size</label>
+          </div>
+          <div class="left">
+            <label for="colorblindModeCheck"><input id="colorblindModeCheck" type="checkbox"> Colorblind Mode</label>
+          </div>
+        </div>
       </div>
       <table id="vizTable">
         <thead>

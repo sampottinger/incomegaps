@@ -411,7 +411,8 @@ class VizPresenter {
     newGroups.each(function (datum) {
       const radius = datum["size"];
       const i = datum["i"];
-      GLPH_STRATEGIES[i](d3.select(this), i, radius);
+      const glyphStrategy = getGlyphStrategy(i);
+      glyphStrategy(d3.select(this), i, radius);
     });
 
     newGroups.append("text")
@@ -440,7 +441,8 @@ class VizPresenter {
     joinedInnerElements.each(function (datum) {
       const radius = datum["size"];
       const i = datum["i"];
-      GLPH_TRANSITIONS[i](d3.select(this), i, radius);
+      const glyphTransition = getGlyphTransition(i);
+      glyphTransition(d3.select(this), i, radius);
     });
 
     joinedInnerElements.select(".gap-label")
