@@ -43,6 +43,7 @@ article #vizTable .cell-gap .gap-label {
   fill: #707070;
   vertical-align: top;
   text-anchor: middle;
+  opacity: 0;
 }
 
 article #vizTable .cell-gap-svg .gap-line {
