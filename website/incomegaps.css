@@ -38,7 +38,6 @@ article #vizControls .top {
 
 article #vizTable {
   width: 100%;
-  border-spacing: 10px;
 }
 
 article #vizTable th {
@@ -46,8 +45,25 @@ article #vizTable th {
   border-bottom: 1px dotted #A0A0A0;
 }
 
-article #vizTable tr {
-  border-bottom: 1px dotted #C0C0C0;
+article #vizTable tr .occupation-label {
+  padding-right: 20px;
+}
+
+article #vizTable tr:hover {
+  background-color: #F5F5F5;
+}
+
+article #vizTable tr:hover {
+  font-weight: bold;
+}
+
+article #vizTable tr:hover .occupation-label {
+  padding-right: 1px;
+}
+
+article #vizTable tr td {
+  border-bottom: 1px dotted #E0E0E0;
+  padding: 10px 1px 4px 1px;
 }
 
 article #vizTable .cell-gap {
@@ -85,8 +101,16 @@ article #vizTable .cell-gini {
 }
 
 article #vizTable .cell-gini .bar-body {
-  height: 10px;
+  height: 7px;
   background-color: #C0C0C0;
+}
+
+article #vizTable tr:hover .cell-gini .bar-body {
+  background-color: #B0B0B0;
+}
+
+article #vizTable .cell-gini .bar-label {
+  font-size: 14px;
 }
 
 article #vizTable .cell-occupation {
@@ -95,13 +119,25 @@ article #vizTable .cell-occupation {
   word-wrap: break-word;
 }
 
+article #vizTable .cell-occupation .occupation-label {
+  font-size: 16px;
+}
+
 article #vizTable .cell-pay {
   width: 80px;
 }
 
 article #vizTable .cell-pay .bar-body {
-  height: 10px;
+  height: 7px;
   background-color: #C0C0C0;
+}
+
+article #vizTable tr:hover .cell-pay .bar-body {
+  background-color: #B0B0B0;
+}
+
+article #vizTable .cell-pay .bar-label {
+  font-size: 14px;
 }
 
 body {

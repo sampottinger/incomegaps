@@ -308,8 +308,11 @@ class VizPresenter {
       .append("tr")
       .classed("viz-row", true);
 
-    newElements.append("td")
-      .classed("cell-occupation", true)
+    const newOccupationCells = newElements.append("td")
+      .classed("cell-occupation", true);
+
+    newOccupationCells.append("span")
+      .classed("occupation-label", true)
       .html((x) => x.getName().replaceAll(" occupations", ""));
 
     const newPayElements = newElements.append("td")
