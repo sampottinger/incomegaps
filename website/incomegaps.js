@@ -345,13 +345,12 @@ class VizPresenter {
     const midX = self._gapScale(0);
 
     const ticks = [-80, -60, -40, -20, 0, 20, 40, 60, 80];
-    d3.select("#gapAxes").html("");
-    d3.select("#gapAxes").selectAll(".label").data(ticks).enter()
+    d3.select("#gapAxes").selectAll(".label").data(ticks, (x) => x).enter()
       .append("text")
       .classed("label", true)
       .attr("x", midX)
       .attr("y", 10)
-      .html((x) => self._numFormatInt(x));
+      .html((x) => self._numFormatInt(x) + "%");
 
     const newElements = selection.enter()
       .append("tr")
@@ -381,10 +380,12 @@ class VizPresenter {
       .classed("cell-gap-svg", true);
 
     newGapSvg.append("rect")
-      .classed("center-line", true);
-
-    newGapSvg.append("rect")
       .classed("gap-line", true)
+      .attr("x", midX);
+
+    newGapSvg.selectAll("tick").data(ticks, (x) => x).enter().append("rect")
+      .classed("tick", true)
+      .classed("center-line", (x) => x == 0)
       .attr("x", midX);
 
     const newGiniElements = newElements.append("td")
@@ -429,8 +430,11 @@ class VizPresenter {
       .attr("x", (x) => self._gapScale(x))
       .attr("y", 10);
 
-    const innerSelection = selection.select(".cell-gap-svg")
-      .selectAll(".gap-group");
+    const svgSelection = selection.select(".cell-gap-svg");
+    svgSelection.selectAll(".tick").transition()
+      .attr("x", (x) => self._gapScale(x));
+
+    const innerSelection = svgSelection.selectAll(".gap-group");
 
     const innerElements = innerSelection.data((x) => {
         const simplified = [];

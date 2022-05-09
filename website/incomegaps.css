@@ -88,13 +88,6 @@ article #vizTable .cell-gap {
   min-width: 200px;
 }
 
-article #vizTable .cell-gap-svg .center-line {
-  width: 1px;
-  y: 0px;
-  height: 23px;
-  fill: #C0C0C0;
-}
-
 article #vizTable .cell-gap .gap-label {
   font-size: 10px;
   fill: #707070;
@@ -107,6 +100,20 @@ article #vizTable .cell-gap-svg .gap-line {
   y: 10px;
   height: 1px;
   fill: #D0D0D0;
+}
+
+article #vizTable .cell-gap-svg .tick {
+  width: 1px;
+  y: 7px;
+  height: 6px;
+  fill: #C0C0C0;
+}
+
+article #vizTable .cell-gap-svg .tick.center-line {
+  width: 1px;
+  y: 0px;
+  height: 23px;
+  fill: #C0C0C0;
 }
 
 article #vizTable .cell-gap-svg {
