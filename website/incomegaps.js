@@ -273,12 +273,12 @@ class VizPresenter {
     self._minGap = minGap;
     self._maxGap = maxGap;
     self._maxGini = maxGini;
-    
+
     self._numFormatInt = (x) => d3.format(".0f")(x).replaceAll("−", "-");
     self._numFormatConcise = (x) => d3.format(".1f")(x).replaceAll("−", "-");
     self._numFormat = (x) => d3.format(".2f")(x).replaceAll("−", "-");
     self._numFormatSign = (x) => d3.format("+.1f")(x).replaceAll("−", "-");
-    
+
     self._updateWidths();
   }
 
@@ -311,7 +311,7 @@ class VizPresenter {
     self._payScale = d3.scaleLinear()
       .domain([0, self._maxPay])
       .range([0, self._maxPayWidth]);
-    
+
     d3.select("#maxPay").html(self._numFormatConcise(self._maxPay));
 
     self._gapScale = d3.scaleLinear()
@@ -321,7 +321,7 @@ class VizPresenter {
     self._giniScale = d3.scaleLinear()
       .domain([0, self._maxGini])
       .range([0, self._maxGiniWidth]);
-      
+
     d3.select("#maxGini").html(self._numFormatConcise(self._maxGini));
   }
 
@@ -341,15 +341,17 @@ class VizPresenter {
 
   _createElements(selection) {
     const self = this;
-    
+
+    const midX = self._gapScale(0);
+
     const ticks = [-80, -60, -40, -20, 0, 20, 40, 60, 80];
     d3.select("#gapAxes").html("");
     d3.select("#gapAxes").selectAll(".label").data(ticks).enter()
       .append("text")
       .classed("label", true)
-      .attr("text", (x) => self._numFormatInt(x))
-      .attr("x", (x) => self._gapScale(x))
-      .attr("y", 5);
+      .attr("x", midX)
+      .attr("y", 10)
+      .html((x) => self._numFormatInt(x));
 
     const newElements = selection.enter()
       .append("tr")
@@ -381,7 +383,6 @@ class VizPresenter {
     newGapSvg.append("rect")
       .classed("center-line", true);
 
-    const midX = self._gapScale(0);
     newGapSvg.append("rect")
       .classed("gap-line", true)
       .attr("x", midX);
@@ -423,6 +424,10 @@ class VizPresenter {
 
   _updateGapElements(selection) {
     const self = this;
+
+    const axesSelection = d3.select("#gapAxes").selectAll(".label").transition()
+      .attr("x", (x) => self._gapScale(x))
+      .attr("y", 10);
 
     const innerSelection = selection.select(".cell-gap-svg")
       .selectAll(".gap-group");
@@ -535,8 +540,8 @@ class VizPresenter {
         });
         return maxX - minX;
       });
-    
-    
+
+
   }
 
 }
@@ -583,7 +588,7 @@ function onResize() {
   if (lastClientWidth == getClientWidth()) {
     return;
   }
-  
+
   rememberClientWidth();
   hardRedraw();
 }

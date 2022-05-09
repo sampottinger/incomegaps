@@ -59,7 +59,12 @@ article #vizTable thead svg {
 
 article #vizTable thead svg .label {
   vertical-align: middle;
-  text-anchor: center;
+  text-anchor: middle;
+  fill: #444;
+}
+
+article #vizTable thead:hover svg .label {
+  fill: black;
 }
 
 article #vizTable thead .axes .right {
