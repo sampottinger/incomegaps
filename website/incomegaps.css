@@ -31,9 +31,15 @@ article #vizControls .bottom .right {
   float: right;
 }
 
+article #vizControls .bottom .text-control {
+  padding-bottom: 2px;
+  padding-top: 1px;
+}
+
 article #vizControls .top {
   text-align: center;
-  padding-bottom: 5px;
+  padding-top: 10px;
+  padding-bottom: 15px;
 }
 
 article #vizTable {
@@ -99,21 +105,21 @@ article #vizTable .cell-gap .gap-label {
 article #vizTable .cell-gap-svg .gap-line {
   y: 10px;
   height: 1px;
-  fill: #D0D0D0;
+  fill: #C0C0C0;
 }
 
 article #vizTable .cell-gap-svg .tick {
-  width: 1px;
-  y: 7px;
-  height: 6px;
-  fill: #C0C0C0;
+  width: 1.2px;
+  y: 6px;
+  height: 7px;
+  fill: #B0B0B0;
 }
 
 article #vizTable .cell-gap-svg .tick.center-line {
-  width: 1px;
+  width: 1.2px;
   y: 0px;
   height: 23px;
-  fill: #C0C0C0;
+  fill: #B0B0B0;
 }
 
 article #vizTable .cell-gap-svg {
@@ -190,6 +196,7 @@ header .intro {
   padding-bottom: 15px;
   padding-top: 15px;
   background-color: #E0E0E0;
+  font-size: 16px;
 }
 
 header .intro .lead {

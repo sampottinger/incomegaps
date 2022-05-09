@@ -4,9 +4,26 @@ const MIN_GAP = -80;
 const MAX_GAP = 80;
 const MAX_GINI = 0.2;
 
+const GAP_SIZES = {
+  "female": {"max": 40, "min": -40},
+  "wbhaom": {"max": 60, "min": -60},
+  "educ": {"max": 80, "min": -80},
+  "region": {"max": 40, "min": -40},
+  "citistat": {"max": 40, "min": -40}
+}
+
 let currentPresenter = null;
 let cachedDataset = null;
 let lastClientWidth = -1;
+
+
+function getGapMinMax() {
+  const zoomingAxisCheck = document.getElementById("zoomingAxisCheck");
+  const isZoomingAxis = zoomingAxisCheck.checked;
+
+  const selectedMetric = document.getElementById("metric").value;
+  return isZoomingAxis ? GAP_SIZES[selectedMetric] : {"max": MAX_GAP, "min": MIN_GAP};
+}
 
 
 function isColorblindModeEnabled() {
@@ -36,7 +53,7 @@ function getGlyphStrategy(index) {
 
 function getGlyphTransition(index) {
   const colorblindEnabled = isColorblindModeEnabled();
-  return colorblindEnabled ? GLPH_TRANSITIONS[index] : GLPH_TRANSITIONS[index];
+  return colorblindEnabled ? GLPH_TRANSITIONS[index] : GLPH_TRANSITIONS[0];
 }
 
 
@@ -293,11 +310,9 @@ class VizPresenter {
 
       self._updateFixedElements(selectionUpdated);
 
-      setTimeout(() => {
-        self._updateWidths();
-        self._updateGapElements(selectionUpdated);
-        resolve();
-      }, 200);
+      self._updateWidths();
+      self._updateGapElements(selectionUpdated);
+      resolve();
     });
   }
 
@@ -314,8 +329,12 @@ class VizPresenter {
 
     d3.select("#maxPay").html(self._numFormatConcise(self._maxPay));
 
+    const effectiveMinMax = getGapMinMax();
+    const effectiveMin = effectiveMinMax["min"];
+    const effectiveMax = effectiveMinMax["max"];
+
     self._gapScale = d3.scaleLinear()
-      .domain([self._minGap, self._maxGap])
+      .domain([effectiveMin, effectiveMax])
       .range([20, self._maxGapWidth - 20]);
 
     self._giniScale = d3.scaleLinear()
@@ -427,11 +446,13 @@ class VizPresenter {
     const self = this;
 
     const axesSelection = d3.select("#gapAxes").selectAll(".label").transition()
+      .duration(1000)
       .attr("x", (x) => self._gapScale(x))
       .attr("y", 10);
 
     const svgSelection = selection.select(".cell-gap-svg");
     svgSelection.selectAll(".tick").transition()
+      .duration(1000)
       .attr("x", (x) => self._gapScale(x));
 
     const innerSelection = svgSelection.selectAll(".gap-group");
@@ -484,6 +505,8 @@ class VizPresenter {
     const joinedInnerElements = d3.selectAll(".gap-group");
 
     joinedInnerElements.transition()
+      .delay(200)
+      .duration(1000)
       .attr("transform", (x) => {
         const midX = self._maxGapWidth / 2;
         const newX = x["value"] === null ? midX : self._gapScale(x["value"]);
@@ -509,11 +532,10 @@ class VizPresenter {
         return self._numFormatSign(x["value"]) + "%";
       });
 
-    selection.select(".cell-gap-svg").select(".center-line")
-      .attr("x", midX);
-
     selection.select(".cell-gap-svg").select(".gap-line")
       .transition()
+      .delay(200)
+      .duration(1000)
       .attr("x", (x) => {
         let minX = midX;
         x.getGapInfo().forEach((datum, name) => {

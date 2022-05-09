@@ -35,8 +35,8 @@ function drawEllipse(selection, rotate, i, radius) {
     .classed("gap-indicator", true)
     .attr("cy", 0)
     .attr("cx", 0)
-    .attr("rx", 7)
-    .attr("ry", 7);
+    .attr("rx", radius)
+    .attr("ry", radius);
 }
 
 
@@ -51,10 +51,10 @@ function drawRect(selection, rotate, i, radius) {
   const rects = selection.append("rect")
     .style("fill", getGroupFills(i))
     .classed("gap-indicator", true)
-    .attr("y", -7)
-    .attr("x", -7)
-    .attr("width", 7 * 2)
-    .attr("height", 7 * 2);
+    .attr("y", -radius)
+    .attr("x", -radius)
+    .attr("width", radius * 2)
+    .attr("height", radius * 2);
 
   if (rotate) {
     rects.classed("rotate-glyph", true);
@@ -81,7 +81,7 @@ function getTrianglePoints(radius) {
 
 
 function drawTriangle(selection, rotate, i, radius) {
-  const outputStrs = getTrianglePoints(7);
+  const outputStrs = getTrianglePoints(radius);
 
   const shapes = selection.append("polygon")
     .style("fill", getGroupFills(i))
@@ -116,13 +116,13 @@ function getDiamondPoints(radius) {
 
 
 function drawDiamond(selection, rotate, i, radius) {
-  const outputStrs = getDiamondPoints(7);
+  const outputStrs = getDiamondPoints(radius);
 
   const shapes = selection.append("polygon")
     .style("fill", getGroupFills(i))
     .classed("gap-indicator", true)
-    .attr("y", -7)
-    .attr("x", -7)
+    .attr("y", -radius)
+    .attr("x", -radius)
     .attr("points", outputStrs.join(" "));
 
   if (rotate) {
