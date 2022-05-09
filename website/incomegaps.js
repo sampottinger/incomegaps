@@ -273,11 +273,12 @@ class VizPresenter {
     self._minGap = minGap;
     self._maxGap = maxGap;
     self._maxGini = maxGini;
-
-    self._updateWidths();
-
+    
+    self._numFormatConcise = (x) => d3.format(".1f")(x).replaceAll("−", "-");
     self._numFormat = (x) => d3.format(".2f")(x).replaceAll("−", "-");
     self._numFormatSign = (x) => d3.format("+.1f")(x).replaceAll("−", "-");
+    
+    self._updateWidths();
   }
 
   draw(queryResults) {
@@ -309,6 +310,8 @@ class VizPresenter {
     self._payScale = d3.scaleLinear()
       .domain([0, self._maxPay])
       .range([0, self._maxPayWidth]);
+    
+    d3.select("#maxPay").html(self._numFormatConcise(self._maxPay));
 
     self._gapScale = d3.scaleLinear()
       .domain([self._minGap, self._maxGap])
@@ -317,6 +320,8 @@ class VizPresenter {
     self._giniScale = d3.scaleLinear()
       .domain([0, self._maxGini])
       .range([0, self._maxGiniWidth]);
+      
+    d3.select("#maxGini").html(self._numFormatConcise(self._maxGini));
   }
 
   _getWidth(selector) {

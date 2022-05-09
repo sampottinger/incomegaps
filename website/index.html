@@ -42,10 +42,25 @@
       <table id="vizTable">
         <thead>
           <tr>
-            <th class="cell-occupation">Name</th>
-            <th class="cell-pay">Pay</th>
+            <th class="cell-occupation">
+              Name
+              <div class="axes">Census</div>
+            </th>
+            <th class="cell-pay">
+              Pay
+              <div class="axes">
+                <div class="right" id="maxPay"></div>
+                <div class="left">0</div>
+              </div>
+            </th>
             <th class="cell-gap">Gap</th>
-            <th class="cell-gini">Gini</th>
+            <th class="cell-gini">
+              Gini
+              <div class="axes">
+                <div class="right" id="maxGini"></div>
+                <div class="left">0</div>
+              </div>
+            </th>
           </tr>
         </thead>
         <tbody id="vizTableBody">
