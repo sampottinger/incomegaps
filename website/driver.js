@@ -14,7 +14,8 @@ function init() {
   document.getElementById("metric").addEventListener("change", () => {
     updateViz();
   });
-  
+
+  addCheckboxListener(document.getElementById("zoomingAxisCheck"));
   addCheckboxListener(document.getElementById("groupSizeCheck"));
   addCheckboxListener(document.getElementById("colorblindModeCheck"));
 }
