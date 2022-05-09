@@ -47,6 +47,30 @@ article #vizTable th {
   border-bottom: 1px dotted #A0A0A0;
 }
 
+article #vizTable thead .axes {
+  font-size: 11px;
+  border-top: 1px dotted #A0A0A0;
+}
+
+article #vizTable thead svg {
+  width: 100%;
+  height: 10px;
+}
+
+article #vizTable thead svg .label {
+  vertical-align: middle;
+  text-anchor: middle;
+  fill: #444;
+}
+
+article #vizTable thead:hover svg .label {
+  fill: black;
+}
+
+article #vizTable thead .axes .right {
+  float: right;
+}
+
 article #vizTable tr .occupation-label {
   padding-right: 20px;
 }
@@ -109,7 +133,7 @@ article #vizTable .cell-gini .bar-label {
 
 article #vizTable .cell-occupation {
   min-width: 50px;
-  max-width: 150px;
+  max-width: 100px;
   word-wrap: break-word;
 }
 
