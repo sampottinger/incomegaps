@@ -170,6 +170,10 @@ html {
   margin: 0;
 }
 
+.rotate-glyph {
+  transform: rotate(180deg);
+}
+
 @media (max-width: 800px) {
   article #vizTable {
     padding: 10px;

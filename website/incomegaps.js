@@ -6,6 +6,21 @@ const MAX_GINI = 0.2;
 
 let currentPresenter = null;
 let cachedDataset = null;
+let lastClientWidth = -1;
+
+
+function isColorblindModeEnabled() {
+  const colorblindCheck = document.getElementById("colorblindModeCheck");
+  const isColorblindMode = colorblindCheck.checked;
+  return isColorblindMode;
+}
+
+
+function isSizingEnabled() {
+  const sizingCheck = document.getElementById("groupSizeCheck");
+  const isSizingMode = sizingCheck.checked;
+  return isSizingMode;
+}
 
 
 function getGroupFills(index) {
@@ -14,12 +29,14 @@ function getGroupFills(index) {
 
 
 function getGlyphStrategy(index) {
-  return GLPH_STRATEGIES[index];
+  const colorblindEnabled = isColorblindModeEnabled();
+  return colorblindEnabled ? GLPH_STRATEGIES[index] : GLPH_STRATEGIES[0];
 }
 
 
 function getGlyphTransition(index) {
-  return GLPH_TRANSITIONS[index];
+  const colorblindEnabled = isColorblindModeEnabled();
+  return colorblindEnabled ? GLPH_TRANSITIONS[index] : GLPH_TRANSITIONS[index];
 }
 
 
@@ -411,7 +428,7 @@ class VizPresenter {
         x.getGapInfo().forEach((datum, name) => {
           const value = datum["value"];
           const pop = datum["pop"];
-          const size = popScale(Math.sqrt(pop));
+          const size = isSizingEnabled() ? popScale(Math.sqrt(pop)) : 7;
           simplified.push({"name": name, "value": value, "size": size, "i": i});
           i++;
         });
@@ -508,10 +525,20 @@ class VizPresenter {
 }
 
 
+function getClientWidth() {
+  return document.documentElement.clientWidth;
+}
+
+
 function createNewPresenter() {
   d3.select("#vizTableBody").html("");
   currentPresenter = new VizPresenter(MAX_PAY, MIN_GAP, MAX_GAP, MAX_GINI);
   return currentPresenter;
+}
+
+
+function rememberClientWidth() {
+  lastClientWidth = getClientWidth();
 }
 
 
@@ -529,7 +556,17 @@ function updateViz(callback) {
 }
 
 
-function onResize() {
+function hardRedraw() {
   createNewPresenter();
   updateViz();
+}
+
+
+function onResize() {
+  if (lastClientWidth == getClientWidth()) {
+    return;
+  }
+  
+  rememberClientWidth();
+  hardRedraw();
 }
