@@ -6,6 +6,38 @@ const MAX_GINI = 0.2;
 
 let currentPresenter = null;
 let cachedDataset = null;
+let lastClientWidth = -1;
+
+
+function isColorblindModeEnabled() {
+  const colorblindCheck = document.getElementById("colorblindModeCheck");
+  const isColorblindMode = colorblindCheck.checked;
+  return isColorblindMode;
+}
+
+
+function isSizingEnabled() {
+  const sizingCheck = document.getElementById("groupSizeCheck");
+  const isSizingMode = sizingCheck.checked;
+  return isSizingMode;
+}
+
+
+function getGroupFills(index) {
+  return GROUP_FILLS[index];
+}
+
+
+function getGlyphStrategy(index) {
+  const colorblindEnabled = isColorblindModeEnabled();
+  return colorblindEnabled ? GLPH_STRATEGIES[index] : GLPH_STRATEGIES[0];
+}
+
+
+function getGlyphTransition(index) {
+  const colorblindEnabled = isColorblindModeEnabled();
+  return colorblindEnabled ? GLPH_TRANSITIONS[index] : GLPH_TRANSITIONS[index];
+}
 
 
 class Record {
@@ -308,8 +340,11 @@ class VizPresenter {
       .append("tr")
       .classed("viz-row", true);
 
-    newElements.append("td")
-      .classed("cell-occupation", true)
+    const newOccupationCells = newElements.append("td")
+      .classed("cell-occupation", true);
+
+    newOccupationCells.append("span")
+      .classed("occupation-label", true)
       .html((x) => x.getName().replaceAll(" occupations", ""));
 
     const newPayElements = newElements.append("td")
@@ -393,7 +428,7 @@ class VizPresenter {
         x.getGapInfo().forEach((datum, name) => {
           const value = datum["value"];
           const pop = datum["pop"];
-          const size = popScale(Math.sqrt(pop));
+          const size = isSizingEnabled() ? popScale(Math.sqrt(pop)) : 7;
           simplified.push({"name": name, "value": value, "size": size, "i": i});
           i++;
         });
@@ -411,7 +446,8 @@ class VizPresenter {
     newGroups.each(function (datum) {
       const radius = datum["size"];
       const i = datum["i"];
-      GLPH_STRATEGIES[i](d3.select(this), i, radius);
+      const glyphStrategy = getGlyphStrategy(i);
+      glyphStrategy(d3.select(this), i, radius);
     });
 
     newGroups.append("text")
@@ -440,7 +476,8 @@ class VizPresenter {
     joinedInnerElements.each(function (datum) {
       const radius = datum["size"];
       const i = datum["i"];
-      GLPH_TRANSITIONS[i](d3.select(this), i, radius);
+      const glyphTransition = getGlyphTransition(i);
+      glyphTransition(d3.select(this), i, radius);
     });
 
     joinedInnerElements.select(".gap-label")
@@ -488,10 +525,20 @@ class VizPresenter {
 }
 
 
+function getClientWidth() {
+  return document.documentElement.clientWidth;
+}
+
+
 function createNewPresenter() {
   d3.select("#vizTableBody").html("");
   currentPresenter = new VizPresenter(MAX_PAY, MIN_GAP, MAX_GAP, MAX_GINI);
   return currentPresenter;
+}
+
+
+function rememberClientWidth() {
+  lastClientWidth = getClientWidth();
 }
 
 
@@ -509,7 +556,17 @@ function updateViz(callback) {
 }
 
 
-function onResize() {
+function hardRedraw() {
   createNewPresenter();
   updateViz();
+}
+
+
+function onResize() {
+  if (lastClientWidth == getClientWidth()) {
+    return;
+  }
+  
+  rememberClientWidth();
+  hardRedraw();
 }

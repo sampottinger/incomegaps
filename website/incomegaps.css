@@ -1,6 +1,10 @@
+article {
+  margin-top: 20px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
 article #vizControls {
-  text-align: center;
-  padding: 10px;
   border-bottom: 1px solid #A0A0A0;
 }
 
@@ -13,9 +17,29 @@ article #vizControls select {
   font-size: 18px;
 }
 
+article #vizControls .bottom {
+  font-size: 13px;
+  border-top: 1px solid #A0A0A0;
+  padding: 5px;
+}
+
+article #vizControls .bottom label {
+  font-weight: normal;
+}
+
+article #vizControls .bottom .right {
+  float: right;
+}
+
+article #vizControls .top {
+  text-align: center;
+  padding-bottom: 5px;
+}
+
 article #vizTable {
   width: 100%;
   border-spacing: 10px;
+  color: #555;
 }
 
 article #vizTable th {
@@ -23,8 +47,17 @@ article #vizTable th {
   border-bottom: 1px dotted #A0A0A0;
 }
 
-article #vizTable tr {
-  border-bottom: 1px dotted #C0C0C0;
+article #vizTable tr .occupation-label {
+  padding-right: 20px;
+}
+
+article #vizTable tr:hover {
+  color: black;
+}
+
+article #vizTable tr td {
+  border-bottom: 1px dotted #E0E0E0;
+  padding: 10px 1px 4px 1px;
 }
 
 article #vizTable .cell-gap {
@@ -62,8 +95,16 @@ article #vizTable .cell-gini {
 }
 
 article #vizTable .cell-gini .bar-body {
-  height: 10px;
+  height: 7px;
   background-color: #C0C0C0;
+}
+
+article #vizTable tr:hover .cell-gini .bar-body {
+  background-color: #B0B0B0;
+}
+
+article #vizTable .cell-gini .bar-label {
+  font-size: 14px;
 }
 
 article #vizTable .cell-occupation {
@@ -72,13 +113,25 @@ article #vizTable .cell-occupation {
   word-wrap: break-word;
 }
 
+article #vizTable .cell-occupation .occupation-label {
+  font-size: 16px;
+}
+
 article #vizTable .cell-pay {
   width: 80px;
 }
 
 article #vizTable .cell-pay .bar-body {
-  height: 10px;
+  height: 7px;
   background-color: #C0C0C0;
+}
+
+article #vizTable tr:hover .cell-pay .bar-body {
+  background-color: #B0B0B0;
+}
+
+article #vizTable .cell-pay .bar-label {
+  font-size: 14px;
 }
 
 body {
@@ -89,11 +142,16 @@ body {
   font-size: 18px;
 }
 
-header h1 {
+header .headline {
+  padding-top: 25px;
+  padding-bottom: 20px;
   background-color: #333;
-  margin-top: 0;
-  margin-bottom: 0;
   color: white;
+}
+
+header h1 {
+  margin: 0;
+  padding: 0;
 }
 
 header .intro {
@@ -112,13 +170,18 @@ html {
   margin: 0;
 }
 
+.rotate-glyph {
+  transform: rotate(180deg);
+}
+
 @media (max-width: 800px) {
   article #vizTable {
     padding: 10px;
   }
 
-  header h1 {
-    padding: 10px;
+  header .headline {
+    padding-left: 10px;
+    padding-right: 10px;
   }
 
   header .intro {
@@ -132,12 +195,14 @@ html {
     padding: 10px 20px;
   }
 
-  header h1 {
-    padding: 10px 20px;
+  header .headline {
+    padding-left: 20px;
+    padding-right: 20px;
   }
 
   header .intro {
     padding-left: 20px;
     padding-right: 20px;
   }
+
 }
