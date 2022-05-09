@@ -52,6 +52,16 @@ article #vizTable thead .axes {
   border-top: 1px dotted #A0A0A0;
 }
 
+article #vizTable thead svg {
+  width: 100%;
+  height: 10px;
+}
+
+article #vizTable thead svg .label {
+  vertical-align: middle;
+  text-anchor: center;
+}
+
 article #vizTable thead .axes .right {
   float: right;
 }

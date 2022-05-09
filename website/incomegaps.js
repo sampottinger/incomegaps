@@ -274,6 +274,7 @@ class VizPresenter {
     self._maxGap = maxGap;
     self._maxGini = maxGini;
     
+    self._numFormatInt = (x) => d3.format(".0f")(x).replaceAll("−", "-");
     self._numFormatConcise = (x) => d3.format(".1f")(x).replaceAll("−", "-");
     self._numFormat = (x) => d3.format(".2f")(x).replaceAll("−", "-");
     self._numFormatSign = (x) => d3.format("+.1f")(x).replaceAll("−", "-");
@@ -340,6 +341,15 @@ class VizPresenter {
 
   _createElements(selection) {
     const self = this;
+    
+    const ticks = [-80, -60, -40, -20, 0, 20, 40, 60, 80];
+    d3.select("#gapAxes").html("");
+    d3.select("#gapAxes").selectAll(".label").data(ticks).enter()
+      .append("text")
+      .classed("label", true)
+      .attr("text", (x) => self._numFormatInt(x))
+      .attr("x", (x) => self._gapScale(x))
+      .attr("y", 5);
 
     const newElements = selection.enter()
       .append("tr")
@@ -525,6 +535,8 @@ class VizPresenter {
         });
         return maxX - minX;
       });
+    
+    
   }
 
 }
