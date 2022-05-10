@@ -28,53 +28,61 @@
             <option value="educ">Education</option>
             <option value="region">Census Region</option>
             <option value="citistat">Citizenship</option>
+            <option value="age">Age</option>
           </select>
+          <span class="link-panel">- <a href="#vizDetailControls" id="moreSettingsLink">more settings >></a></span>
         </div>
-        <div class="bottom">
+        <div class="bottom" id="vizDetailControls">
           <div class="right">
-            <div class="text-control"><span id="filtersCountLabel">No</span> filters enabled.</div>
-            <div class="text-control"><a href="#" id="editFilterLink">Edit filters</a></div>
-            <div class="text-control"><a href="#" id="resetFilterLink">Reset filters</a></div>
+            <span id="filtersCountLabel">No</span> filters enabled. - <a href="#" id="editFilterLink">Edit filters</a>
           </div>
           <div class="left">
-            <div><label for="groupSizeCheck"><input id="groupSizeCheck" type="checkbox" checked> Show Group Size</label></div>
-            <div><label for="colorblindModeCheck"><input id="colorblindModeCheck" type="checkbox"> Colorblind Mode</label></div>
-            <div><label for="zoomingAxisCheck"><input id="zoomingAxisCheck" type="checkbox" checked> Zooming Axis</label></div>
+            <span class="check-holder"><label for="groupSizeCheck"><input id="groupSizeCheck" type="checkbox" checked> Show Group Size</label></span>
+            <span class="check-holder"><label for="colorblindModeCheck"><input id="colorblindModeCheck" type="checkbox"> Colorblind Mode</label></span>
+            <span class="check-holder"><label for="zoomingAxisCheck"><input id="zoomingAxisCheck" type="checkbox" checked> Zooming Axis</label></span>
           </div>
         </div>
       </div>
-      <table id="vizTable">
-        <thead>
-          <tr>
-            <th class="cell-occupation">
-              Name
-              <div class="axes">Census</div>
-            </th>
-            <th class="cell-pay">
-              Pay
-              <div class="axes">
-                <div class="right" id="maxPay"></div>
-                <div class="left">0</div>
-              </div>
-            </th>
-            <th class="cell-gap">
-              Gap
-              <div class="axes">
-                <svg id="gapAxes"></svg>
-              </div>
-            </th>
-            <th class="cell-gini">
-              Gini
-              <div class="axes">
-                <div class="right" id="maxGini"></div>
-                <div class="left">0</div>
-              </div>
-            </th>
-          </tr>
-        </thead>
-        <tbody id="vizTableBody">
-        </tbody>
-      </table>
+      <div id="vizBody">
+        <div id="glyphLegendHolder">
+          <table id="glyphLegend">
+            <tr id="glyphLabels"></tr>
+            <tr id="glyphDisplays"></tr>
+          </table>
+        </div>
+        <table id="vizTable">
+          <thead>
+            <tr>
+              <th class="cell-occupation">
+                Name
+                <div class="axes">Census</div>
+              </th>
+              <th class="cell-pay">
+                Pay
+                <div class="axes">
+                  <div class="right" id="maxPay"></div>
+                  <div class="left">0</div>
+                </div>
+              </th>
+              <th class="cell-gap">
+                Gap
+                <div class="axes">
+                  <svg id="gapAxes"></svg>
+                </div>
+              </th>
+              <th class="cell-gini">
+                Gini
+                <div class="axes">
+                  <div class="right" id="maxGini"></div>
+                  <div class="left">0</div>
+                </div>
+              </th>
+            </tr>
+          </thead>
+          <tbody id="vizTableBody">
+          </tbody>
+        </table>
+      </div>
     </article>
   </body>
 

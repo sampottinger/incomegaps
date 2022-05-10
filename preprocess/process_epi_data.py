@@ -52,11 +52,33 @@ def load_data(loc: str, year: int, month: int) -> pandas.DataFrame:
         'female',
         'orgwgt',
         'region',
-        'citistat'
+        'citistat',
+        'age'
     ]];
     with_wage = var_subset[
         var_subset['wageotc'].apply(lambda x: numpy.isfinite(x))
     ].copy().reset_index()
+
+    def determine_age(age_raw_str: str) -> str:
+        if age_raw_str == "80+":
+            age_raw = 80
+        else:
+            age_raw = float(age_raw_str)
+
+        if age_raw <= 25:
+            return "<25 yr"
+        elif age_raw <= 35:
+            return "25-35 yr"
+        elif age_raw <= 45:
+            return "35-45 yr"
+        elif age_raw <= 55:
+            return "45-55 yr"
+        elif age_raw <= 65:
+            return "55-65 yr"
+        else:
+            return "65+ yr"
+
+    with_wage['age'] = with_wage['age'].apply(determine_age)
 
     return with_wage
 
@@ -72,7 +94,7 @@ def get_key(row: typing.Dict) -> str:
     """
     key_pieces = map(
         lambda key: row[key],
-        ['educ', 'docc03', 'wbhaom', 'female', 'region', 'citistat']
+        ['educ', 'docc03', 'wbhaom', 'female', 'region', 'citistat', 'age']
     )
     key_pieces_str = map(lambda x: str(x), key_pieces)
     return '-'.join(key_pieces_str)
@@ -103,6 +125,7 @@ def agg_data(source: pandas.DataFrame) -> typing.Dict:
                 'female': row['female'],
                 'region': row['region'],
                 'citistat': row['citistat'],
+                'age': row['age'],
                 'count': 0
             }
         weight = row['orgwgt'] if numpy.isfinite(row['orgwgt']) else 0
@@ -133,6 +156,7 @@ def summarize_agg(agg: typing.Dict) -> typing.List[typing.Dict]:
                 'wbhaom': record['wbhaom'],
                 'female': record['female'],
                 'region': record['region'],
+                'age': record['age'],
                 'citistat': record['citistat']
             })
 

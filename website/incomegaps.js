@@ -9,7 +9,8 @@ const GAP_SIZES = {
   "wbhaom": {"max": 60, "min": -60},
   "educ": {"max": 80, "min": -80},
   "region": {"max": 40, "min": -40},
-  "citistat": {"max": 40, "min": -40}
+  "citistat": {"max": 40, "min": -40},
+  "age": {"max": 40, "min": -60}
 }
 
 let currentPresenter = null;
@@ -150,7 +151,7 @@ class Dataset {
   _summarizeQuery(occupationRollup) {
     const self = this;
 
-    const names = [];
+    let names = [];
     occupationRollup.forEach((rawRecord, occupationName) => {
       rawRecord["groupings"].forEach((record, name) => {
         if (names.indexOf(name) == -1) {
@@ -159,6 +160,11 @@ class Dataset {
       });
     });
     names.sort();
+
+    if (names.indexOf("<25 yr") != 0) {
+      names = names.filter((x) => x !== "<25 yr");
+      names.unshift("<25 yr");
+    }
 
     const outputRecords = [];
     occupationRollup.forEach((rawRecord, occupationName) => {
@@ -312,6 +318,7 @@ class VizPresenter {
 
       self._updateWidths();
       self._updateGapElements(selectionUpdated);
+      self._updateLegend(queryResults);
       resolve();
     });
   }
@@ -467,7 +474,7 @@ class VizPresenter {
             maxPop = pop;
           }
         });
-        const popScale = d3.scaleLinear().domain([0, Math.sqrt(maxPop)]).range([2, 8]);
+        const popScale = d3.scaleLinear().domain([0, Math.sqrt(maxPop)]).range([2, 9]);
 
         let i = 0;
         x.getGapInfo().forEach((datum, name) => {
@@ -566,8 +573,51 @@ class VizPresenter {
         });
         return maxX - minX;
       });
+  }
 
+  _updateLegend(dataset) {
+    const self = this;
 
+    // Get info
+    let i = 0;
+    const outputRecords = [];
+    dataset[0].getGapInfo().forEach((datum, name) => {
+      outputRecords.push({"name": name, "i": i});
+      i++;
+    });
+
+    // Make labels
+    const glyphLabels = d3.select("#glyphLabels");
+    glyphLabels.html("");
+
+    const labelCells = glyphLabels.selectAll(".label-cell")
+      .data(outputRecords)
+      .enter()
+      .append("td")
+      .classed("label-cell", true);
+
+    labelCells.html((x) => x["name"]);
+
+    // Make glyphs
+    const glyphDisplays = d3.select("#glyphDisplays");
+    glyphDisplays.html("");
+
+    const glyphCells = glyphDisplays.selectAll(".glyph-cell")
+      .data(outputRecords)
+      .enter()
+      .append("td")
+      .classed("glyph-cell", true);
+
+    const glyphInnerDisplays = glyphCells.append("svg")
+      .classed("glyph-label-display", true)
+      .append("g")
+      .attr("transform", "translate(8, 8)");
+
+    glyphInnerDisplays.each(function (datum) {
+      const i = datum["i"];
+      const glyphStrategy = getGlyphStrategy(i);
+      glyphStrategy(d3.select(this), i, 7);
+    });
   }
 
 }
