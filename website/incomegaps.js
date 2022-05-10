@@ -161,7 +161,7 @@ class Dataset {
     });
     names.sort();
 
-    if (names.indexOf("<25 yr") != 0) {
+    if (names.indexOf("<25 yr") != -1) {
       names = names.filter((x) => x !== "<25 yr");
       names.unshift("<25 yr");
     }
