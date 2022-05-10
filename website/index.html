@@ -4,13 +4,14 @@
   <head>
     <title>Income Gaps</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/dependencies/loading.css">
     <link rel="stylesheet" href="/incomegaps.css">
   </head>
 
   <body>
     <header>
       <div class="headline">
-        <h1>US Income Gaps</h1>
+        <h1>Income Gaps</h1>
         <div>Where are there income differences between groups within the same areas of work?</div>
       </div>
       <div class="intro">
@@ -19,69 +20,83 @@
     </header>
 
     <article>
-      <div id="vizControls">
-        <div class="top">
-          <label for="metric">Dimension:</label>
-          <select name="metric" id="metric">
-            <option value="female">Gender</option>
-            <option value="wbhaom">Race / Ethnicity</option>
-            <option value="educ">Education</option>
-            <option value="region">Census Region</option>
-            <option value="citistat">Citizenship</option>
-            <option value="age">Age</option>
-          </select>
-          <span class="link-panel">- <a href="#vizDetailControls" id="moreSettingsLink">more settings >></a></span>
-        </div>
-        <div class="bottom" id="vizDetailControls">
-          <div class="right">
-            <span id="filtersCountLabel">No</span> filters enabled. - <a href="#" id="editFilterLink">Edit filters</a>
-          </div>
-          <div class="left">
-            <span class="check-holder"><label for="groupSizeCheck"><input id="groupSizeCheck" type="checkbox" checked> Show Group Size</label></span>
-            <span class="check-holder"><label for="colorblindModeCheck"><input id="colorblindModeCheck" type="checkbox"> Colorblind Mode</label></span>
-            <span class="check-holder"><label for="zoomingAxisCheck"><input id="zoomingAxisCheck" type="checkbox" checked> Zooming Axis</label></span>
-          </div>
+      <div id="loadingIndicator">
+        <div>Loading data...</div>
+        <div class="la-ball-circus la-dark">
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
         </div>
       </div>
-      <div id="vizBody">
-        <div id="glyphLegendHolder">
-          <table id="glyphLegend">
-            <tr id="glyphLabels"></tr>
-            <tr id="glyphDisplays"></tr>
+      <div id="vizHolder">
+        <div id="vizControls">
+          <div class="top">
+            <div>
+              <label for="metric">US labor market by </label>
+              <select name="metric" id="metric">
+                <option value="female">gender</option>
+                <option value="wbhaom">race and ethnicity</option>
+                <option value="educ">education</option>
+                <option value="region">census region</option>
+                <option value="citistat">citizenship</option>
+                <option value="age">age</option>
+              </select>
+              .
+            </div>
+          </div>
+          <div class="bottom" id="vizDetailControls">
+            <div class="right">
+              <span id="filtersCountLabel">No</span> filters enabled. - <a href="#" id="editFilterLink">Edit filters</a>
+            </div>
+            <div class="left">
+              <span class="check-holder"><label for="groupSizeCheck"><input id="groupSizeCheck" type="checkbox"> Show Group Size</label></span>
+              <span class="check-holder"><label for="colorblindModeCheck"><input id="colorblindModeCheck" type="checkbox"> Colorblind Mode</label></span>
+              <span class="check-holder"><label for="zoomingAxisCheck"><input id="zoomingAxisCheck" type="checkbox" checked> Zooming Axis</label></span>
+            </div>
+          </div>
+        </div>
+        <div id="vizBody">
+          <div id="glyphLegendHolder">
+            <table id="glyphLegend">
+              <tr id="glyphLabels"></tr>
+              <tr id="glyphDisplays"></tr>
+            </table>
+          </div>
+          <table id="vizTable">
+            <thead>
+              <tr>
+                <th class="cell-occupation">
+                  Name
+                  <div class="axes">Census</div>
+                </th>
+                <th class="cell-pay">
+                  Pay
+                  <div class="axes">
+                    <div class="right" id="maxPay"></div>
+                    <div class="left">0</div>
+                  </div>
+                </th>
+                <th class="cell-gap">
+                  Gap
+                  <div class="axes">
+                    <svg id="gapAxes"></svg>
+                  </div>
+                </th>
+                <th class="cell-gini">
+                  Gini
+                  <div class="axes">
+                    <div class="right" id="maxGini"></div>
+                    <div class="left">0</div>
+                  </div>
+                </th>
+              </tr>
+            </thead>
+            <tbody id="vizTableBody">
+            </tbody>
           </table>
         </div>
-        <table id="vizTable">
-          <thead>
-            <tr>
-              <th class="cell-occupation">
-                Name
-                <div class="axes">Census</div>
-              </th>
-              <th class="cell-pay">
-                Pay
-                <div class="axes">
-                  <div class="right" id="maxPay"></div>
-                  <div class="left">0</div>
-                </div>
-              </th>
-              <th class="cell-gap">
-                Gap
-                <div class="axes">
-                  <svg id="gapAxes"></svg>
-                </div>
-              </th>
-              <th class="cell-gini">
-                Gini
-                <div class="axes">
-                  <div class="right" id="maxGini"></div>
-                  <div class="left">0</div>
-                </div>
-              </th>
-            </tr>
-          </thead>
-          <tbody id="vizTableBody">
-          </tbody>
-        </table>
       </div>
     </article>
   </body>

@@ -2,7 +2,7 @@ const SOURCE_DATA_LOC = "/2021.csv";
 const MAX_PAY = 60;
 const MIN_GAP = -80;
 const MAX_GAP = 80;
-const MAX_GINI = 0.2;
+const MAX_GINI = 20;
 
 const GAP_SIZES = {
   "female": {"max": 40, "min": -40},
@@ -245,7 +245,9 @@ class Dataset {
 
     const sumScores = giniScores.reduce((a, b) => a + b);
 
-    return 1 - sumScores;
+    const decimal = 1 - sumScores;
+
+    return decimal * 100;
   }
 
 }
@@ -640,7 +642,7 @@ function rememberClientWidth() {
 }
 
 
-function updateViz(callback) {
+function updateViz() {
   if (currentPresenter === null) {
     currentPresenter = createNewPresenter();
   }
