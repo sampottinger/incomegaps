@@ -58,8 +58,8 @@
           </div>
         </div>
         <div id="vizBody">
-          <div id="glyphLegendHolder">
-            <table id="glyphLegend">
+          <div id="glyphLegendHolder" class="legend-holder">
+            <table id="glyphLegend" class="legend-table">
               <tr id="glyphLabels"></tr>
               <tr id="glyphDisplays"></tr>
             </table>
@@ -95,6 +95,18 @@
             </thead>
             <tbody id="vizTableBody">
             </tbody>
+          </table>
+        </div>
+        <div id="sizeLegendHolder" class="legend-holder">
+          <table id="sizeLegend" class="legend-table">
+            <tr id="sizeLabels" class="legend-table">
+              <td>0% of largest group</td>
+              <td>100% of largest group</td>
+            </tr>
+            <tr id="sizeDisplays">
+              <td><svg class="glyph-label-display" id="minSizeDisplay"></td>
+              <td><svg class="glyph-label-display" id="maxSizeDisplay"></td>
+            </tr>
           </table>
         </div>
       </div>

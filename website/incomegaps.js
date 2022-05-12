@@ -1,8 +1,13 @@
 const SOURCE_DATA_LOC = "/2021.csv";
+
 const MAX_PAY = 60;
 const MIN_GAP = -80;
 const MAX_GAP = 80;
 const MAX_GINI = 20;
+
+const DEFAULT_GLYPH_SIZE = 7;
+const MAX_GLYPH_SIZE = 9;
+const MIN_GLYPH_SIZE = 2;
 
 const GAP_SIZES = {
   "female": {"max": 40, "min": -40},
@@ -476,13 +481,15 @@ class VizPresenter {
             maxPop = pop;
           }
         });
-        const popScale = d3.scaleLinear().domain([0, Math.sqrt(maxPop)]).range([2, 9]);
+        const popScale = d3.scaleLinear()
+          .domain([0, Math.sqrt(maxPop)])
+          .range([MIN_GLYPH_SIZE, MAX_GLYPH_SIZE]);
 
         let i = 0;
         x.getGapInfo().forEach((datum, name) => {
           const value = datum["value"];
           const pop = datum["pop"];
-          const size = isSizingEnabled() ? popScale(Math.sqrt(pop)) : 7;
+          const size = isSizingEnabled() ? popScale(Math.sqrt(pop)) : DEFAULT_GLYPH_SIZE;
           simplified.push({"name": name, "value": value, "size": size, "i": i});
           i++;
         });
@@ -613,13 +620,33 @@ class VizPresenter {
     const glyphInnerDisplays = glyphCells.append("svg")
       .classed("glyph-label-display", true)
       .append("g")
-      .attr("transform", "translate(8, 8)");
+      .attr("transform", "translate(10, 10)");
 
     glyphInnerDisplays.each(function (datum) {
       const i = datum["i"];
       const glyphStrategy = getGlyphStrategy(i);
-      glyphStrategy(d3.select(this), i, 7);
+      glyphStrategy(d3.select(this), i, DEFAULT_GLYPH_SIZE);
     });
+
+    // Make size display
+    const sizeLegend = d3.select("#sizeLegend");
+    sizeLegend.style("display", isSizingEnabled() ? "inline-block" : "none");
+
+    const minDisplay = d3.select("#minSizeDisplay");
+    const maxDisplay = d3.select("#maxSizeDisplay");
+    const glyphStrategy = getGlyphStrategy(i);
+    minDisplay.html("");
+    maxDisplay.html("");
+    glyphStrategy(
+      minDisplay.append("g").attr("transform", "translate(10, 10)"),
+      0,
+      MIN_GLYPH_SIZE
+    );
+    glyphStrategy(
+      maxDisplay.append("g").attr("transform", "translate(10, 10)"),
+      0,
+      MAX_GLYPH_SIZE
+    );
   }
 
 }
