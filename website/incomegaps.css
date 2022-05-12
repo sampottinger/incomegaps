@@ -35,6 +35,14 @@ article .legend-holder {
   padding-bottom: 20px;
 }
 
+article #glyphLegendHolder.fixed {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: rgba(255, 255, 255, 0.9);
+}
+
 article #loadingIndicator {
   text-align: center;
   font-size: 18px;
@@ -227,7 +235,7 @@ article #vizTable .cell-gini .bar-label {
 
 article #vizTable .cell-occupation {
   min-width: 50px;
-  max-width: 100px;
+  max-width: 150px;
   word-wrap: break-word;
 }
 

@@ -30,6 +30,10 @@ function init() {
   addCheckboxListener(document.getElementById("colorblindModeCheck"));
   addRedrawListener(document.getElementById("metric"));
   addRedrawListener(document.getElementById("groupSizeCheck"));
+
+  document.addEventListener("scroll", (event) => {
+    d3.select("#glyphLegendHolder").classed("fixed", window.pageYOffset > 300);
+  });
 }
 
 
