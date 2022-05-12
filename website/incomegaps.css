@@ -2,25 +2,25 @@ article {
   margin-top: 20px;
 }
 
-article #glyphLegend {
+article .legend-table {
   margin-left: auto;
   margin-right: auto;
   border-collapse: collapse;
 }
 
-article #glyphLegend td {
+article .legend-table td {
   border: 1px solid #C0C0C0;
   padding: 4px 20px;
   font-size: 14px;
   color: #444;
 }
 
-article #glyphLegend .glyph-label-display {
-  width: 16px;
-  height: 16px;
+article .legend-table .glyph-label-display {
+  width: 20px;
+  height: 20px;
 }
 
-article #glyphLegendHolder {
+article .legend-holder {
   text-align: center;
   padding-top: 20px;
   padding-bottom: 20px;

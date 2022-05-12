@@ -5,6 +5,13 @@ function addCheckboxListener(target) {
 }
 
 
+function addRedrawListener(target) {
+  target.addEventListener("change", () => {
+    updateViz();
+  });
+}
+
+
 function init() {
   updateViz().then(() => {
     d3.select("#loadingIndicator")
@@ -19,13 +26,10 @@ function init() {
   rememberClientWidth();
   window.addEventListener("resize", onResize);
 
-  document.getElementById("metric").addEventListener("change", () => {
-    updateViz();
-  });
-
   addCheckboxListener(document.getElementById("zoomingAxisCheck"));
-  addCheckboxListener(document.getElementById("groupSizeCheck"));
   addCheckboxListener(document.getElementById("colorblindModeCheck"));
+  addRedrawListener(document.getElementById("metric"));
+  addRedrawListener(document.getElementById("groupSizeCheck"));
 }
 
 
