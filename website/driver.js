@@ -55,6 +55,8 @@ function init() {
     }
 
     event.preventDefault();
+
+    document.getElementById("femaleCheck").focus();
   });
 }
 
