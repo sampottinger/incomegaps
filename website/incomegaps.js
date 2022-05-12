@@ -627,7 +627,10 @@ class VizPresenter {
     groups.classed("glyph-hovering", (x) => x["i"] == index);
 
     const labels = d3.selectAll(".glyph-label-display");
-    labels.classed("glyph-hovering", (x) => x["i"] == index);
+    labels.classed(
+      "glyph-hovering",
+      (x) => x !== undefined && x["i"] == index
+    );
   }
 
   _clearGlyphHover() {
