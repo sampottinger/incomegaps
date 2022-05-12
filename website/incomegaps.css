@@ -85,6 +85,34 @@ article #vizControls .bottom .text-control {
   padding-top: 1px;
 }
 
+article #vizControls #filtersPanel {
+  margin-top: 10px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border-top: 1px solid #C0C0C0;
+  height: 300px;
+  overflow-y: auto;
+  color: #444;
+  display: none;
+}
+
+article #vizControls #filtersPanel .filter {
+  padding-bottom: 10px;
+  border-bottom: 1px dotted #C0C0C0;
+  margin-bottom: 10px;
+}
+
+article #vizControls #filtersPanel .filter .filter-title {
+  color: black;
+  padding-bottom: 5px;
+}
+
+article #vizControls #filtersPanel .filter.last {
+  padding-bottom: 0px;
+  border-bottom: 0px;
+  margin-bottom: 0px;
+}
+
 article #vizControls .top {
   text-align: left;
   padding-top: 10px;
@@ -333,6 +361,18 @@ html {
   article {
     margin-left: 20px;
     margin-right: 20px;
+  }
+
+  article #vizControls #filtersPanel {
+    margin-top: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-top: 1px solid #C0C0C0;
+    border-bottom: 1px solid #C0C0C0;
+    height: 300px;
+    overflow-y: auto;
+    color: #444;
+    display: none;
   }
 
   article #vizControls .bottom .right {

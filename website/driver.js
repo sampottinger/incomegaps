@@ -1,3 +1,6 @@
+let filtersOpen = false;
+
+
 function addCheckboxListener(target) {
   target.addEventListener("change", () => {
     hardRedraw();
@@ -28,11 +31,30 @@ function init() {
 
   addCheckboxListener(document.getElementById("zoomingAxisCheck"));
   addCheckboxListener(document.getElementById("colorblindModeCheck"));
+  document.querySelectorAll(".filter-check").forEach((target) => {
+    addCheckboxListener(target);
+  });
   addRedrawListener(document.getElementById("metric"));
   addRedrawListener(document.getElementById("groupSizeCheck"));
 
   document.addEventListener("scroll", (event) => {
     d3.select("#glyphLegendHolder").classed("fixed", window.pageYOffset > 300);
+  });
+
+  const editFilterLink = document.getElementById("editFilterLink");
+  editFilterLink.addEventListener("click", (event) => {
+    const filtersPanel = document.getElementById("filtersPanel");
+    if (filtersOpen) {
+      filtersPanel.style.display = "none";
+      editFilterLink.innerHTML = "Edit filters";
+      filtersOpen = false;
+    } else {
+      filtersPanel.style.display = "block";
+      editFilterLink.innerHTML = "Close filters";
+      filtersOpen = true;
+    }
+
+    event.preventDefault();
   });
 }
 
