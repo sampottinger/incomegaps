@@ -9,6 +9,15 @@ const DEFAULT_GLYPH_SIZE = 7;
 const MAX_GLYPH_SIZE = 9;
 const MIN_GLYPH_SIZE = 2;
 
+const ATTRS = [
+  "female",
+  "wbhaom",
+  "educ",
+  "region",
+  "citistat",
+  "age"
+];
+
 const GAP_SIZES = {
   "female": {"max": 40, "min": -40},
   "wbhaom": {"max": 60, "min": -60},
@@ -104,14 +113,21 @@ class Dataset {
     self._rawResults = rawResults;
   }
 
-  query(groupingAttrName) {
+  query(groupingAttrName, removedGroups) {
     const self = this;
 
-    const occupationRollup = self._rollupQuery(groupingAttrName);
+    if (removedGroups === undefined) {
+      removedGroups = [];
+    }
+
+    const occupationRollup = self._rollupQuery(
+      groupingAttrName,
+      removedGroups
+    );
     return self._summarizeQuery(occupationRollup);
   }
 
-  _rollupQuery(groupingAttrName) {
+  _rollupQuery(groupingAttrName, removedGroups) {
     const self = this;
 
     const occupationRollup = new Map();
@@ -125,7 +141,14 @@ class Dataset {
       "countTotal": 0
     };
 
-    validResults.forEach((rawRecord) => {
+    const validResultsFilter = validResults.filter((rawRecord) => {
+      const foundGroups = ATTRS.filter((attr) => {
+        return removedGroups.indexOf(rawRecord[attr]) != -1;
+      });
+      return foundGroups.length == 0;
+    });
+
+    validResultsFilter.forEach((rawRecord) => {
       const groupingAttr = rawRecord[groupingAttrName];
       const occupation = rawRecord["docc03"];
       const wages = parseFloat(rawRecord["wageotc"]);
@@ -192,6 +215,11 @@ class Dataset {
     if (names.indexOf("<25 yr") != -1) {
       names = names.filter((x) => x !== "<25 yr");
       names.unshift("<25 yr");
+    }
+
+    if (names.indexOf("Some college") != -1) {
+      names = names.filter((x) => x !== "Some college");
+      names.splice(2, 0, "Some college");
     }
 
     const outputRecords = [];
@@ -730,6 +758,14 @@ function rememberClientWidth() {
 }
 
 
+function getRemovalList() {
+  const filterChecks = Array.from(document.getElementsByClassName("filter-check"));
+  const unchecked = filterChecks.filter((x) => !x.checked);
+  const values = unchecked.map((x) => x.getAttribute("filtervalue"));
+  return values;
+}
+
+
 function updateViz() {
   if (currentPresenter === null) {
     currentPresenter = createNewPresenter();
@@ -737,8 +773,17 @@ function updateViz() {
 
   const curTarget = document.getElementById("metric").value;
   return loadSourceData().then((result) => {
-    const queryResults = result.query(curTarget);
+    const removalList = getRemovalList();
+    const queryResults = result.query(curTarget, removalList);
+
     currentPresenter.draw(queryResults);
+
+    const numFilters = removalList.length;
+    const filterCountLabel = numFilters == 0 ? "No" : numFilters;
+    const filterUnitLabel = numFilters == 1 ? "filter" : "filters"
+    const filterLabel = filterCountLabel + " " + filterUnitLabel;
+    document.getElementById("filtersCountLabel").innerHTML = filterLabel;
+
     return queryResults;
   });
 }
