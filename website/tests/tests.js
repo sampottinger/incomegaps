@@ -63,7 +63,7 @@ QUnit.module('incomeGaps', function() {
     const done = assert.async();
     testDataset(done, assert, (dataset) => {
       const grouped = dataset.query("educ");
-      assert.equal(grouped.length, 22);
+      assert.equal(grouped.length, 23);
     });
   });
 

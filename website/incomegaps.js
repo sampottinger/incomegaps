@@ -119,6 +119,12 @@ class Dataset {
     const validResults = self._rawResults.filter((x) => x["docc03"] !== undefined)
       .filter((x) => x[groupingAttrName] !== undefined);
 
+    const totalGroup = {
+      "groupings": new Map(),
+      "wageTotal": 0,
+      "countTotal": 0
+    };
+
     validResults.forEach((rawRecord) => {
       const groupingAttr = rawRecord[groupingAttrName];
       const occupation = rawRecord["docc03"];
@@ -137,6 +143,9 @@ class Dataset {
       occupationRecord["wageTotal"] += wages * count;
       occupationRecord["countTotal"] += count;
 
+      totalGroup["wageTotal"] += wages * count;
+      totalGroup["countTotal"] += count;
+
       const groupings = occupationRecord["groupings"];
       if (!groupings.has(groupingAttr)) {
         groupings.set(groupingAttr, {
@@ -148,7 +157,21 @@ class Dataset {
       const groupingInfo = groupings.get(groupingAttr);
       groupingInfo["wageTotal"] += wages * count;
       groupingInfo["countTotal"] += count;
+
+      const totalGroupings = totalGroup["groupings"];
+      if (!totalGroupings.has(groupingAttr)) {
+        totalGroupings.set(groupingAttr, {
+          "wageTotal": 0,
+          "countTotal": 0
+        });
+      }
+
+      const totalGroupingInfo = totalGroupings.get(groupingAttr);
+      totalGroupingInfo["wageTotal"] += wages * count;
+      totalGroupingInfo["countTotal"] += count;
     });
+
+    occupationRollup.set("All occupations", totalGroup);
 
     return occupationRollup;
   }
@@ -185,7 +208,15 @@ class Dataset {
       outputRecords.push(outputRecord);
     });
 
-    outputRecords.sort((a, b) => a.getPay() - b.getPay());
+    outputRecords.sort((a, b) => {
+      if (a.getName() === "All occupations") {
+        return -1;
+      } else if (b.getName() === "All occupations") {
+        return 1;
+      } else {
+        return a.getPay() - b.getPay();
+      }
+    });
 
     return outputRecords;
   }
@@ -596,7 +627,10 @@ class VizPresenter {
     groups.classed("glyph-hovering", (x) => x["i"] == index);
 
     const labels = d3.selectAll(".glyph-label-display");
-    labels.classed("glyph-hovering", (x) => x["i"] == index);
+    labels.classed(
+      "glyph-hovering",
+      (x) => x !== undefined && x["i"] == index
+    );
   }
 
   _clearGlyphHover() {
