@@ -76,6 +76,32 @@ article #vizControls .top {
   border-bottom: 2px solid black;
 }
 
+article #vizControls .top #metric {
+  background: #F0F0F0;
+  line-height: 1;
+  border: 1px solid black;
+  padding: 5px;
+  margin: 0;
+  border-radius: 5px;
+  width: 200px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  appearance: none;
+  font-weight: bold;
+}
+
+article #vizControls .top #metricHolder::after {
+    content: '\25BC';
+    position: relative;
+    top: 0;
+    left: -30px;
+    bottom: 0;
+    pointer-events: none;
+    width: 0px;
+    font-size: 16px;
+}
+
 article #vizControls .link-panel {
   font-size: 14px;
 }
