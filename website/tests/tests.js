@@ -75,7 +75,7 @@ QUnit.module('incomeGaps', function() {
         {"wageTotal": 20 * 15, "countTotal": 15},
         {"wageTotal": 30 * 20, "countTotal": 20}
       ]);
-      assert.ok(Math.abs(gini - 0.1888) < 0.0001);
+      assert.ok(Math.abs(gini - 18.88) < 0.01);
     });
   });
 

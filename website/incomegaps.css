@@ -1,7 +1,5 @@
 article {
   margin-top: 20px;
-  margin-left: 10px;
-  margin-right: 10px;
 }
 
 article #glyphLegend {
@@ -28,6 +26,21 @@ article #glyphLegendHolder {
   padding-bottom: 20px;
 }
 
+article #loadingIndicator {
+  text-align: center;
+  font-size: 18px;
+  padding: 40px;
+}
+
+article #loadingIndicator .la-ball-circus {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+article #vizHolder {
+  opacity: 0;
+}
+
 article #vizControls label {
   font-weight: bold;
 }
@@ -40,9 +53,6 @@ article #vizControls select {
 article #vizControls .bottom {
   font-size: 13px;
   padding: 5px;
-  display: none;
-  border-bottom: 1px solid #C0C0C0;
-  overflow: hidden;
 }
 
 article #vizControls .bottom label {
@@ -59,10 +69,11 @@ article #vizControls .bottom .text-control {
 }
 
 article #vizControls .top {
-  text-align: center;
+  text-align: left;
   padding-top: 10px;
-  padding-bottom: 15px;
-  border-bottom: 1px solid #C0C0C0;
+  padding-bottom: 3px;
+  font-size: 20px;
+  border-bottom: 2px solid black;
 }
 
 article #vizControls .link-panel {
@@ -135,6 +146,10 @@ article #vizTable .cell-gap-svg .gap-line {
   fill: #C0C0C0;
 }
 
+article #vizTable tr:hover .cell-gap-svg .gap-line {
+  fill: #909090;
+}
+
 article #vizTable .cell-gap-svg .tick {
   width: 1.2px;
   y: 6px;
@@ -147,6 +162,10 @@ article #vizTable .cell-gap-svg .tick.center-line {
   y: 0px;
   height: 23px;
   fill: #B0B0B0;
+}
+
+article #vizTable tr:hover .cell-gap-svg .tick.center-line {
+  fill: #909090;
 }
 
 article #vizTable .cell-gap-svg {
@@ -209,7 +228,7 @@ body {
 header .headline {
   padding-top: 25px;
   padding-bottom: 20px;
-  background-color: #333;
+  background-color: black;
   color: white;
 }
 
@@ -239,6 +258,15 @@ html {
 }
 
 @media (max-width: 800px) {
+  article {
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+
+  article #vizControls .bottom {
+    border-bottom: 1px solid black;
+  }
+
   article #vizControls .bottom .right {
     padding-bottom: 10px;
   }
@@ -259,6 +287,11 @@ html {
 }
 
 @media (min-width: 800px) {
+  article {
+    margin-left: 20px;
+    margin-right: 20px;
+  }
+
   article #vizControls .bottom .right {
     float: right;
   }
