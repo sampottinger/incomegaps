@@ -502,7 +502,13 @@ class VizPresenter {
       .append("g")
       .classed("gap-group", true)
       .attr("transform", "translate(" + midX + ",10)")
-      .attr("opacity", 0);
+      .attr("opacity", 0)
+      .on("mouseover", (event, datum) => {
+        self._setGlyphHover(datum["i"]);
+      })
+      .on("mouseout", (event, datum) => {
+        self._clearGlyphHover();
+      });
 
     newGroups.each(function (datum) {
       const radius = datum["size"];
@@ -584,6 +590,21 @@ class VizPresenter {
       });
   }
 
+  _setGlyphHover(index) {
+    const self = this;
+    const groups = d3.selectAll(".gap-group");
+    groups.classed("glyph-hovering", (x) => x["i"] == index);
+
+    const labels = d3.selectAll(".glyph-label-display");
+    labels.classed("glyph-hovering", (x) => x["i"] == index);
+  }
+
+  _clearGlyphHover() {
+    const self = this;
+    d3.selectAll(".gap-group").classed("glyph-hovering", false);
+    d3.selectAll(".glyph-label-display").classed("glyph-hovering", false);
+  }
+
   _updateLegend(dataset) {
     const self = this;
 
@@ -620,7 +641,13 @@ class VizPresenter {
     const glyphInnerDisplays = glyphCells.append("svg")
       .classed("glyph-label-display", true)
       .append("g")
-      .attr("transform", "translate(10, 10)");
+      .attr("transform", "translate(10, 10)")
+      .on("mouseover", (event, datum) => {
+        self._setGlyphHover(datum["i"]);
+      })
+      .on("mouseout", (event, datum) => {
+        self._clearGlyphHover();
+      });
 
     glyphInnerDisplays.each(function (datum) {
       const i = datum["i"];

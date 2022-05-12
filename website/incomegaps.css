@@ -2,6 +2,15 @@ article {
   margin-top: 20px;
 }
 
+article .gap-indicator {
+  stroke-width: 0;
+}
+
+article .glyph-hovering .gap-indicator {
+  stroke-width: 2;
+  stroke: #111;
+}
+
 article .legend-table {
   margin-left: auto;
   margin-right: auto;
