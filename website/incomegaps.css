@@ -328,6 +328,18 @@ html {
   transform: rotate(180deg);
 }
 
+#skip-link {
+    top: -20px;
+    left: 0;
+    position: absolute;
+}
+
+#skip-link:focus {
+    top: 10px;
+    background: #E0E0E0;
+    padding: 3px;
+}
+
 @media (max-width: 800px) {
   article {
     margin-left: 10px;
