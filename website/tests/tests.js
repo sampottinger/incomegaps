@@ -54,7 +54,7 @@ QUnit.module('incomeGaps', function() {
   QUnit.test('dataset rollupQuery', function(assert) {
     const done = assert.async();
     testDataset(done, assert, (dataset) => {
-      const grouped = dataset._rollupQuery("educ");
+      const grouped = dataset._rollupQuery("educ", []);
       assert.ok(grouped.has("Office and administrative support occupations"));
     });
   });

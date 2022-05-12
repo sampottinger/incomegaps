@@ -116,6 +116,10 @@ class Dataset {
   query(groupingAttrName, removedGroups) {
     const self = this;
 
+    if (removedGroups === undefined) {
+      removedGroups = [];
+    }
+
     const occupationRollup = self._rollupQuery(
       groupingAttrName,
       removedGroups
