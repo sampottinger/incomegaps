@@ -103,44 +103,68 @@ class EllipseStrategy {
 class RectangleStrategy {
   
   /**
-   * Draw a rectange glpyph.
+   * Draw a rectangle glpyph.
    *
    * @param selection The selection in which the glyph should be appended.
-   * @param rotate Boolean indicator if the glyph should be rotated by 90 deg.
+   * @param rotate Boolean indicator if the glyph should be rotated by 45 deg.
    * @param i The 0-indexed index of this glpyh's subpopulation within the
    *   occupation.
    * @param radius The radius with which to draw this glyph in pixels.
    */
   draw(selection, rotate, i, radius) {
     const self = this;
-    
-    const rects = selection.append("rect")
+    const outputStrs = self._getPoints(radius, rotate);
+  
+    const shapes = selection.append("polygon")
       .style("fill", getGroupFills(i))
       .classed("gap-indicator", true)
-      .attr("y", -radius)
-      .attr("x", -radius)
-      .attr("width", radius * 2)
-      .attr("height", radius * 2)
-      .classed("rotate-glyph-part", rotate);
-  }
+      .attr("y", 0)
+      .attr("x", 0)
+      .attr("points", outputStrs.join(" "));
+  } 
   
   /**
    * Animate the update of an existing rectangle glyph.
    *
    * @param selection The selection in which the glyph should be updated.
-   * @param rotate Boolean indicator if the glyph should be rotated by 90 deg.
+   * @param rotate Boolean indicator if the glyph should be rotated by 180 deg.
    * @param i The 0-indexed index of this glpyh's subpopulation within the
    *   occupation.
    * @param radius The radius with which to draw this glyph in pixels.
    */
   transition(selection, rotate, i, radius) {
     const self = this;
+    const outputStrs = self._getPoints(radius, rotate);
+  
+    selection.select(".gap-indicator").transition()
+      .attr("points", outputStrs.join(" "));
+  }
+  
+  /**
+   * Generate a list of points for the rectangle glyph based on its radius.
+   *
+   * @param radius The "radius" of the glyph in pixels.
+   * @param rotate Boolean indicator if the glyph should be rotated by 45 deg.
+   * @returns Array of string SVG path points.
+   */
+  _getPoints(radius, rotate) {
+    const self = this;
     
-    const rects = selection.select(".gap-indicator").transition()
-      .attr("y", -radius)
-      .attr("x", -radius)
-      .attr("width", radius * 2)
-      .attr("height", radius * 2);
+    if (rotate) {
+      return [
+        "0," + (1 * radius),
+        (1 * radius) + ",0",
+        "0," + (-1 * radius),
+        (-1 * radius) + ",0"
+      ];
+    } else {
+      return [
+        (1 * radius) + "," + (1 * radius),
+        (1 * radius) + "," + (-1 * radius),
+        (-1 * radius) + "," + (-1 * radius),
+        (-1 * radius) + "," + (1 * radius)
+      ];
+    }
   }
   
 }
@@ -287,7 +311,7 @@ class DiamondStrategy {
  */
 function makeInitStrategy(key, rotate) {
   const strategy = GLYPH_STRATEGIES[key];
-  return (x, i, radius) => strategy.draw(x, false, i, radius);
+  return (x, i, radius) => strategy.draw(x, rotate, i, radius);
 }
 
 
@@ -301,7 +325,7 @@ function makeInitStrategy(key, rotate) {
  */
 function makeTransitionStrategy(key, rotate) {
   const strategy = GLYPH_STRATEGIES[key];
-  return (x, i, radius) => strategy.transition(x, false, i, radius);
+  return (x, i, radius) => strategy.transition(x, rotate, i, radius);
 }
 
 

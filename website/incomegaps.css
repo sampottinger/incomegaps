@@ -340,7 +340,7 @@ html {
 }
 
 .rotate-glyph-part {
-  transform: rotate(90deg);
+  transform: rotate(45deg);
 }
 
 #skip-link {
