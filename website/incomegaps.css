@@ -339,6 +339,10 @@ html {
   transform: rotate(180deg);
 }
 
+.rotate-glyph-part {
+  transform: rotate(90deg);
+}
+
 #skip-link {
     top: -20px;
     left: 0;
