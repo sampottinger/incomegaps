@@ -1,4 +1,17 @@
 QUnit.module("incomeGaps", function() {
+  
+  const SAMPLE_GAP_1 = new Map();
+  SAMPLE_GAP_1.set("group1", {"value": 12, "pop": 34});
+  SAMPLE_GAP_1.set("group2", {"value": 23, "pop": 45});
+  
+  const SAMPLE_GAP_2 = new Map();
+  SAMPLE_GAP_2.set("group3", {"value": 34, "pop": 56});
+  SAMPLE_GAP_2.set("group4", {"value": 45, "pop": 67});
+  
+  const SAMPLE_RECORDS = [
+    new Record("occupation1", 123, SAMPLE_GAP_1, 0.456),
+    new Record("occupation2", 234, SAMPLE_GAP_2, 0.567)
+  ];
 
   QUnit.test("loadSourceDataRaw", function(assert) {
     const done = assert.async();
@@ -212,6 +225,80 @@ QUnit.module("incomeGaps", function() {
         assert.ok(exampleElement.innerHTML !== "");
         doneInner();
       });
+    });
+  });
+  
+  QUnit.test("presenter getVals simple", function(assert) {
+    const done = assert.async();
+    testPresenter(done, assert, (doneInner, presenter, queryResults) => {
+      const results = presenter._getVals(SAMPLE_RECORDS, (x) => x.getPay());
+      assert.equal(results.length, 2);
+      assert.equal(results[0], 123);
+      assert.equal(results[1], 234);
+      done();
+    });
+  });
+  
+  QUnit.test("presenter getVals gap info", function(assert) {
+    const done = assert.async();
+    testPresenter(done, assert, (doneInner, presenter, queryResults) => {
+      const getter = presenter._makeGapInfoGetter(
+        (x) => x["value"],
+        (x) => Math.max(...x)
+      );
+      const results = presenter._getVals(SAMPLE_RECORDS, getter);
+      assert.equal(results.length, 2);
+      assert.equal(results[0], 23);
+      assert.equal(results[1], 45);
+      done();
+    });
+  });
+  
+  QUnit.test("presenter getMin static", function(assert) {
+    const done = assert.async();
+    testPresenter(done, assert, (doneInner, presenter, queryResults) => {
+      const results = presenter._getMin(1, SAMPLE_RECORDS, (x) => x.getPay());
+      assert.equal(results, 1);
+      done();
+    });
+  });
+  
+  QUnit.test("presenter getMin dynamic", function(assert) {
+    const done = assert.async();
+    testPresenter(done, assert, (doneInner, presenter, queryResults) => {
+      const results = presenter._getMin(
+        500,
+        SAMPLE_RECORDS,
+        (x) => x.getPay()
+      );
+      assert.equal(results, 123);
+      done();
+    });
+  });
+  
+  QUnit.test("presenter getMax static", function(assert) {
+    const done = assert.async();
+    testPresenter(done, assert, (doneInner, presenter, queryResults) => {
+      const results = presenter._getMax(
+        500,
+        SAMPLE_RECORDS,
+        (x) => x.getPay()
+      );
+      assert.equal(results, 500);
+      done();
+    });
+  });
+  
+  QUnit.test("presenter getMax dynamic", function(assert) {
+    const done = assert.async();
+    testPresenter(done, assert, (doneInner, presenter, queryResults) => {
+      const results = presenter._getMax(
+        1,
+        SAMPLE_RECORDS,
+        (x) => x.getPay()
+      );
+      assert.equal(results, 234);
+      done();
     });
   });
 
