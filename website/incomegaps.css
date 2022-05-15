@@ -54,6 +54,12 @@ article #loadingIndicator .la-ball-circus {
   margin-right: auto;
 }
 
+article #noDataMessage {
+  padding: 20px;
+  font-size: 18px;
+  text-align: center;
+}
+
 article #vizHolder {
   opacity: 0;
 }
@@ -134,6 +140,7 @@ article #vizControls .top #metric {
   -ms-appearance: none;
   appearance: none;
   font-weight: bold;
+  color: black;
 }
 
 article #vizControls .top #metricHolder::after {
@@ -209,6 +216,10 @@ article #vizTable .cell-gap .gap-label {
   vertical-align: top;
   text-anchor: middle;
   opacity: 0;
+}
+
+article #vizTable .cell-gap .glyph-hovering .gap-label {
+  opacity: 1;
 }
 
 article #vizTable .cell-gap-svg .gap-line {

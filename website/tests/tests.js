@@ -1,6 +1,6 @@
-QUnit.module('incomeGaps', function() {
+QUnit.module("incomeGaps", function() {
 
-  QUnit.test('loadSourceDataRaw', function(assert) {
+  QUnit.test("loadSourceDataRaw", function(assert) {
     const done = assert.async();
 
     loadSourceDataRaw("../2021.csv").then((dataset) => {
@@ -13,7 +13,7 @@ QUnit.module('incomeGaps', function() {
     });
   });
 
-  QUnit.test('loadSourceDataNoCache', function(assert) {
+  QUnit.test("loadSourceDataNoCache", function(assert) {
     const done = assert.async();
 
     loadSourceDataNoCache("../2021.csv").then((dataset) => {
@@ -28,7 +28,7 @@ QUnit.module('incomeGaps', function() {
     });
   });
 
-  QUnit.test('loadSourceData', function(assert) {
+  QUnit.test("loadSourceData", function(assert) {
     const done = assert.async();
     loadSourceData("../2021.csv").then(loadSourceData).then((dataset) => {
       assert.ok(dataset !== null);
@@ -51,7 +51,7 @@ QUnit.module('incomeGaps', function() {
     });
   }
 
-  QUnit.test('dataset rollupQuery', function(assert) {
+  QUnit.test("dataset rollupQuery", function(assert) {
     const done = assert.async();
     testDataset(done, assert, (dataset) => {
       const grouped = dataset._rollupQuery("educ", []);
@@ -59,7 +59,7 @@ QUnit.module('incomeGaps', function() {
     });
   });
 
-  QUnit.test('dataset query', function(assert) {
+  QUnit.test("dataset query", function(assert) {
     const done = assert.async();
     testDataset(done, assert, (dataset) => {
       const grouped = dataset.query("educ");
@@ -67,7 +67,7 @@ QUnit.module('incomeGaps', function() {
     });
   });
 
-  QUnit.test('dataset gini', function(assert) {
+  QUnit.test("dataset gini", function(assert) {
     const done = assert.async();
     testDataset(done, assert, (dataset) => {
       const gini = dataset._getGini([
@@ -96,7 +96,7 @@ QUnit.module('incomeGaps', function() {
     });
   }
 
-  QUnit.test('presenter numFormat', function(assert) {
+  QUnit.test("presenter numFormat", function(assert) {
     const done = assert.async();
     testPresenter(done, assert, (doneInner, presenter) => {
       assert.deepEqual(presenter._numFormat(1.235), "1.24");
@@ -105,7 +105,7 @@ QUnit.module('incomeGaps', function() {
     });
   });
 
-  QUnit.test('presenter numFormatSign', function(assert) {
+  QUnit.test("presenter numFormatSign", function(assert) {
     const done = assert.async();
     testPresenter(done, assert, (doneInner, presenter) => {
       assert.deepEqual(presenter._numFormatSign(1.235), "+1.2");
@@ -114,7 +114,7 @@ QUnit.module('incomeGaps', function() {
     });
   });
 
-  QUnit.test('presenter createSelection', function(assert) {
+  QUnit.test("presenter createSelection", function(assert) {
     const done = assert.async();
     testPresenter(done, assert, (doneInner, presenter) => {
       assert.ok(presenter !== undefined);
@@ -123,7 +123,7 @@ QUnit.module('incomeGaps', function() {
     });
   });
 
-  QUnit.test('presenter getWidth', function(assert) {
+  QUnit.test("presenter getWidth", function(assert) {
     const done = assert.async();
     testPresenter(done, assert, (doneInner, presenter) => {
       assert.ok(presenter._getWidth("cell-occupation") > 0);
@@ -131,7 +131,7 @@ QUnit.module('incomeGaps', function() {
     });
   });
 
-  QUnit.test('presenter createSelection', function(assert) {
+  QUnit.test("presenter createSelection", function(assert) {
     const done = assert.async();
     testPresenter(done, assert, (doneInner, presenter, queryResults) => {
       assert.ok(presenter._createSelection(queryResults) !== null);
@@ -139,7 +139,7 @@ QUnit.module('incomeGaps', function() {
     });
   });
 
-  QUnit.test('presenter createElements', function(assert) {
+  QUnit.test("presenter createElements", function(assert) {
     const done = assert.async();
     testPresenter(done, assert, (doneInner, presenter, queryResults) => {
       const selection = presenter._createSelection(queryResults);
@@ -153,7 +153,7 @@ QUnit.module('incomeGaps', function() {
     });
   });
 
-  QUnit.test('presenter repeatCreate', function(assert) {
+  QUnit.test("presenter repeatCreate", function(assert) {
     const done = assert.async();
     testPresenter(done, assert, (doneInner, presenter, queryResults) => {
       const selection = presenter._createSelection(queryResults);
@@ -167,7 +167,7 @@ QUnit.module('incomeGaps', function() {
     });
   });
 
-  QUnit.test('presenter updateFixedElements', function(assert) {
+  QUnit.test("presenter updateFixedElements", function(assert) {
     const done = assert.async();
     testPresenter(done, assert, (doneInner, presenter, queryResults) => {
       d3.select("#vizTableBody").html("");
@@ -181,7 +181,7 @@ QUnit.module('incomeGaps', function() {
     });
   });
 
-  QUnit.test('presenter updateGapElements', function(assert) {
+  QUnit.test("presenter updateGapElements", function(assert) {
     const done = assert.async();
     testPresenter(done, assert, (doneInner, presenter, queryResults) => {
       d3.select("#vizTableBody").html("");
@@ -196,7 +196,7 @@ QUnit.module('incomeGaps', function() {
     });
   });
 
-  QUnit.test('presenter draw', function(assert) {
+  QUnit.test("presenter draw", function(assert) {
     const done = assert.async();
     testPresenter(done, assert, (doneInner, presenter, queryResults) => {
       d3.select("#vizTableBody").html("");
@@ -215,11 +215,41 @@ QUnit.module('incomeGaps', function() {
     });
   });
 
-  QUnit.test('updateViz', function(assert) {
+  QUnit.test("updateViz", function(assert) {
     const done = assert.async();
     updateViz().then(() => {
       const numOccupations = document.getElementsByClassName("cell-occupation").length;
       assert.ok(numOccupations > 1);
+      done();
+    });
+  });
+  
+  QUnit.test("dataAvailableFilter", function(assert) {
+    const done = assert.async();
+    updateViz(["Male"]).then(() => {
+      assert.deepEqual(
+        document.getElementById("noDataMessage").style.display,
+        "none"
+      );
+      assert.deepEqual(
+        document.getElementById("vizBody").style.display,
+        "block"
+      );
+      done();
+    });
+  });
+  
+  QUnit.test("dataNotAvailableFilter", function(assert) {
+    const done = assert.async();
+    updateViz(["Male", "Female"]).then(() => {
+      assert.deepEqual(
+        document.getElementById("noDataMessage").style.display,
+        "block"
+      );
+      assert.deepEqual(
+        document.getElementById("vizBody").style.display,
+        "none"
+      );
       done();
     });
   });

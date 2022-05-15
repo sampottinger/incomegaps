@@ -124,6 +124,11 @@ class Dataset {
       groupingAttrName,
       removedGroups
     );
+    
+    if (occupationRollup === null) {
+      return null;
+    }
+    
     return self._summarizeQuery(occupationRollup);
   }
 
@@ -147,6 +152,10 @@ class Dataset {
       });
       return foundGroups.length == 0;
     });
+    
+    if (validResultsFilter.length == 0) {
+      return null;
+    }
 
     validResultsFilter.forEach((rawRecord) => {
       const groupingAttr = rawRecord[groupingAttrName];
@@ -766,17 +775,29 @@ function getRemovalList() {
 }
 
 
-function updateViz() {
+function updateViz(removalList) {
   if (currentPresenter === null) {
     currentPresenter = createNewPresenter();
   }
 
   const curTarget = document.getElementById("metric").value;
   return loadSourceData().then((result) => {
-    const removalList = getRemovalList();
+    if (removalList === undefined) {
+      removalList = getRemovalList();
+    }
+    
     const queryResults = result.query(curTarget, removalList);
-
-    currentPresenter.draw(queryResults);
+    
+    const vizBody = document.getElementById("vizBody");
+    const noDataMessage = document.getElementById("noDataMessage");
+    if (queryResults === null) {
+      vizBody.style.display = "none";
+      noDataMessage.style.display = "block";
+    } else {
+      vizBody.style.display = "block";
+      noDataMessage.style.display = "none";
+      currentPresenter.draw(queryResults);
+    }
 
     const numFilters = removalList.length;
     const filterCountLabel = numFilters == 0 ? "No" : numFilters;
