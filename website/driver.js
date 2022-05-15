@@ -105,6 +105,13 @@ function getRemovalList() {
 }
 
 
+function createNewPresenter() {
+  d3.select("#vizTableBody").html("");
+  currentPresenter = new VizPresenter(MAX_PAY, MIN_GAP, MAX_GAP, MAX_GINI);
+  return currentPresenter;
+}
+
+
 function updateViz(removalList) {
   if (currentPresenter === null) {
     currentPresenter = createNewPresenter();
