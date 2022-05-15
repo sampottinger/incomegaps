@@ -54,6 +54,12 @@ article #loadingIndicator .la-ball-circus {
   margin-right: auto;
 }
 
+article #noDataMessage {
+  padding: 20px;
+  font-size: 18px;
+  text-align: center;
+}
+
 article #vizHolder {
   opacity: 0;
 }
