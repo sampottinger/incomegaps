@@ -1,5 +1,34 @@
+/**
+ * Logic for rendering and updating the visualization.
+ *
+ * @author A Samuel Pottinger
+ * @license MIT
+ */
+
+
+/**
+ * Presenter to draw and update the visualization.
+ */
 class VizPresenter {
 
+  /**
+   * Create a new viz presenter.
+   * 
+   * Create a new viz presenter which will control the visualization until the 
+   * underlying data changes such that the number of glyphs per occupation is
+   * different.
+   *
+   * @param maxPay The maximum hourly pay to show the user. Pays past this will
+   *   potentially render off screen.
+   * @param minGap The lowest percent difference (the largest negative percent
+   *   difference from the ovearll mean) to show for an occupation. Gaps below
+   *   this value may render off screen.
+   * @param maxGap The largest percent difference (the largest positive percent
+   *   difference from the ovearll mean) to show for an occupation. Gaps above
+   *   this value may render off screen.
+   * @param maxGini The maximum gini index to show the user. Ginis past this
+   *   will potentially render off screen.
+   */
   constructor(maxPay, minGap, maxGap, maxGini) {
     const self = this;
 
@@ -16,6 +45,12 @@ class VizPresenter {
     self._updateWidths();
   }
 
+  /**
+   * Draw the visaulization, creating elements if needed.
+   *
+   * @param queryResults The result of querying the dataset.
+   * @returns Promise that resolves after the visualization is updated.
+   */
   draw(queryResults) {
     const self = this;
 
@@ -25,49 +60,92 @@ class VizPresenter {
       selection.exit().remove();
       const selectionUpdated = self._createElements(selection);
 
+      self._updateWidths(queryResults);
       self._updateFixedElements(selectionUpdated);
-
-      self._updateWidths();
       self._updateGapElements(selectionUpdated);
       self._updateLegend(queryResults);
       resolve();
     });
   }
 
-  _updateWidths() {
+  /**
+   * Update the width of the columns and axes.
+   *
+   * Update the width of the columns and axes that influence the overall
+   * spacing of table columns / cells. This will also update the axis labels.
+   *
+   * @param dataset The query results (array of Record).
+   */
+  _updateWidths(dataset) {
     const self = this;
+    
+    const staticGapMinMax = getGapMinMax();
+    const staticGapMin = staticGapMinMax["min"];
+    const staticGapMax = staticGapMinMax["max"];
+    
+    const effectiveMaxPay = self._getMax(
+      self._maxPay,
+      dataset,
+      (x) => x.getPay()
+    );
+    
+    const effectiveMaxGini = self._getMax(
+      self._maxGini,
+      dataset,
+      (x) => x.getGini()
+    );
+    
+    const effectiveGapMin = self._getMin(
+      staticGapMin,
+      dataset,
+      self._makeGapInfoGetter((x) => x["value"], (x) => Math.min(...x))
+    );
+    
+    const effectiveGapMax = self._getMax(
+      staticGapMax,
+      dataset,
+      self._makeGapInfoGetter((x) => x["value"], (x) => Math.max(...x))
+    );
 
     self._maxPayWidth = self._getWidth("cell-pay");
     self._maxGapWidth = self._getWidth("cell-gap");
     self._maxGiniWidth = self._getWidth("cell-gini");
 
     self._payScale = d3.scaleLinear()
-      .domain([0, self._maxPay])
+      .domain([0, effectiveMaxPay])
       .range([0, self._maxPayWidth]);
 
-    d3.select("#maxPay").html(self._numFormatConcise(self._maxPay));
-
-    const effectiveMinMax = getGapMinMax();
-    const effectiveMin = effectiveMinMax["min"];
-    const effectiveMax = effectiveMinMax["max"];
+    d3.select("#maxPay").html(self._numFormatConcise(effectiveMaxPay));
 
     self._gapScale = d3.scaleLinear()
-      .domain([effectiveMin, effectiveMax])
+      .domain([effectiveGapMin, effectiveGapMax])
       .range([20, self._maxGapWidth - 20]);
 
     self._giniScale = d3.scaleLinear()
-      .domain([0, self._maxGini])
+      .domain([0, effectiveMaxGini])
       .range([0, self._maxGiniWidth]);
 
-    d3.select("#maxGini").html(self._numFormatConcise(self._maxGini));
+    d3.select("#maxGini").html(self._numFormatConcise(effectiveMaxGini));
   }
 
+  /**
+   * Get the width of a set of elements with the given class name.
+   *
+   * @param selector The selector (class name without period).
+   * @returns Width in pixels of the first element with the given class.
+   */
   _getWidth(selector) {
     const self = this;
     const firstElem = document.getElementsByClassName(selector)[0];
     return firstElem.getBoundingClientRect()["width"];
   }
 
+  /**
+   * Create a selection over the rows of the visualization table.
+   *
+   * @param queryResults The records to be displayed in the visualization.
+   *   This is a collection of Records.
+   */
   _createSelection(queryResults) {
     const self = this;
 
@@ -76,6 +154,17 @@ class VizPresenter {
       .data(queryResults, (x) => x.getName());
   }
 
+  /**
+   * Update elements for the visualization.
+   *
+   * Update the actual HTML elements to display in the visualization. This will
+   * only create new elements where they are missing (not enough elements to
+   * show all subpopulations). Existing elements will not be removed.
+   *
+   * @param selection Selection over all of the viz rows with the new data
+   *   bound.
+   * @returns Selection over all all viz-rows.
+   */
   _createElements(selection) {
     const self = this;
 
@@ -138,6 +227,16 @@ class VizPresenter {
     return selection.merge(newElements);
   }
 
+  /**
+   * Update all of the viz elements where the number of elements remain same.
+   * 
+   * Update all of the embedded bar charts where there is not a variable number
+   * of elements for a population (only one element for an entire occupation,
+   * for example).
+   *
+   * @param selection Selection over all of the viz rows with the new data
+   *   bound.
+   */
   _updateFixedElements(selection) {
     const self = this;
 
@@ -160,6 +259,15 @@ class VizPresenter {
       .style("width", (x) => self._giniScale(x.getGini()) + "px");
   }
 
+  /**
+   * Update elements showing pay gaps.
+   *
+   * Update elements showing pay gaps where there may be a variable number of
+   * elements per occupation based on subgroups / metric selected.
+   * 
+   * @param selection Selection over all of the viz rows with the new data
+   *   bound.
+   */
   _updateGapElements(selection) {
     const self = this;
 
@@ -217,7 +325,7 @@ class VizPresenter {
     newGroups.each(function (datum) {
       const radius = datum["size"];
       const i = datum["i"];
-      const glyphStrategy = getGlyphStrategy(i);
+      const glyphStrategy = getGlyphInitStrategy(i);
       glyphStrategy(d3.select(this), i, radius);
     });
 
@@ -294,6 +402,12 @@ class VizPresenter {
       });
   }
 
+  /**
+   * Update which subgroup is being hovered on by the user.
+   *
+   * @param index The index of the subgroup to highlight. This is zero indexed
+   *   and indexes into the names array.
+   */
   _setGlyphHover(index) {
     const self = this;
     const groups = d3.selectAll(".gap-group");
@@ -306,12 +420,23 @@ class VizPresenter {
     );
   }
 
+  /**
+   * Indicate that no subgroup is being hovered on by the user.
+   *
+   * Clear the hover state such that no subgroups are highlighted in the
+   * visualization.
+   */
   _clearGlyphHover() {
     const self = this;
     d3.selectAll(".gap-group").classed("glyph-hovering", false);
     d3.selectAll(".glyph-label-display").classed("glyph-hovering", false);
   }
 
+  /**
+   * Update the legend at the top of the screen labeling each glyph.
+   *
+   * @param dataset The dataset query results (list of Records).
+   */
   _updateLegend(dataset) {
     const self = this;
 
@@ -358,7 +483,7 @@ class VizPresenter {
 
     glyphInnerDisplays.each(function (datum) {
       const i = datum["i"];
-      const glyphStrategy = getGlyphStrategy(i);
+      const glyphStrategy = getGlyphInitStrategy(i);
       glyphStrategy(d3.select(this), i, DEFAULT_GLYPH_SIZE);
     });
 
@@ -368,7 +493,7 @@ class VizPresenter {
 
     const minDisplay = d3.select("#minSizeDisplay");
     const maxDisplay = d3.select("#maxSizeDisplay");
-    const glyphStrategy = getGlyphStrategy(i);
+    const glyphStrategy = getGlyphInitStrategy(i);
     minDisplay.html("");
     maxDisplay.html("");
     glyphStrategy(
@@ -381,6 +506,99 @@ class VizPresenter {
       0,
       MAX_GLYPH_SIZE
     );
+  }
+  
+  /**
+   * Get the minimum value from a dataset query for a scale or axis.
+   *
+   * @param staticVal A default minimum value. If the actual minimum is higher
+   *   than this, this static value will be used.
+   * @param dataset The dataset from which the minimum value is gathered. If
+   *   not given, will return staticVal.
+   * @param getter Function which, when given a Record, returns a value for
+   *   that record. The minimum of the values returned by the getter or the
+   *   staticVal will be returned. Ignored if dataset not given.
+   * @returns Minimum value to use for the scale / axis.
+   */
+  _getMin(staticVal, dataset, getter) {
+    const self = this;
+    
+    if (dataset === undefined) {
+      return staticVal;
+    }
+    
+    const filteredVals = self._getVals(dataset, getter);
+    
+    if (filteredVals.length == 0) {
+      return staticVal;
+    }
+    
+    const naturalMin = Math.min(...filteredVals);
+    return Math.min(naturalMin, staticVal);
+  }
+  
+  /**
+   * Get the maximum value from a dataset query for a scale or axis.
+   *
+   * @param staticVal A default maximum value. If the actual maximum is lower
+   *   than this, this static value will be used.
+   * @param dataset The dataset from which the maximum value is gathered. If
+   *   not given, will return staticVal.
+   * @param getter Function which, when given a Record, returns a value for
+   *   that record. The maximum of the values returned by the getter or the
+   *   staticVal will be returned. Ignored if dataset not given.
+   * @returns Maximum value to use for the scale / axis.
+   */
+  _getMax(staticVal, dataset, getter) {
+    const self = this;
+    
+    if (dataset === undefined) {
+      return staticVal;
+    }
+    
+    const filteredVals = self._getVals(dataset, getter);
+    
+    if (filteredVals.length == 0) {
+      return staticVal;
+    }
+    
+    const naturalMax = Math.max(...filteredVals);
+    return Math.max(naturalMax, staticVal);
+  }
+  
+  /**
+   * Get the values relevant to an axis.
+   *
+   * @param dataset Collection of Records from which values that will be
+   *   displayed on the axis will be returned.
+   * @param getter Function taking a Record to return a value to represent that
+   *   record on an axis.
+   * @returns List of values for the axis.
+   */
+  _getVals(dataset, getter) {
+    const self = this;
+    const unfilteredVals = dataset.map(getter);
+    const filteredVals = unfilteredVals.filter((x) => x !== null);
+    return filteredVals;
+  }
+  
+  /**
+   * Make a getter for _getVals that summarizes gap info.
+   *
+   * @param getter Getter to apply to a record inside getGapInfo.
+   * @param summarizer Function taking a list of values from getter to return
+   *   one representative value for the Record from which the getter's values
+   *   were collected.
+   * @returns Function which can be applied to a Record and which returns a
+   *   single representative value for that Record's getGapInfo.
+   */
+  _makeGapInfoGetter(getter, summarizer) {
+    const self = this;
+    return (datum) => {
+      const values = Array.from(datum.getGapInfo().values());
+      const innerVals = values.map(getter);
+      return summarizer(innerVals);
+    };
   }
 
 }

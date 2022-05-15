@@ -39,7 +39,7 @@ function addHardRedrawListener(target) {
  * @param targetId The ID (without #) of the element to which the event
  *   listener should be added.
  */
-function addHardRedrawListenerById(targetId) {
+function addHardRedrawListenerId(targetId) {
   const target = document.getElementById(targetId);
   addHardRedrawListener(target);
 }
