@@ -58,3 +58,9 @@ Code available under the [MIT license](https://mit-license.org/) (see `LICENSE.m
  - [Pandas under the BSD license](https://pandas.pydata.org)
  - [PapaParse under the MIT license](https://www.papaparse.com/)
  - [Python](https://www.python.org/)
+
+<br>
+
+Data
+--------------------------------------------------------------------------------
+Uses [US Census Microdata](https://www.census.gov/programs-surveys/acs/microdata.html) samples via [EPI Microdata Extracts](https://microdata.epi.org). The live version at https://incomegaps.com uses all of 2021. Citation: Economic Policy Institute. 2022. Current Population Survey Extracts, Version 1.0.29, https://microdata.epi.org.
