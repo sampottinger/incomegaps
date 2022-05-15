@@ -1,3 +1,10 @@
+/**
+ * Constants defining visualiation drawing and dataset behavior.
+ *
+ * @author A Samuel Pottinger
+ * @license MIT
+ */
+
 const SOURCE_DATA_LOC = "/2021.csv";
 
 const MAX_PAY = 60;
