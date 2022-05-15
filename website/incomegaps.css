@@ -307,6 +307,12 @@ body {
   font-size: 18px;
 }
 
+footer {
+  padding: 10px 5px;;
+  border-top: 1px solid black;
+  font-size: 12px;
+}
+
 header .headline {
   padding-top: 25px;
   padding-bottom: 20px;
