@@ -29,6 +29,23 @@ const GLPH_TRANSITIONS = [
 ];
 
 
+function getGroupFills(index) {
+  return GROUP_FILLS[index];
+}
+
+
+function getGlyphStrategy(index) {
+  const colorblindEnabled = isColorblindModeEnabled();
+  return colorblindEnabled ? GLPH_STRATEGIES[index] : GLPH_STRATEGIES[0];
+}
+
+
+function getGlyphTransition(index) {
+  const colorblindEnabled = isColorblindModeEnabled();
+  return colorblindEnabled ? GLPH_TRANSITIONS[index] : GLPH_TRANSITIONS[0];
+}
+
+
 function drawEllipse(selection, rotate, i, radius) {
   selection.append("ellipse")
     .style("fill", getGroupFills(i))
