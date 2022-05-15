@@ -775,14 +775,17 @@ function getRemovalList() {
 }
 
 
-function updateViz() {
+function updateViz(removalList) {
   if (currentPresenter === null) {
     currentPresenter = createNewPresenter();
   }
 
   const curTarget = document.getElementById("metric").value;
   return loadSourceData().then((result) => {
-    const removalList = getRemovalList();
+    if (removalList === undefined) {
+      removalList = getRemovalList();
+    }
+    
     const queryResults = result.query(curTarget, removalList);
     
     const vizBody = document.getElementById("vizBody");
