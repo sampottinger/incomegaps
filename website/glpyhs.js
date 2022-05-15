@@ -5,36 +5,6 @@
  * @license MIT
  */
 
-const GROUP_FILLS = [
-  "#a6cee3",
-  "#1f78b4",
-  "#b2df8a",
-  "#33a02c",
-  "#fb9a99",
-  "#e31a1c",
-  "#a0a0a0"
-];
-
-const GLPH_STRATEGIES = [
-  (x, i, radius) => drawEllipse(x, false, i, radius),
-  (x, i, radius) => drawRect(x, false, i, radius),
-  (x, i, radius) => drawRect(x, true, i, radius),
-  (x, i, radius) => drawTriangle(x, false, i, radius),
-  (x, i, radius) => drawTriangle(x, true, i, radius),
-  (x, i, radius) => drawDiamond(x, false, i, radius),
-  (x, i, radius) => drawDiamond(x, true, i, radius)
-];
-
-const GLPH_TRANSITIONS = [
-  (x, i, radius) => transitionEllipse(x, false, i, radius),
-  (x, i, radius) => transitionRect(x, false, i, radius),
-  (x, i, radius) => transitionRect(x, true, i, radius),
-  (x, i, radius) => transitionTriangle(x, false, i, radius),
-  (x, i, radius) => transitionTriangle(x, true, i, radius),
-  (x, i, radius) => transitionDiamond(x, false, i, radius),
-  (x, i, radius) => transitionDiamond(x, true, i, radius)
-];
-
 
 /**
  * Get the color to use for a subgroup (like Male, Female).
@@ -48,7 +18,7 @@ function getGroupFills(index) {
 
 
 /**
- * Get the strategy for drawing a glyph.
+ * Get the strategy for drawing (appending) a glyph.
  *
  * Get the strategy for drawing a glyph, depending on if colorblind mode is
  * enabled by the user.
@@ -57,9 +27,9 @@ function getGroupFills(index) {
  * @returns Function taking in the data point, index of the data point, and
  *   desired glyph radius.
  */
-function getGlyphStrategy(index) {
+function getGlyphInitStrategy(index) {
   const colorblindEnabled = isColorblindModeEnabled();
-  return colorblindEnabled ? GLPH_STRATEGIES[index] : GLPH_STRATEGIES[0];
+  return colorblindEnabled ? GLPH_INITS[index] : GLPH_INITS[0];
 }
 
 
@@ -80,191 +50,294 @@ function getGlyphTransition(index) {
 
 
 /**
- * Draw an ellipse glpyph.
- *
- * @param selection The selection in which the glyph should be appended.
- * @param rotate Boolean indicator if the glyph should be rotated by 180 deg.
- *   This is ignored for this strategy.
- * @param i The 0-indexed index of this glpyh's subpopulation within the
- *   occupation.
- * @param radius The radius with which to draw this glyph in pixels.
+ * Glyph strategy for ellipse (used for all if colorblind disabled).
  */
-function drawEllipse(selection, rotate, i, radius) {
-  selection.append("ellipse")
-    .style("fill", getGroupFills(i))
-    .classed("gap-indicator", true)
-    .attr("cy", 0)
-    .attr("cx", 0)
-    .attr("rx", radius)
-    .attr("ry", radius);
+class EllipseStrategy {
+
+  /**
+   * Draw an ellipse glpyph.
+   *
+   * @param selection The selection in which the glyph should be appended.
+   * @param rotate Boolean indicator if the glyph should be rotated by 180 deg.
+   *   This is ignored for this strategy.
+   * @param i The 0-indexed index of this glpyh's subpopulation within the
+   *   occupation.
+   * @param radius The radius with which to draw this glyph in pixels.
+   */
+  draw(selection, rotate, i, radius) {
+    const self = this;
+    
+    selection.append("ellipse")
+      .style("fill", getGroupFills(i))
+      .classed("gap-indicator", true)
+      .attr("cy", 0)
+      .attr("cx", 0)
+      .attr("rx", radius)
+      .attr("ry", radius);
+  }
+  
+  /**
+   * Animate the update of an existing ellipse glyph.
+   *
+   * @param selection The selection in which the glyph should be updated.
+   * @param rotate Boolean indicator if the glyph should be rotated by 180 deg.
+   *   This is ignored for this strategy.
+   * @param i The 0-indexed index of this glpyh's subpopulation within the
+   *   occupation.
+   * @param radius The radius with which to draw this glyph in pixels.
+   */
+  transition(selection, rotate, i, radius) {
+    const self = this;
+    
+    selection.select(".gap-indicator").transition()
+      .attr("rx", radius)
+      .attr("ry", radius);
+  }
+  
 }
 
 
 /**
- * Animate the update of an existing ellipse glyph.
- *
- * @param selection The selection in which the glyph should be updated.
- * @param rotate Boolean indicator if the glyph should be rotated by 180 deg.
- *   This is ignored for this strategy.
- * @param i The 0-indexed index of this glpyh's subpopulation within the
- *   occupation.
- * @param radius The radius with which to draw this glyph in pixels.
+ * Glyph strategy for rectangles.
  */
-function transitionEllipse(selection, rotate, i, radius) {
-  selection.select(".gap-indicator").transition()
-    .attr("rx", radius)
-    .attr("ry", radius);
+class RectangleStrategy {
+  
+  /**
+   * Draw a rectange glpyph.
+   *
+   * @param selection The selection in which the glyph should be appended.
+   * @param rotate Boolean indicator if the glyph should be rotated by 90 deg.
+   * @param i The 0-indexed index of this glpyh's subpopulation within the
+   *   occupation.
+   * @param radius The radius with which to draw this glyph in pixels.
+   */
+  draw(selection, rotate, i, radius) {
+    const self = this;
+    
+    const rects = selection.append("rect")
+      .style("fill", getGroupFills(i))
+      .classed("gap-indicator", true)
+      .attr("y", -radius)
+      .attr("x", -radius)
+      .attr("width", radius * 2)
+      .attr("height", radius * 2)
+      .classed("rotate-glyph-part", rotate);
+  }
+  
+  /**
+   * Animate the update of an existing rectangle glyph.
+   *
+   * @param selection The selection in which the glyph should be updated.
+   * @param rotate Boolean indicator if the glyph should be rotated by 90 deg.
+   * @param i The 0-indexed index of this glpyh's subpopulation within the
+   *   occupation.
+   * @param radius The radius with which to draw this glyph in pixels.
+   */
+  transition(selection, rotate, i, radius) {
+    const self = this;
+    
+    const rects = selection.select(".gap-indicator").transition()
+      .attr("y", -radius)
+      .attr("x", -radius)
+      .attr("width", radius * 2)
+      .attr("height", radius * 2);
+  }
+  
 }
 
 
 /**
- * Draw a rectange glpyph.
- *
- * @param selection The selection in which the glyph should be appended.
- * @param rotate Boolean indicator if the glyph should be rotated by 90 deg.
- * @param i The 0-indexed index of this glpyh's subpopulation within the
- *   occupation.
- * @param radius The radius with which to draw this glyph in pixels.
+ * Glyph strategy for triangles.
  */
-function drawRect(selection, rotate, i, radius) {
-  const rects = selection.append("rect")
-    .style("fill", getGroupFills(i))
-    .classed("gap-indicator", true)
-    .attr("y", -radius)
-    .attr("x", -radius)
-    .attr("width", radius * 2)
-    .attr("height", radius * 2)
-    .classed("rotate-glyph-part", rotate);
-}
-
-
-/**
- * Animate the update of an existing rectangle glyph.
- *
- * @param selection The selection in which the glyph should be updated.
- * @param rotate Boolean indicator if the glyph should be rotated by 90 deg.
- * @param i The 0-indexed index of this glpyh's subpopulation within the
- *   occupation.
- * @param radius The radius with which to draw this glyph in pixels.
- */
-function transitionRect(selection, rotate, i, radius) {
-  const rects = selection.select(".gap-indicator").transition()
-    .attr("y", -radius)
-    .attr("x", -radius)
-    .attr("width", radius * 2)
-    .attr("height", radius * 2);
-}
-
-
-/**
- * Generate a list of points for the triangle glyph based on its radius.
- *
- * @param radius The "radius" of the glyph in pixels.
- * @returns Array of string SVG path points.
- */
-function getTrianglePoints(radius) {
-  return [
-    "0," + (-1 * radius),
-    radius + "," + radius,
-    (-1 * radius) + "," + radius,
-  ];
-}
-
-
-/**
- * Draw a triangle glpyph.
- *
- * @param selection The selection in which the glyph should be appended.
- * @param rotate Boolean indicator if the glyph should be rotated by 180 deg.
- * @param i The 0-indexed index of this glpyh's subpopulation within the
- *   occupation.
- * @param radius The radius with which to draw this glyph in pixels.
- */
-function drawTriangle(selection, rotate, i, radius) {
-  const outputStrs = getTrianglePoints(radius);
-
-  const shapes = selection.append("polygon")
-    .style("fill", getGroupFills(i))
-    .classed("gap-indicator", true)
-    .attr("y", 0)
-    .attr("x", 0)
-    .attr("points", outputStrs.join(" "))
-    .classed("rotate-glyph", rotate);
-}
-
-
-/**
- * Animate the update of an existing triangle glyph.
- *
- * @param selection The selection in which the glyph should be updated.
- * @param rotate Boolean indicator if the glyph should be rotated by 180 deg.
- * @param i The 0-indexed index of this glpyh's subpopulation within the
- *   occupation.
- * @param radius The radius with which to draw this glyph in pixels.
- */
-function transitionTriangle(selection, rotate, i, radius) {
-  const outputStrs = getTrianglePoints(radius);
-
-  const rects = selection.select(".gap-indicator").transition()
-    .attr("points", outputStrs.join(" "));
-}
-
-
-/**
- * Generate a list of points for the diamond glyph based on its radius.
- *
- * @param radius The "radius" of the glyph in pixels.
- * @returns Array of string SVG path points.
- */
-function getDiamondPoints(radius) {
-  const offLength = radius / Math.sqrt(2);
-
-  return [
-    "0," + (-1 * radius),
-    offLength + "," + offLength,
-    "0," + radius,
-    (-1 * offLength) + "," + offLength,
-  ];
-}
-
-
-/**
- * Draw a diamond glpyph.
- *
- * @param selection The selection in which the glyph should be appended.
- * @param rotate Boolean indicator if the glyph should be rotated by 180 deg.
- * @param i The 0-indexed index of this glpyh's subpopulation within the
- *   occupation.
- * @param radius The radius with which to draw this glyph in pixels.
- */
-function drawDiamond(selection, rotate, i, radius) {
-  const outputStrs = getDiamondPoints(radius);
-
-  const shapes = selection.append("polygon")
-    .style("fill", getGroupFills(i))
-    .classed("gap-indicator", true)
-    .attr("y", -radius)
-    .attr("x", -radius)
-    .attr("points", outputStrs.join(" "));
-
-  if (rotate) {
-    shapes.classed("rotate-glyph", true);
+class TriangleStrategy {
+  
+  /**
+   * Draw a triangle glpyph.
+   *
+   * @param selection The selection in which the glyph should be appended.
+   * @param rotate Boolean indicator if the glyph should be rotated by 180 deg.
+   * @param i The 0-indexed index of this glpyh's subpopulation within the
+   *   occupation.
+   * @param radius The radius with which to draw this glyph in pixels.
+   */
+  draw(selection, rotate, i, radius) {
+    const self = this;
+    const outputStrs = self._getTrianglePoints(radius);
+  
+    const shapes = selection.append("polygon")
+      .style("fill", getGroupFills(i))
+      .classed("gap-indicator", true)
+      .attr("y", 0)
+      .attr("x", 0)
+      .attr("points", outputStrs.join(" "))
+      .classed("rotate-glyph", rotate);
+  } 
+  
+  /**
+   * Animate the update of an existing triangle glyph.
+   *
+   * @param selection The selection in which the glyph should be updated.
+   * @param rotate Boolean indicator if the glyph should be rotated by 180 deg.
+   * @param i The 0-indexed index of this glpyh's subpopulation within the
+   *   occupation.
+   * @param radius The radius with which to draw this glyph in pixels.
+   */
+  transition(selection, rotate, i, radius) {
+    const self = this;
+    const outputStrs = self._getTrianglePoints(radius);
+  
+    selection.select(".gap-indicator").transition()
+      .attr("points", outputStrs.join(" "));
+  }
+  
+  /**
+   * Generate a list of points for the triangle glyph based on its radius.
+   *
+   * @param radius The "radius" of the glyph in pixels.
+   * @returns Array of string SVG path points.
+   */
+  _getTrianglePoints(radius) {
+    const self = this;
+    
+    return [
+      "0," + (-1 * radius),
+      radius + "," + radius,
+      (-1 * radius) + "," + radius,
+    ];
   }
 }
 
 
 /**
- * Animate the update of an existing diamond glyph.
- *
- * @param selection The selection in which the glyph should be updated.
- * @param rotate Boolean indicator if the glyph should be rotated by 180 deg.
- * @param i The 0-indexed index of this glpyh's subpopulation within the
- *   occupation.
- * @param radius The radius with which to draw this glyph in pixels.
+ * Glyph strategy for diamonds.
  */
-function transitionDiamond(selection, rotate, i, radius) {
-  const outputStrs = getDiamondPoints(radius);
+class DiamondStrategy {
+  
+  /**
+   * Draw a diamond glpyph.
+   *
+   * @param selection The selection in which the glyph should be appended.
+   * @param rotate Boolean indicator if the glyph should be rotated by 180 deg.
+   * @param i The 0-indexed index of this glpyh's subpopulation within the
+   *   occupation.
+   * @param radius The radius with which to draw this glyph in pixels.
+   */
+  draw(selection, rotate, i, radius) {
+    const self = this;
+    const outputStrs = self._getDiamondPoints(radius);
+  
+    const shapes = selection.append("polygon")
+      .style("fill", getGroupFills(i))
+      .classed("gap-indicator", true)
+      .attr("y", -radius)
+      .attr("x", -radius)
+      .attr("points", outputStrs.join(" "));
+  
+    if (rotate) {
+      shapes.classed("rotate-glyph", true);
+    }
+  }
+  
+  
+  /**
+   * Animate the update of an existing diamond glyph.
+   *
+   * @param selection The selection in which the glyph should be updated.
+   * @param rotate Boolean indicator if the glyph should be rotated by 180 deg.
+   * @param i The 0-indexed index of this glpyh's subpopulation within the
+   *   occupation.
+   * @param radius The radius with which to draw this glyph in pixels.
+   */
+  transition(selection, rotate, i, radius) {
+    const self = this;
+    const outputStrs = self._getDiamondPoints(radius);
+  
+    selection.select(".gap-indicator").transition()
+      .attr("points", outputStrs.join(" "));
+  }
+  
+  /**
+   * Generate a list of points for the diamond glyph based on its radius.
+   *
+   * @param radius The "radius" of the glyph in pixels.
+   * @returns Array of string SVG path points.
+   */
+  _getDiamondPoints(radius) {
+    const self = this;
+    const offLength = radius / Math.sqrt(2);
+  
+    return [
+      "0," + (-1 * radius),
+      offLength + "," + offLength,
+      "0," + radius,
+      (-1 * offLength) + "," + offLength,
+    ];
+  }
 
-  selection.select(".gap-indicator").transition()
-    .attr("points", outputStrs.join(" "));
 }
+
+
+/**
+ * Return a function for drawing (appending) a glyph.
+ *
+ * @param key The name of the glyph like ellipse.
+ * @param rotate Boolean indicating if the glyph should be the "rotated" form.
+ * @returns Function taking the data point, index, and radius to draw the
+ *   glyph.
+ */
+function makeInitStrategy(key, rotate) {
+  const strategy = GLYPH_STRATEGIES[key];
+  return (x, i, radius) => strategy.draw(x, false, i, radius);
+}
+
+
+/**
+ * Return a function for animating the update for a glyph.
+ *
+ * @param key The name of the glyph like ellipse.
+ * @param rotate Boolean indicating if the glyph should be the "rotated" form.
+ * @returns Function taking the data point, index, and radius to draw the
+ *   glyph.
+ */
+function makeTransitionStrategy(key, rotate) {
+  const strategy = GLYPH_STRATEGIES[key];
+  return (x, i, radius) => strategy.transition(x, false, i, radius);
+}
+
+
+const GROUP_FILLS = [
+  "#a6cee3",
+  "#1f78b4",
+  "#b2df8a",
+  "#33a02c",
+  "#fb9a99",
+  "#e31a1c",
+  "#a0a0a0"
+];
+
+const GLYPH_STRATEGIES = {
+  "ellipse": new EllipseStrategy(),
+  "rectangle": new RectangleStrategy(),
+  "triangle": new TriangleStrategy(),
+  "diamond": new DiamondStrategy()
+}
+
+const GLPH_INITS = [
+  makeInitStrategy("ellipse", false),
+  makeInitStrategy("rectangle", false),
+  makeInitStrategy("rectangle", true),
+  makeInitStrategy("triangle", false),
+  makeInitStrategy("triangle", true),
+  makeInitStrategy("diamond", false),
+  makeInitStrategy("diamond", true)
+];
+
+const GLPH_TRANSITIONS = [
+  makeTransitionStrategy("ellipse", false),
+  makeTransitionStrategy("rectangle", false),
+  makeTransitionStrategy("rectangle", true),
+  makeTransitionStrategy("triangle", false),
+  makeTransitionStrategy("triangle", true),
+  makeTransitionStrategy("diamond", false),
+  makeTransitionStrategy("diamond", true)
+];
