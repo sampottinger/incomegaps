@@ -117,38 +117,40 @@
               <tr id="glyphDisplays"></tr>
             </table>
           </div>
-          <table id="vizTable">
-            <thead>
-              <tr>
-                <th class="cell-occupation">
-                  Name
-                  <div class="axes">Census</div>
-                </th>
-                <th class="cell-pay">
-                  Pay
-                  <div class="axes">
-                    <div class="right" id="maxPay"></div>
-                    <div class="left">0</div>
-                  </div>
-                </th>
-                <th class="cell-gap">
-                  Gap
-                  <div class="axes">
-                    <svg id="gapAxes"></svg>
-                  </div>
-                </th>
-                <th class="cell-gini">
-                  Gini
-                  <div class="axes">
-                    <div class="right" id="maxGini"></div>
-                    <div class="left">0</div>
-                  </div>
-                </th>
-              </tr>
-            </thead>
-            <tbody id="vizTableBody">
-            </tbody>
-          </table>
+          <div id="vizTableHolder">
+            <table id="vizTable">
+              <thead>
+                <tr>
+                  <th class="cell-occupation">
+                    Name
+                    <div class="axes">Census</div>
+                  </th>
+                  <th class="cell-pay">
+                    Pay
+                    <div class="axes">
+                      <div class="right" id="maxPay"></div>
+                      <div class="left">0</div>
+                    </div>
+                  </th>
+                  <th class="cell-gap">
+                    Gap
+                    <div class="axes">
+                      <svg id="gapAxes"></svg>
+                    </div>
+                  </th>
+                  <th class="cell-gini">
+                    Gini
+                    <div class="axes">
+                      <div class="right" id="maxGini"></div>
+                      <div class="left">0</div>
+                    </div>
+                  </th>
+                </tr>
+              </thead>
+              <tbody id="vizTableBody">
+              </tbody>
+            </table>
+          </div>
         </div>
         <div id="sizeLegendHolder" class="legend-holder">
           <table id="sizeLegend" class="legend-table">
