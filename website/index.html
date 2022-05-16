@@ -53,9 +53,10 @@
               <span id="filtersCountLabel">No filters</span> enabled. - <a href="#filtersPanel" id="editFilterLink">Edit filters</a>
             </div>
             <div class="left">
-              <span class="check-holder"><label for="groupSizeCheck"><input id="groupSizeCheck" type="checkbox"> Show Group Size</label></span>
+              <span class="check-holder"><label for="groupSizeCheck"><input id="groupSizeCheck" type="checkbox"> Group Size</label></span>
               <span class="check-holder"><label for="colorblindModeCheck"><input id="colorblindModeCheck" type="checkbox"> Colorblind Mode</label></span>
               <span class="check-holder"><label for="zoomingAxisCheck"><input id="zoomingAxisCheck" type="checkbox" checked> Zooming Axis</label></span>
+              <span class="check-holder"><label for="metricsCheck"><input id="metricsCheck" type="checkbox" checked> Metrics</label></span>
             </div>
             <div id="filtersPanel">
               <div class="filter">
@@ -117,38 +118,40 @@
               <tr id="glyphDisplays"></tr>
             </table>
           </div>
-          <table id="vizTable">
-            <thead>
-              <tr>
-                <th class="cell-occupation">
-                  Name
-                  <div class="axes">Census</div>
-                </th>
-                <th class="cell-pay">
-                  Pay
-                  <div class="axes">
-                    <div class="right" id="maxPay"></div>
-                    <div class="left">0</div>
-                  </div>
-                </th>
-                <th class="cell-gap">
-                  Gap
-                  <div class="axes">
-                    <svg id="gapAxes"></svg>
-                  </div>
-                </th>
-                <th class="cell-gini">
-                  Gini
-                  <div class="axes">
-                    <div class="right" id="maxGini"></div>
-                    <div class="left">0</div>
-                  </div>
-                </th>
-              </tr>
-            </thead>
-            <tbody id="vizTableBody">
-            </tbody>
-          </table>
+          <div id="vizTableHolder">
+            <table id="vizTable">
+              <thead>
+                <tr>
+                  <th class="cell-occupation">
+                    Name
+                    <div class="axes">Census</div>
+                  </th>
+                  <th class="cell-pay">
+                    Pay
+                    <div class="axes">
+                      <div class="right" id="maxPay"></div>
+                      <div class="left">0</div>
+                    </div>
+                  </th>
+                  <th class="cell-gap">
+                    Gap
+                    <div class="axes">
+                      <svg id="gapAxes"></svg>
+                    </div>
+                  </th>
+                  <th class="cell-gini">
+                    Gini
+                    <div class="axes">
+                      <div class="right" id="maxGini"></div>
+                      <div class="left">0</div>
+                    </div>
+                  </th>
+                </tr>
+              </thead>
+              <tbody id="vizTableBody">
+              </tbody>
+            </table>
+          </div>
         </div>
         <div id="sizeLegendHolder" class="legend-holder">
           <table id="sizeLegend" class="legend-table">

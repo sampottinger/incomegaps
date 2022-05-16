@@ -51,12 +51,26 @@ function addHardRedrawListenerId(targetId) {
  * Add a listener to a input that performs a "soft" redraw when the value of
  * that input changes. A "soft" redraw will update existing elements.
  *
- * @param target The HTMLElement to which the event listener should be added.
+ * @param target The ID of element to which the event listener should be added.
  */
 function addRedrawListener(target) {
   target.addEventListener("change", () => {
     updateViz();
   });
+}
+
+
+/**
+ * Add a listener to an input that performs a "soft" redraw.
+ *
+ * Add a listener to a input that performs a "soft" redraw when the value of
+ * that input changes. A "soft" redraw will update existing elements.
+ *
+ * @param target The HTMLElement to which the event listener should be added.
+ */
+function addRedrawListenerId(targetId) {
+  const target = document.getElementById(targetId);
+  addRedrawListener(target);
 }
 
 
@@ -144,6 +158,19 @@ function isColorblindModeEnabled() {
   const colorblindCheck = document.getElementById("colorblindModeCheck");
   const isColorblindMode = colorblindCheck.checked;
   return isColorblindMode;
+}
+
+
+/**
+ * Determine if the user has requested summary metrics.
+ *
+ * @returns True if colorblind summary metrics requested by the user. False
+ *   otherwise.
+ */
+function isMetricDisplayEnabled() {
+  const metricsCheck = document.getElementById("metricsCheck");
+  const isMetricsCheck = metricsCheck.checked;
+  return isMetricsCheck;
 }
 
 
@@ -277,6 +304,9 @@ function onResize() {
  * Register event listeners for the visualization and perform first render.
  */
 function init() {
+  const metricsCheck = document.getElementById("metricsCheck");
+  metricsCheck.checked = getClientWidth() > 600;
+  
   initalLoadViz();
 
   rememberClientWidth();
@@ -284,11 +314,12 @@ function init() {
 
   addHardRedrawListenerId("zoomingAxisCheck");
   addHardRedrawListenerId("colorblindModeCheck");
+  addHardRedrawListenerId("metricsCheck");
   const otherChecks = document.querySelectorAll(".filter-check");
   otherChecks.forEach(addHardRedrawListener);
   
-  addRedrawListener(document.getElementById("metric"));
-  addRedrawListener(document.getElementById("groupSizeCheck"));
+  addRedrawListenerId("metric");
+  addRedrawListenerId("groupSizeCheck");
 
   document.addEventListener("scroll", onScroll);
 

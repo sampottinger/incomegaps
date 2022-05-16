@@ -207,7 +207,7 @@ article #vizTable tr td {
 }
 
 article #vizTable .cell-gap {
-  min-width: 200px;
+  min-width: 250px;
 }
 
 article #vizTable .cell-gap .gap-label {
@@ -341,6 +341,10 @@ html {
   margin: 0;
 }
 
+.hidden-metric {
+  display: none;
+}
+
 .rotate-glyph {
   transform: rotate(180deg);
 }
@@ -359,6 +363,30 @@ html {
     top: 10px;
     background: #E0E0E0;
     padding: 3px;
+}
+
+@media (max-width: 600px) {
+  article #vizTable .cell-occupation {
+    max-width: 100px;
+  }
+  
+  article #vizTable .cell-occupation .occupation-label {
+    font-size: 13px;
+  }
+  
+  .check-holder {
+    display: block;
+  }
+  
+  #glyphLegendHolder {
+    max-width: 100%;
+    overflow-x: auto;
+  }
+  
+  #vizTableHolder {
+    max-width: 100%;
+    overflow-x: auto;
+  }
 }
 
 @media (max-width: 800px) {
