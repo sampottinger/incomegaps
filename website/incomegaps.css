@@ -341,6 +341,10 @@ html {
   margin: 0;
 }
 
+.hidden-metric {
+  display: none;
+}
+
 .rotate-glyph {
   transform: rotate(180deg);
 }
@@ -362,6 +366,14 @@ html {
 }
 
 @media (max-width: 600px) {
+  article #vizTable .cell-occupation {
+    max-width: 100px;
+  }
+  
+  article #vizTable .cell-occupation .occupation-label {
+    font-size: 13px;
+  }
+  
   .check-holder {
     display: block;
   }

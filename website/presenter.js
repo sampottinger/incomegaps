@@ -59,11 +59,16 @@ class VizPresenter {
 
       selection.exit().remove();
       const selectionUpdated = self._createElements(selection);
+      
+      const metricsDisabled = !isMetricDisplayEnabled();
+      d3.selectAll(".cell-pay").classed("hidden-metric", metricsDisabled);
+      d3.selectAll(".cell-gini").classed("hidden-metric", metricsDisabled);
 
       self._updateWidths(queryResults);
       self._updateFixedElements(selectionUpdated);
       self._updateGapElements(selectionUpdated);
       self._updateLegend(queryResults);
+      
       resolve();
     });
   }
