@@ -36,6 +36,7 @@ class VizPresenter {
     self._minGap = minGap;
     self._maxGap = maxGap;
     self._maxGini = maxGini;
+    self._requiresSparseAxis = false;
 
     self._numFormatInt = (x) => d3.format(".0f")(x).replaceAll("−", "-");
     self._numFormatConcise = (x) => d3.format(".1f")(x).replaceAll("−", "-");
@@ -131,6 +132,9 @@ class VizPresenter {
       .range([0, self._maxGiniWidth]);
 
     d3.select("#maxGini").html(self._numFormatConcise(effectiveMaxGini));
+    
+    const range = effectiveGapMax - effectiveGapMin;
+    self._requiresSparseAxis = range > 150;
   }
 
   /**
@@ -175,7 +179,11 @@ class VizPresenter {
 
     const midX = self._gapScale(0);
 
-    const ticks = [-80, -60, -40, -20, 0, 20, 40, 60, 80];
+    const ticks = [];
+    for (let i = -200; i <= 200; i += 20) {
+        ticks.push(i);
+    }
+    
     d3.select("#gapAxes").selectAll(".label").data(ticks, (x) => x).enter()
       .append("text")
       .classed("label", true)
@@ -279,7 +287,13 @@ class VizPresenter {
     const axesSelection = d3.select("#gapAxes").selectAll(".label").transition()
       .duration(1000)
       .attr("x", (x) => self._gapScale(x))
-      .attr("y", 10);
+      .attr("y", 10)
+      .style("opacity", (x) => {
+          const absX = Math.abs(x);
+          const isOdd = (absX / 20) % 2 == 1;
+          const requiresZoomOut = self._requiresSparseAxis && isOdd;
+          return requiresZoomOut ? 0 : 1;
+      });
 
     const svgSelection = selection.select(".cell-gap-svg");
     svgSelection.selectAll(".tick").transition()
