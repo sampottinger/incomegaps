@@ -7,7 +7,7 @@ present.
 License: MIT
 Author: A Samuel Pottinger
 """
-
+import os
 import statistics
 import sys
 import typing
@@ -15,33 +15,37 @@ import typing
 import numpy
 import pandas
 
-USAGE_STR = 'python [dat file loc] [year] [month] [output loc]'
-NUM_ARGS = 4
+USAGE_STR = 'USAGE: python process_epi_data.py [auto or dat file loc] [start year] [start month] [end year] [end month] [output loc]'
+NUM_ARGS = 6
 DUMP = False
 
 
-def load_data(loc: str, year: int, month: int) -> pandas.DataFrame:
+def load_data(loc: str, start_year: int, start_month: int, end_year: int,
+    end_month: int) -> pandas.DataFrame:
     """Load and filter EPI data.
 
     Args:
         loc: The location of the dat file.
-        year: Integer year for which to filter.
-        month: Integer month for which to filter
+        start_year: Integer year for which to start filtering.
+        start_month: Integer month for which to start filtering.
+        end_year: Integer year for which to end filtering.
+        end_month: Integer month for which to end filtering.
     Returns:
         Filtered data frame for the target year / month with educ, docc03, wageotc, wbhaom, female
         included. Only returns those with a finite non-None number for wageotc.
     """
     all_data = pandas.read_stata(loc, convert_missing=False, preserve_dtypes=False)
 
-    if year == 'all':
-        target_year = all_data
-    else:
-        target_year = all_data[all_data['year'] == year]
+    def get_in_range(target: typing.Dict) -> bool:
+        month = target['month']
+        month_in_range = month >= start_month and month <= end_month
 
-    if month == 'all':
-        target_date = target_year
-    else:
-        target_date = target_year[target_year['month'] == month]
+        year = target['year']
+        year_in_range = year >= start_year and year <= end_year
+
+        return month_in_range and year_in_range
+
+    target_date = all_data[all_data.apply(get_in_range, axis=1)]
 
     var_subset = target_date[[
         'educ',
@@ -121,6 +125,7 @@ def agg_data(source: pandas.DataFrame) -> typing.Dict:
                 'educ': row['educ'],
                 'docc03': row['docc03'],
                 'wageotc': [],
+                'enemp': [],
                 'wbhaom': row['wbhaom'],
                 'female': row['female'],
                 'region': row['region'],
@@ -130,6 +135,7 @@ def agg_data(source: pandas.DataFrame) -> typing.Dict:
             }
         weight = row['orgwgt'] if numpy.isfinite(row['orgwgt']) else 0
         agg[key]['wageotc'].append(row['wageotc'] * weight)
+        agg[key]['unemp'].append(row['unemp'] * weight)
         agg[key]['count'] += weight
 
     return agg
@@ -148,10 +154,12 @@ def summarize_agg(agg: typing.Dict) -> typing.List[typing.Dict]:
     for record in agg.values():
         if record['count'] > 0:
             mean_wage = sum(record['wageotc']) / record['count']
+            mean_unemployemnt = sum(record['unemp']) / record['count']
             output_rows.append({
                 'educ': record['educ'],
                 'docc03': record['docc03'],
                 'wageotc': mean_wage,
+                'enemp': mean_unemployemnt,
                 'count': record['count'],
                 'wbhaom': record['wbhaom'],
                 'female': record['female'],
@@ -163,22 +171,44 @@ def summarize_agg(agg: typing.Dict) -> typing.List[typing.Dict]:
     return output_rows
 
 
+def download_data() -> str:
+    """Download latest EPI microdata and extract.
+
+    Returns:
+        Path to input file for the rest of the script.
+    """
+    pass
+
+
 def main():
     """Run the summarization script using CLI arguments."""
     if len(sys.argv) != NUM_ARGS + 1:
         print(USAGE_STR)
         return
 
-    maybe_convert = lambda x: 'all' if x == 'all' else int(x)
-
     input_loc = sys.argv[1]
-    year = maybe_convert(sys.argv[2])
-    month = maybe_convert(sys.argv[3])
-    output_loc = sys.argv[4]
 
-    loaded_data = load_data(input_loc, year, month)
+    auto_load_data = input_loc == 'auto'
+    if auto_load_data:
+        input_loc = download_data()
+
+    start_year = maybe_convert(sys.argv[2])
+    start_month = maybe_convert(sys.argv[3])
+    end_year = maybe_convert(sys.argv[4])
+    end_month = maybe_convert(sys.argv[5])
+    output_loc = sys.argv[6]
+
+    loaded_data = load_data(
+        input_loc,
+        start_year,
+        start_month,
+        end_year,
+        end_month
+    )
+
     if DUMP:
         loaded_data.to_csv('dump.csv')
+    
     aggregated_data = agg_data(loaded_data)
     summarized = summarize_agg(aggregated_data)
 
