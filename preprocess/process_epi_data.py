@@ -57,12 +57,15 @@ def load_data(locs: typing.List[str], start_year: int, start_month: int, end_yea
     min_date_str = str(start_year) + '-' + start_month_str
     max_date_str = str(end_year) + '-' + end_month_str
 
-    def get_in_range(target: typing.Dict) -> bool:
-        month_str = get_month_str(target['month'])
-        date_str = str(target['year']) + '-' + month_str
+    def get_in_range(date_str: typing.Dict) -> bool:
         return date_str >= min_date_str and date_str <= max_date_str
 
-    target_date = all_data[all_data.apply(lambda x: get_in_range(x), axis=1)]
+    all_data['dateStr'] = all_data.apply(
+        lambda x: str(x['year']) + '-' + get_month_str(x['month'].tolist()[0]),
+        axis=1
+    )
+    mask = all_data[all_data['dateStr'].apply(get_in_range)]
+    target_date = all_data[mask]
 
     var_subset = target_date[[
         'educ',
@@ -217,13 +220,16 @@ def find_download_url(url: str = EPI_MICRODATA_LOC) -> str:
 
 
 def download_to_tmp(url: str, output_file: str) -> str:
-    """Download a file to local.
+    """Download a file to local. If file already exists, skips.
     
     Args:
         output_file: Where to write the file.
     Returns:
         Path to file where downloaded.
     """
+    if os.path.exists(output_file):
+        return output_file
+    
     with requests.get(url, stream=True) as inbound:
         with open(output_file, 'wb') as outbound:
             shutil.copyfileobj(inbound.raw, outbound)
