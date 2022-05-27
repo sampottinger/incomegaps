@@ -237,6 +237,11 @@ def download_data(start_year: int, end_year: int, zip_file_loc: str = '/tmp/epi_
     shutil.unpack_archive(actual_zip_loc, directory)
 
     years = set(range(start_year, end_year+1))
+    def in_matching_year(filename: str) -> bool:
+        years_found = filter(lambda x: x in filename, years)
+        num_found = sum(map(lambda x: 1, years_found))
+        return num_found > 0
+
     files_available = os.listdir(directory)
     dta_files = filter(lambda x: '.dta' in x, files_avilable)
     matching_files = filter(in_matching_year, dta_files)
