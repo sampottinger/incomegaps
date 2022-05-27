@@ -13,15 +13,15 @@ class VizPresenter {
 
   /**
    * Create a new viz presenter.
-   * 
-   * Create a new viz presenter which will control the visualization until the 
+   *
+   * Create a new viz presenter which will control the visualization until the
    * underlying data changes such that the number of glyphs per occupation is
    * different.
    *
    * @param maxPay The maximum hourly pay to show the user. Pays past this will
    *   potentially render off screen.
    * @param minGap The lowest percent difference (the largest negative percent
-   *   difference from the ovearll mean) to show for an occupation. Gaps below
+   *   difference from the overall mean) to show for an occupation. Gaps below
    *   this value may render off screen.
    * @param maxGap The largest percent difference (the largest positive percent
    *   difference from the ovearll mean) to show for an occupation. Gaps above
@@ -60,7 +60,7 @@ class VizPresenter {
 
       selection.exit().remove();
       const selectionUpdated = self._createElements(selection);
-      
+
       const metricsDisabled = !isMetricDisplayEnabled();
       d3.selectAll(".cell-pay").classed("hidden-metric", metricsDisabled);
       d3.selectAll(".cell-gini").classed("hidden-metric", metricsDisabled);
@@ -69,7 +69,7 @@ class VizPresenter {
       self._updateFixedElements(selectionUpdated);
       self._updateGapElements(selectionUpdated);
       self._updateLegend(queryResults);
-      
+
       resolve();
     });
   }
@@ -84,29 +84,29 @@ class VizPresenter {
    */
   _updateWidths(dataset) {
     const self = this;
-    
+
     const staticGapMinMax = getGapMinMax();
     const staticGapMin = staticGapMinMax["min"];
     const staticGapMax = staticGapMinMax["max"];
-    
+
     const effectiveMaxPay = self._getMax(
       self._maxPay,
       dataset,
       (x) => x.getPay()
     );
-    
+
     const effectiveMaxGini = self._getMax(
       self._maxGini,
       dataset,
       (x) => x.getGini()
     );
-    
+
     const effectiveGapMin = self._getMin(
       staticGapMin,
       dataset,
       self._makeGapInfoGetter((x) => x["value"], (x) => Math.min(...x))
     );
-    
+
     const effectiveGapMax = self._getMax(
       staticGapMax,
       dataset,
@@ -132,7 +132,7 @@ class VizPresenter {
       .range([0, self._maxGiniWidth]);
 
     d3.select("#maxGini").html(self._numFormatConcise(effectiveMaxGini));
-    
+
     const range = effectiveGapMax - effectiveGapMin;
     self._requiresSparseAxis = range > 150;
   }
@@ -183,7 +183,7 @@ class VizPresenter {
     for (let i = -200; i <= 200; i += 20) {
         ticks.push(i);
     }
-    
+
     d3.select("#gapAxes").selectAll(".label").data(ticks, (x) => x).enter()
       .append("text")
       .classed("label", true)
@@ -242,7 +242,7 @@ class VizPresenter {
 
   /**
    * Update all of the viz elements where the number of elements remain same.
-   * 
+   *
    * Update all of the embedded bar charts where there is not a variable number
    * of elements for a population (only one element for an entire occupation,
    * for example).
@@ -277,7 +277,7 @@ class VizPresenter {
    *
    * Update elements showing pay gaps where there may be a variable number of
    * elements per occupation based on subgroups / metric selected.
-   * 
+   *
    * @param selection Selection over all of the viz rows with the new data
    *   bound.
    */
@@ -526,7 +526,7 @@ class VizPresenter {
       MAX_GLYPH_SIZE
     );
   }
-  
+
   /**
    * Get the minimum value from a dataset query for a scale or axis.
    *
@@ -541,21 +541,21 @@ class VizPresenter {
    */
   _getMin(staticVal, dataset, getter) {
     const self = this;
-    
+
     if (dataset === undefined) {
       return staticVal;
     }
-    
+
     const filteredVals = self._getVals(dataset, getter);
-    
+
     if (filteredVals.length == 0) {
       return staticVal;
     }
-    
+
     const naturalMin = Math.min(...filteredVals);
     return Math.min(naturalMin, staticVal);
   }
-  
+
   /**
    * Get the maximum value from a dataset query for a scale or axis.
    *
@@ -570,21 +570,21 @@ class VizPresenter {
    */
   _getMax(staticVal, dataset, getter) {
     const self = this;
-    
+
     if (dataset === undefined) {
       return staticVal;
     }
-    
+
     const filteredVals = self._getVals(dataset, getter);
-    
+
     if (filteredVals.length == 0) {
       return staticVal;
     }
-    
+
     const naturalMax = Math.max(...filteredVals);
     return Math.max(naturalMax, staticVal);
   }
-  
+
   /**
    * Get the values relevant to an axis.
    *
@@ -600,7 +600,7 @@ class VizPresenter {
     const filteredVals = unfilteredVals.filter((x) => x !== null);
     return filteredVals;
   }
-  
+
   /**
    * Make a getter for _getVals that summarizes gap info.
    *

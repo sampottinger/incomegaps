@@ -145,7 +145,13 @@ function getGapMinMax() {
   const isZoomingAxis = zoomingAxisCheck.checked;
 
   const selectedDimension = document.getElementById("dimension").value;
-  return isZoomingAxis ? GAP_SIZES[selectedDimension] : {"max": MAX_GAP, "min": MIN_GAP};
+  const variable = document.getElementById("variable").value;
+
+  const globalMinMaxes = getMinMaxes();
+  const maxGap = globalMinMaxes["maxPay"];
+  const minGap = globalMinMaxes["minGap"];
+
+  return isZoomingAxis ? GAP_SIZES[variable][selectedDimension] : {"max": maxGap, "min": minGap};
 }
 
 
@@ -223,13 +229,31 @@ function getRemovalList() {
 
 
 /**
+ * Get the min max values to use for global metric displays.
+ *
+ * @returns Object with minPay, minGap, maxGap, maxGini.
+ */
+function getMinMaxes() {
+  const variable = document.getElementById("variable").value;
+  return GLOBAL_MIN_MAXES[variable];
+}
+
+
+/**
  * Clear the contents of the viz table and create a new presenter.
  *
  * @returns Newly created presenter.
  */
 function createNewPresenter() {
+  const minMaxes = getMinMaxes();
+
   d3.select("#vizTableBody").html("");
-  currentPresenter = new VizPresenter(MAX_PAY, MIN_GAP, MAX_GAP, MAX_GINI);
+  currentPresenter = new VizPresenter(
+    minMaxes["maxPay"],
+    minMaxes["minGap"],
+    minMaxes["maxGap"],
+    minMaxes["maxGini"]
+  );
   return currentPresenter;
 }
 
