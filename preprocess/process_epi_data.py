@@ -264,14 +264,13 @@ def download_data(start_year: int, end_year: int, zip_file_loc: str = '/tmp/epi_
     Returns:
         Path to input files for the rest of the script.
     """
-    #target_url = find_download_url()
-    #actual_zip_loc = download_to_tmp(target_url, zip_file_loc)
+    target_url = find_download_url()
+    actual_zip_loc = download_to_tmp(target_url, zip_file_loc)
 
-    #if not os.path.exists(directory):
-    #    os.makedirs(directory)
+    if not os.path.exists(directory):
+        os.makedirs(directory)
 
-    #shutil.unpack_archive(actual_zip_loc, directory)
-    actual_zip_loc = zip_file_loc
+    shutil.unpack_archive(actual_zip_loc, directory)
 
     years_range = range(start_year, end_year+1)
     years = set(map(lambda x: str(x), years_range))
