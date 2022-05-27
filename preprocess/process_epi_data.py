@@ -44,16 +44,25 @@ def load_data(locs: typing.List[str], start_year: int, start_month: int, end_yea
         if all_data is None:
             all_data = sub_frame
         else:
-            all_data = pd.concat([all_data, sub_frame], axis=1)
+            all_data = pandas.concat([all_data, sub_frame], axis=1)
     
-    min_date_str = start_year + '-' + start_month
-    max_date_str = end_year + '-' + end_month
+    def get_month_str(target: int) -> str:
+        if target < 10:
+            return '0' + str(target)
+        else:
+            return str(target)
+
+    start_month_str = get_month_str(start_month)
+    end_month_str = get_month_str(end_month)
+    min_date_str = str(start_year) + '-' + start_month_str
+    max_date_str = str(end_year) + '-' + end_month_str
 
     def get_in_range(target: typing.Dict) -> bool:
-        date_str = target['year'] + '-' + target['month']
+        month_str = get_month_str(target['month'])
+        date_str = str(target['year']) + '-' + month_str
         return date_str >= min_date_str and date_str <= max_date_str
 
-    target_date = all_data[all_data.apply(get_in_range, axis=1)]
+    target_date = all_data[all_data.apply(lambda x: get_in_range(x), axis=1)]
 
     var_subset = target_date[[
         'educ',
@@ -188,14 +197,23 @@ def find_download_url(url: str = EPI_MICRODATA_LOC) -> str:
         Path to CPS zip file.
     """
     source = requests.get(url).text
-    soup = bs4.BeautifulSoup(source)
+    soup = bs4.BeautifulSoup(source, features="html.parser")
     
     links = soup.find_all('a')
     download_links = filter(lambda x: '.zip' in x['href'], links)
     cps_links = filter(lambda x: 'cpsorg' in x['href'], download_links)
     
     first_link = list(cps_links)[0]
-    return first_link['href']
+    download_url = first_link['href']
+
+    if not 'http' in download_url:
+        prefix = url
+        if not prefix.endswith('/'):
+            prefix = prefix + '/'
+        
+        download_url = prefix + download_url
+    
+    return download_url
 
 
 def download_to_tmp(url: str, output_file: str) -> str:
@@ -236,14 +254,15 @@ def download_data(start_year: int, end_year: int, zip_file_loc: str = '/tmp/epi_
     
     shutil.unpack_archive(actual_zip_loc, directory)
 
-    years = set(range(start_year, end_year+1))
+    years_range = range(start_year, end_year+1)
+    years = set(map(lambda x: str(x), years_range))
     def in_matching_year(filename: str) -> bool:
         years_found = filter(lambda x: x in filename, years)
         num_found = sum(map(lambda x: 1, years_found))
         return num_found > 0
 
     files_available = os.listdir(directory)
-    dta_files = filter(lambda x: '.dta' in x, files_avilable)
+    dta_files = filter(lambda x: '.dta' in x, files_available)
     matching_files = filter(in_matching_year, dta_files)
     full_path_files = map(lambda x: os.path.join(directory, x), matching_files)
     return list(full_path_files)
@@ -255,17 +274,18 @@ def main():
         print(USAGE_STR)
         return
 
-    input_locs = [sys.argv[1]]
+    input_loc = sys.argv[1]
+    start_year = int(sys.argv[2])
+    start_month = int(sys.argv[3])
+    end_year = int(sys.argv[4])
+    end_month = int(sys.argv[5])
+    output_loc = sys.argv[6]
 
     auto_load_data = input_loc == 'auto'
     if auto_load_data:
-        input_locs = download_data()
-
-    start_year = maybe_convert(sys.argv[2])
-    start_month = maybe_convert(sys.argv[3])
-    end_year = maybe_convert(sys.argv[4])
-    end_month = maybe_convert(sys.argv[5])
-    output_loc = sys.argv[6]
+        input_locs = download_data(start_year, end_year)
+    else:
+        input_locs = [input_loc]
 
     loaded_data = load_data(
         input_locs,

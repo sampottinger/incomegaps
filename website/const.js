@@ -5,7 +5,7 @@
  * @license MIT
  */
 
-const SOURCE_DATA_LOC = "/2021.csv";
+const SOURCE_DATA_LOC = "/data.csv";
 
 const MAX_PAY = 60;
 const MIN_GAP = -80;
