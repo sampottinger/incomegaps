@@ -8,24 +8,28 @@ License: MIT
 Author: A Samuel Pottinger
 """
 import os
+import shutil
 import statistics
 import sys
 import typing
 
+import bs4
 import numpy
 import pandas
+import requests
 
+EPI_MICRODATA_LOC = 'https://microdata.epi.org'
 USAGE_STR = 'USAGE: python process_epi_data.py [auto or dat file loc] [start year] [start month] [end year] [end month] [output loc]'
 NUM_ARGS = 6
 DUMP = False
 
 
-def load_data(loc: str, start_year: int, start_month: int, end_year: int,
+def load_data(locs: typing.List[str], start_year: int, start_month: int, end_year: int,
     end_month: int) -> pandas.DataFrame:
     """Load and filter EPI data.
 
     Args:
-        loc: The location of the dat file.
+        loc: The locations of the dat files.
         start_year: Integer year for which to start filtering.
         start_month: Integer month for which to start filtering.
         end_year: Integer year for which to end filtering.
@@ -34,7 +38,13 @@ def load_data(loc: str, start_year: int, start_month: int, end_year: int,
         Filtered data frame for the target year / month with educ, docc03, wageotc, wbhaom, female
         included. Only returns those with a finite non-None number for wageotc.
     """
-    all_data = pandas.read_stata(loc, convert_missing=False, preserve_dtypes=False)
+    all_data = None
+    for loc in locs:
+        sub_frame = pandas.read_stata(loc, convert_missing=False, preserve_dtypes=False)
+        if all_data is None:
+            all_data = sub_frame
+        else:
+            all_data = pd.concat([all_data, sub_frame], axis=1)
     
     min_date_str = start_year + '-' + start_month
     max_date_str = end_year + '-' + end_month
@@ -169,13 +179,69 @@ def summarize_agg(agg: typing.Dict) -> typing.List[typing.Dict]:
     return output_rows
 
 
-def download_data() -> str:
-    """Download latest EPI microdata and extract.
+def find_download_url(url: str = EPI_MICRODATA_LOC) -> str:
+    """Find the URL where the CPS zip file can be found.
 
+    Args:
+        source_url: The URL for the microdata download page. If not given uses a default.
     Returns:
-        Path to input file for the rest of the script.
+        Path to CPS zip file.
     """
-    pass
+    source = requests.get(url).text
+    soup = bs4.BeautifulSoup(source)
+    
+    links = soup.find_all('a')
+    download_links = filter(lambda x: '.zip' in x['href'], links)
+    cps_links = filter(lambda x: 'cpsorg' in x['href'], download_links)
+    
+    first_link = list(cps_links)[0]
+    return first_link['href']
+
+
+def download_to_tmp(url: str, output_file: str) -> str:
+    """Download a file to local.
+    
+    Args:
+        output_file: Where to write the file.
+    Returns:
+        Path to file where downloaded.
+    """
+    with requests.get(url, stream=True) as inbound:
+        with open(output_file, 'wb') as outbound:
+            shutil.copyfileobj(inbound.raw, outbound)
+
+    return output_file
+
+
+def download_data(start_year: int, end_year: int, zip_file_loc: str = '/tmp/epi_microdata.zip',
+    directory: str = '/tmp/epi_microdata') -> typing.List[str]:
+    """Download latest EPI microdata and extract in /tmp directory.
+
+    Args:
+        start_year: The first year inclusive to include in the data reported to the rest of the
+            script.
+        end_year: The last year inclusive to include in the data reported to the rest of the
+            script.
+        zip_file_loc: The location to where the zip file should be written.
+        directory: The directory to where the files should be extracted. If not given, uses
+            default.
+    Returns:
+        Path to input files for the rest of the script.
+    """
+    target_url = find_download_url()
+    actual_zip_loc = download_to_tmp(target_url, zip_file_loc)
+
+    if not os.path.exists(directory):
+        os.makedirs(directory)
+    
+    shutil.unpack_archive(actual_zip_loc, directory)
+
+    years = set(range(start_year, end_year+1))
+    files_available = os.listdir(directory)
+    dta_files = filter(lambda x: '.dta' in x, files_avilable)
+    matching_files = filter(in_matching_year, dta_files)
+    full_path_files = map(lambda x: os.path.join(directory, x), matching_files)
+    return list(full_path_files)
 
 
 def main():
@@ -184,11 +250,11 @@ def main():
         print(USAGE_STR)
         return
 
-    input_loc = sys.argv[1]
+    input_locs = [sys.argv[1]]
 
     auto_load_data = input_loc == 'auto'
     if auto_load_data:
-        input_loc = download_data()
+        input_locs = download_data()
 
     start_year = maybe_convert(sys.argv[2])
     start_month = maybe_convert(sys.argv[3])
@@ -197,7 +263,7 @@ def main():
     output_loc = sys.argv[6]
 
     loaded_data = load_data(
-        input_loc,
+        input_locs,
         start_year,
         start_month,
         end_year,
