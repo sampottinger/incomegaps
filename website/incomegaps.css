@@ -69,7 +69,6 @@ article #vizControls label {
 }
 
 article #vizControls select {
-  min-width: 300px;
   font-size: 18px;
 }
 
@@ -127,14 +126,14 @@ article #vizControls .top {
   border-bottom: 2px solid black;
 }
 
-article #vizControls .top #metric {
+article #vizControls .top .drop {
   background: #F0F0F0;
-  line-height: 1;
+  line-height: 1.3;
   border: 1px solid black;
   padding: 5px;
   margin: 0;
   border-radius: 5px;
-  width: 200px;
+  width: 250px;
   -webkit-appearance: none;
   -moz-appearance: none;
   -ms-appearance: none;
@@ -143,15 +142,19 @@ article #vizControls .top #metric {
   color: black;
 }
 
-article #vizControls .top #metricHolder::after {
-    content: '\25BC';
-    position: relative;
-    top: 0;
-    left: -30px;
-    bottom: 0;
-    pointer-events: none;
-    width: 0px;
-    font-size: 16px;
+article #vizControls .top .drop-holder::after {
+  content: '\25BC';
+  position: relative;
+  top: 0;
+  left: -30px;
+  bottom: 0;
+  pointer-events: none;
+  width: 0px;
+  font-size: 16px;
+}
+
+article #vizControls .top .sep-label {
+  padding-right: 20px;
 }
 
 article #vizControls .link-panel {
@@ -369,20 +372,20 @@ html {
   article #vizTable .cell-occupation {
     max-width: 100px;
   }
-  
+
   article #vizTable .cell-occupation .occupation-label {
     font-size: 13px;
   }
-  
+
   .check-holder {
     display: block;
   }
-  
+
   #glyphLegendHolder {
     max-width: 100%;
     overflow-x: auto;
   }
-  
+
   #vizTableHolder {
     max-width: 100%;
     overflow-x: auto;
@@ -403,6 +406,10 @@ html {
     padding-bottom: 10px;
   }
 
+  article #vizControls .top .drop {
+    width: 200px;
+  }
+
   article #vizTable {
     padding: 10px;
   }
@@ -415,6 +422,14 @@ html {
   header .intro {
     padding-left: 10px;
     padding-right: 10px;
+  }
+}
+
+@media (max-width: 600px) {
+  article #vizControls .top .sep-label {
+    display: block;
+    padding-top: 5px;
+    padding-bottom: 5px;
   }
 }
 

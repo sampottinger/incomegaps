@@ -44,8 +44,8 @@ def load_data(locs: typing.List[str], start_year: int, start_month: int, end_yea
         if all_data is None:
             all_data = sub_frame
         else:
-            all_data = pandas.concat([all_data, sub_frame], axis=1)
-    
+            all_data = pandas.concat([all_data, sub_frame], axis=0)
+
     def get_month_str(target: int) -> str:
         if target < 10:
             return '0' + str(target)
@@ -61,16 +61,16 @@ def load_data(locs: typing.List[str], start_year: int, start_month: int, end_yea
         return date_str >= min_date_str and date_str <= max_date_str
 
     all_data['dateStr'] = all_data.apply(
-        lambda x: str(x['year']) + '-' + get_month_str(x['month'].tolist()[0]),
+        lambda x: str(x['year']) + '-' + get_month_str(x['month']),
         axis=1
     )
-    mask = all_data[all_data['dateStr'].apply(get_in_range)]
-    target_date = all_data[mask]
+    target_date = all_data[all_data['dateStr'].apply(get_in_range) == True]
 
-    var_subset = target_date[[
+    with_wage = target_date[[
         'educ',
         'docc03',
         'wageotc',
+        'unemp',
         'wage',
         'wbhaom',
         'female',
@@ -78,10 +78,7 @@ def load_data(locs: typing.List[str], start_year: int, start_month: int, end_yea
         'region',
         'citistat',
         'age'
-    ]];
-    with_wage = var_subset[
-        var_subset['wageotc'].apply(lambda x: numpy.isfinite(x))
-    ].copy().reset_index()
+    ]].copy().reset_index()
 
     def determine_age(age_raw_str: str) -> str:
         if age_raw_str == "80+":
@@ -145,18 +142,25 @@ def agg_data(source: pandas.DataFrame) -> typing.Dict:
                 'educ': row['educ'],
                 'docc03': row['docc03'],
                 'wageotc': [],
-                'enemp': [],
+                'unemp': [],
                 'wbhaom': row['wbhaom'],
                 'female': row['female'],
                 'region': row['region'],
                 'citistat': row['citistat'],
                 'age': row['age'],
-                'count': 0
+                'wageCount': 0,
+                'unempCount': 0
             }
         weight = row['orgwgt'] if numpy.isfinite(row['orgwgt']) else 0
-        agg[key]['wageotc'].append(row['wageotc'] * weight)
-        agg[key]['unemp'].append(row['unemp'] * weight)
-        agg[key]['count'] += weight
+
+        agg[key]['unemp'].append(
+            (1 if row['unemp'] == 'Unemployed' else 0) * weight
+        )
+        agg[key]['unempCount'] += weight
+
+        if numpy.isfinite(row['wageotc']):
+            agg[key]['wageotc'].append(row['wageotc'] * weight)
+            agg[key]['wageCount'] += weight
 
     return agg
 
@@ -171,22 +175,30 @@ def summarize_agg(agg: typing.Dict) -> typing.List[typing.Dict]:
     """
     output_rows = []
 
-    for record in agg.values():
-        if record['count'] > 0:
-            mean_wage = sum(record['wageotc']) / record['count']
-            mean_unemployemnt = sum(record['unemp']) / record['count']
-            output_rows.append({
-                'educ': record['educ'],
-                'docc03': record['docc03'],
-                'wageotc': mean_wage,
-                'enemp': mean_unemployemnt,
-                'count': record['count'],
-                'wbhaom': record['wbhaom'],
-                'female': record['female'],
-                'region': record['region'],
-                'age': record['age'],
-                'citistat': record['citistat']
-            })
+    all_records = agg.values()
+    has_records = filter(lambda x: x['unempCount'] > 0, all_records)
+
+    for record in has_records:
+        if record['wageCount'] == 0:
+            mean_wage = 0
+        else:
+            mean_wage = sum(record['wageotc']) / record['wageCount']
+
+        mean_unemployemnt = (sum(record['unemp']) + 0.0) / record['unempCount']
+
+        output_rows.append({
+            'educ': record['educ'],
+            'docc03': record['docc03'],
+            'wageotc': mean_wage,
+            'unemp': mean_unemployemnt,
+            'wageCount': record['wageCount'],
+            'unempCount': record['unempCount'],
+            'wbhaom': record['wbhaom'],
+            'female': record['female'],
+            'region': record['region'],
+            'age': record['age'],
+            'citistat': record['citistat']
+        })
 
     return output_rows
 
@@ -201,11 +213,11 @@ def find_download_url(url: str = EPI_MICRODATA_LOC) -> str:
     """
     source = requests.get(url).text
     soup = bs4.BeautifulSoup(source, features="html.parser")
-    
+
     links = soup.find_all('a')
     download_links = filter(lambda x: '.zip' in x['href'], links)
     cps_links = filter(lambda x: 'cpsorg' in x['href'], download_links)
-    
+
     first_link = list(cps_links)[0]
     download_url = first_link['href']
 
@@ -213,15 +225,15 @@ def find_download_url(url: str = EPI_MICRODATA_LOC) -> str:
         prefix = url
         if not prefix.endswith('/'):
             prefix = prefix + '/'
-        
+
         download_url = prefix + download_url
-    
+
     return download_url
 
 
 def download_to_tmp(url: str, output_file: str) -> str:
     """Download a file to local. If file already exists, skips.
-    
+
     Args:
         output_file: Where to write the file.
     Returns:
@@ -229,7 +241,7 @@ def download_to_tmp(url: str, output_file: str) -> str:
     """
     if os.path.exists(output_file):
         return output_file
-    
+
     with requests.get(url, stream=True) as inbound:
         with open(output_file, 'wb') as outbound:
             shutil.copyfileobj(inbound.raw, outbound)
@@ -252,13 +264,14 @@ def download_data(start_year: int, end_year: int, zip_file_loc: str = '/tmp/epi_
     Returns:
         Path to input files for the rest of the script.
     """
-    target_url = find_download_url()
-    actual_zip_loc = download_to_tmp(target_url, zip_file_loc)
+    #target_url = find_download_url()
+    #actual_zip_loc = download_to_tmp(target_url, zip_file_loc)
 
-    if not os.path.exists(directory):
-        os.makedirs(directory)
-    
-    shutil.unpack_archive(actual_zip_loc, directory)
+    #if not os.path.exists(directory):
+    #    os.makedirs(directory)
+
+    #shutil.unpack_archive(actual_zip_loc, directory)
+    actual_zip_loc = zip_file_loc
 
     years_range = range(start_year, end_year+1)
     years = set(map(lambda x: str(x), years_range))
@@ -303,11 +316,16 @@ def main():
 
     if DUMP:
         loaded_data.to_csv('dump.csv')
-    
+
     aggregated_data = agg_data(loaded_data)
     summarized = summarize_agg(aggregated_data)
 
-    pandas.DataFrame(summarized).to_csv(output_loc)
+    filtered = list(filter(
+        lambda x: x['docc03'] != 'Armed Forces' and str(x['docc03']) != 'nan',
+        summarized
+    ))
+
+    pandas.DataFrame(filtered).to_csv(output_loc)
 
 
 if __name__ == '__main__':

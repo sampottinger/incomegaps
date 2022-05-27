@@ -35,9 +35,16 @@
         <div id="vizControls">
           <div class="top">
             <div>
-              <label for="metric">US labor market by </label>
-              <span id="metricHolder">
-                <select name="metric" id="metric">
+              <label for="variable" id="showLabel" class="sep-label">Show </label>
+              <span id="variableHolder" class="drop-holder">
+                <select name="variable" id="variable" class="drop">
+                  <option value="income" selected>income</option>
+                  <option value="unemployment">unemployment</option>
+                </select>
+              </span>
+              <label for="dimension" id="byLabel" class="sep-label"> by </label>
+              <span id="dimensionHolder" class="drop-holder">
+                <select name="dimension" id="dimension" class="drop" aria-label="dimension">
                   <option value="female">gender</option>
                   <option value="wbhaom">race and ethnicity</option>
                   <option value="educ">education</option>
@@ -187,9 +194,9 @@
   <script src="/data.js?version=202205171"></script>
   <script src="/glpyhs.js?version=202205171"></script>
   <script src="/presenter.js?version=202205171"></script>
-  
+
   <script src="/driver.js?version=202205171"></script>
-  
+
   <script>init();</script>
 
 </html>

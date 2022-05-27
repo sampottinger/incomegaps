@@ -106,7 +106,7 @@ function initalLoadViz() {
         d3.select("#vizHolder").transition().style("opacity", "1");
       });
   };
-  
+
   updateViz().then(fadeInViz);
 }
 
@@ -144,8 +144,8 @@ function getGapMinMax() {
   const zoomingAxisCheck = document.getElementById("zoomingAxisCheck");
   const isZoomingAxis = zoomingAxisCheck.checked;
 
-  const selectedMetric = document.getElementById("metric").value;
-  return isZoomingAxis ? GAP_SIZES[selectedMetric] : {"max": MAX_GAP, "min": MIN_GAP};
+  const selectedDimension = document.getElementById("dimension").value;
+  return isZoomingAxis ? GAP_SIZES[selectedDimension] : {"max": MAX_GAP, "min": MIN_GAP};
 }
 
 
@@ -245,14 +245,14 @@ function updateViz(removalList) {
     currentPresenter = createNewPresenter();
   }
 
-  const curTarget = document.getElementById("metric").value;
+  const curTarget = document.getElementById("dimension").value;
   return loadSourceData().then((result) => {
     if (removalList === undefined) {
       removalList = getRemovalList();
     }
-    
+
     const queryResults = result.query(curTarget, removalList);
-    
+
     const vizBody = document.getElementById("vizBody");
     const noDataMessage = document.getElementById("noDataMessage");
     if (queryResults === null) {
@@ -306,7 +306,7 @@ function onResize() {
 function init() {
   const metricsCheck = document.getElementById("metricsCheck");
   metricsCheck.checked = getClientWidth() > 600;
-  
+
   initalLoadViz();
 
   rememberClientWidth();
@@ -317,8 +317,8 @@ function init() {
   addHardRedrawListenerId("metricsCheck");
   const otherChecks = document.querySelectorAll(".filter-check");
   otherChecks.forEach(addHardRedrawListener);
-  
-  addRedrawListenerId("metric");
+
+  addRedrawListenerId("dimension");
   addRedrawListenerId("groupSizeCheck");
 
   document.addEventListener("scroll", onScroll);
