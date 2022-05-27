@@ -1,15 +1,15 @@
 QUnit.module("incomeGaps", function() {
 
   const DATA_LOCATION = "../data.csv";
-  
+
   const SAMPLE_GAP_1 = new Map();
   SAMPLE_GAP_1.set("group1", {"value": 12, "pop": 34});
   SAMPLE_GAP_1.set("group2", {"value": 23, "pop": 45});
-  
+
   const SAMPLE_GAP_2 = new Map();
   SAMPLE_GAP_2.set("group3", {"value": 34, "pop": 56});
   SAMPLE_GAP_2.set("group4", {"value": 45, "pop": 67});
-  
+
   const SAMPLE_RECORDS = [
     new Record("occupation1", 123, SAMPLE_GAP_1, 0.456),
     new Record("occupation2", 234, SAMPLE_GAP_2, 0.567)
@@ -86,9 +86,9 @@ QUnit.module("incomeGaps", function() {
     const done = assert.async();
     testDataset(done, assert, (dataset) => {
       const gini = dataset._getGini([
-        {"wageTotal": 10 * 10, "countTotal": 10},
-        {"wageTotal": 20 * 15, "countTotal": 15},
-        {"wageTotal": 30 * 20, "countTotal": 20}
+        {"valueTotal": 10 * 10, "countTotal": 10},
+        {"valueTotal": 20 * 15, "countTotal": 15},
+        {"valueTotal": 30 * 20, "countTotal": 20}
       ]);
       assert.ok(Math.abs(gini - 18.88) < 0.01);
     });
@@ -229,7 +229,7 @@ QUnit.module("incomeGaps", function() {
       });
     });
   });
-  
+
   QUnit.test("presenter getVals simple", function(assert) {
     const done = assert.async();
     testPresenter(done, assert, (doneInner, presenter, queryResults) => {
@@ -240,7 +240,7 @@ QUnit.module("incomeGaps", function() {
       done();
     });
   });
-  
+
   QUnit.test("presenter getVals gap info", function(assert) {
     const done = assert.async();
     testPresenter(done, assert, (doneInner, presenter, queryResults) => {
@@ -255,7 +255,7 @@ QUnit.module("incomeGaps", function() {
       done();
     });
   });
-  
+
   QUnit.test("presenter getMin static", function(assert) {
     const done = assert.async();
     testPresenter(done, assert, (doneInner, presenter, queryResults) => {
@@ -264,7 +264,7 @@ QUnit.module("incomeGaps", function() {
       done();
     });
   });
-  
+
   QUnit.test("presenter getMin dynamic", function(assert) {
     const done = assert.async();
     testPresenter(done, assert, (doneInner, presenter, queryResults) => {
@@ -277,7 +277,7 @@ QUnit.module("incomeGaps", function() {
       done();
     });
   });
-  
+
   QUnit.test("presenter getMax static", function(assert) {
     const done = assert.async();
     testPresenter(done, assert, (doneInner, presenter, queryResults) => {
@@ -290,7 +290,7 @@ QUnit.module("incomeGaps", function() {
       done();
     });
   });
-  
+
   QUnit.test("presenter getMax dynamic", function(assert) {
     const done = assert.async();
     testPresenter(done, assert, (doneInner, presenter, queryResults) => {
@@ -312,7 +312,7 @@ QUnit.module("incomeGaps", function() {
       done();
     });
   });
-  
+
   QUnit.test("dataAvailableFilter", function(assert) {
     const done = assert.async();
     updateViz(["Male"]).then(() => {
@@ -327,7 +327,7 @@ QUnit.module("incomeGaps", function() {
       done();
     });
   });
-  
+
   QUnit.test("dataNotAvailableFilter", function(assert) {
     const done = assert.async();
     updateViz(["Male", "Female"]).then(() => {
