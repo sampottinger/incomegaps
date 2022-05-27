@@ -35,15 +35,13 @@ def load_data(loc: str, start_year: int, start_month: int, end_year: int,
         included. Only returns those with a finite non-None number for wageotc.
     """
     all_data = pandas.read_stata(loc, convert_missing=False, preserve_dtypes=False)
+    
+    min_date_str = start_year + '-' + start_month
+    max_date_str = end_year + '-' + end_month
 
     def get_in_range(target: typing.Dict) -> bool:
-        month = target['month']
-        month_in_range = month >= start_month and month <= end_month
-
-        year = target['year']
-        year_in_range = year >= start_year and year <= end_year
-
-        return month_in_range and year_in_range
+        date_str = target['year'] + '-' + target['month']
+        return date_str >= min_date_str and date_str <= max_date_str
 
     target_date = all_data[all_data.apply(get_in_range, axis=1)]
 
