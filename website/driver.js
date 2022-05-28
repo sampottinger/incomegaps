@@ -261,6 +261,17 @@ function getVariableAttrs() {
 
 
 /**
+ * Get the tick information based on the variable.
+ *
+ * @returns Object with tick info;
+ */
+function getTickInfo() {
+  const variable = getVariable();
+  return TICK_INFO[variable];
+}
+
+
+/**
  * Clear the contents of the viz table and create a new presenter.
  *
  * @returns Newly created presenter.
@@ -268,6 +279,7 @@ function getVariableAttrs() {
 function createNewPresenter() {
   const minMaxes = getMinMaxes();
 
+  d3.select("#gapAxes").html("");
   d3.select("#vizTableBody").html("");
   currentPresenter = new VizPresenter(
     minMaxes["maxValue"],

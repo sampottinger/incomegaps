@@ -70,6 +70,15 @@ class VizPresenter {
       self._updateGapElements(selectionUpdated);
       self._updateLegend(queryResults);
 
+      const isIncome = getVariable() === "income";
+
+      const valueText = isIncome ? "Pay" : "Rate";
+      d3.select("#valueLabel").html(valueText);
+
+      const gapPrefix = isIncome ? "% " : "";
+      const gapText = "Gap (" + gapPrefix + "diff from mean)";
+      d3.select("#gapLabel").html(gapText);
+
       resolve();
     });
   }
@@ -179,10 +188,7 @@ class VizPresenter {
 
     const midX = self._gapScale(0);
 
-    const ticks = [];
-    for (let i = -1000; i <= 1000; i += 20) {
-        ticks.push(i);
-    }
+    const ticks = self._getTicks();
 
     d3.select("#gapAxes").selectAll(".label").data(ticks, (x) => x).enter()
       .append("text")
@@ -238,6 +244,19 @@ class VizPresenter {
       .style("width", 0);
 
     return selection.merge(newElements);
+  }
+
+  _getTicks() {
+    const self = this;
+
+    const tickInfo = getTickInfo();
+
+    const ticks = [];
+    for (let i = tickInfo["min"]; i <= tickInfo["max"]; i += tickInfo["step"]) {
+        ticks.push(i);
+    }
+
+    return ticks;
   }
 
   /**
