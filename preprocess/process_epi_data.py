@@ -184,7 +184,9 @@ def summarize_agg(agg: typing.Dict) -> typing.List[typing.Dict]:
         else:
             mean_wage = sum(record['wageotc']) / record['wageCount']
 
-        mean_unemployemnt = (sum(record['unemp']) + 0.0) / record['unempCount']
+        mean_unemployemnt = (
+            sum(record['unemp']) + 0.0
+        ) / record['unempCount'] * 100
 
         output_rows.append({
             'educ': record['educ'],

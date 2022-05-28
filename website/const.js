@@ -9,10 +9,16 @@ const SOURCE_DATA_LOC = "/data.csv";
 
 const GLOBAL_MIN_MAXES = {
   "income": {
-    "maxPay": 60,
+    "maxValue": 60,
     "minGap": -80,
     "maxGap": 80,
     "maxGini": 20
+  },
+  "unemployment": {
+    "maxValue": 10,
+    "minGap": -80,
+    "maxGap": 80,
+    "maxGini": 30
   }
 };
 
@@ -37,5 +43,24 @@ const GAP_SIZES = {
     "region": {"max": 40, "min": -40},
     "citistat": {"max": 40, "min": -40},
     "age": {"max": 40, "min": -60}
+  },
+  "unemployment": {
+    "female": {"max": 40, "min": -40},
+    "wbhaom": {"max": 60, "min": -60},
+    "educ": {"max": 80, "min": -80},
+    "region": {"max": 40, "min": -40},
+    "citistat": {"max": 40, "min": -40},
+    "age": {"max": 40, "min": -60}
+  }
+};
+
+const VARIABLE_NAMES = {
+  "income": {
+    "variable": "wageotc",
+    "count": "wageCount"
+  },
+  "unemployment": {
+    "variable": "unemp",
+    "count": "unempCount"
   }
 };

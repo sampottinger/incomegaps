@@ -233,7 +233,7 @@ QUnit.module("incomeGaps", function() {
   QUnit.test("presenter getVals simple", function(assert) {
     const done = assert.async();
     testPresenter(done, assert, (doneInner, presenter, queryResults) => {
-      const results = presenter._getVals(SAMPLE_RECORDS, (x) => x.getPay());
+      const results = presenter._getVals(SAMPLE_RECORDS, (x) => x.getValue());
       assert.equal(results.length, 2);
       assert.equal(results[0], 123);
       assert.equal(results[1], 234);
@@ -259,7 +259,7 @@ QUnit.module("incomeGaps", function() {
   QUnit.test("presenter getMin static", function(assert) {
     const done = assert.async();
     testPresenter(done, assert, (doneInner, presenter, queryResults) => {
-      const results = presenter._getMin(1, SAMPLE_RECORDS, (x) => x.getPay());
+      const results = presenter._getMin(1, SAMPLE_RECORDS, (x) => x.getValue());
       assert.equal(results, 1);
       done();
     });
@@ -271,7 +271,7 @@ QUnit.module("incomeGaps", function() {
       const results = presenter._getMin(
         500,
         SAMPLE_RECORDS,
-        (x) => x.getPay()
+        (x) => x.getValue()
       );
       assert.equal(results, 123);
       done();
@@ -284,7 +284,7 @@ QUnit.module("incomeGaps", function() {
       const results = presenter._getMax(
         500,
         SAMPLE_RECORDS,
-        (x) => x.getPay()
+        (x) => x.getValue()
       );
       assert.equal(results, 500);
       done();
@@ -297,7 +297,7 @@ QUnit.module("incomeGaps", function() {
       const results = presenter._getMax(
         1,
         SAMPLE_RECORDS,
-        (x) => x.getPay()
+        (x) => x.getValue()
       );
       assert.equal(results, 234);
       done();

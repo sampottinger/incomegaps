@@ -148,7 +148,7 @@ function getGapMinMax() {
   const variable = document.getElementById("variable").value;
 
   const globalMinMaxes = getMinMaxes();
-  const maxGap = globalMinMaxes["maxPay"];
+  const maxGap = globalMinMaxes["maxValue"];
   const minGap = globalMinMaxes["minGap"];
 
   return isZoomingAxis ? GAP_SIZES[variable][selectedDimension] : {"max": maxGap, "min": minGap};
@@ -231,11 +231,32 @@ function getRemovalList() {
 /**
  * Get the min max values to use for global metric displays.
  *
- * @returns Object with minPay, minGap, maxGap, maxGini.
+ * @returns Object with minValue, minGap, maxGap, maxGini.
  */
 function getMinMaxes() {
   const variable = document.getElementById("variable").value;
   return GLOBAL_MIN_MAXES[variable];
+}
+
+
+/**
+ * Get the name of the variable selected by the user.
+ *
+ * @returns Name of the variable selected.
+ */
+function getVariable() {
+  return document.getElementById("variable").value;
+}
+
+
+/**
+ * Get the record attribute names for a variable.
+ *
+ * @returns Object with "variable" and "count" attributes.
+ */
+function getVariableAttrs() {
+  const variable = getVariable();
+  return VARIABLE_NAMES[variable];
 }
 
 
@@ -249,7 +270,7 @@ function createNewPresenter() {
 
   d3.select("#vizTableBody").html("");
   currentPresenter = new VizPresenter(
-    minMaxes["maxPay"],
+    minMaxes["maxValue"],
     minMaxes["minGap"],
     minMaxes["maxGap"],
     minMaxes["maxGini"]
@@ -343,6 +364,7 @@ function init() {
   otherChecks.forEach(addHardRedrawListener);
 
   addRedrawListenerId("dimension");
+  addHardRedrawListenerId("variable");
   addRedrawListenerId("groupSizeCheck");
 
   document.addEventListener("scroll", onScroll);

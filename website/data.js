@@ -21,16 +21,16 @@ class Record {
    * Create a new record of a dataset group.
    *
    * @param name The name of the group (occupation).
-   * @param pay The mean houly pay for this group.
+   * @param value The mean value like houly pay for this group.
    * @param gapInfo Mapping from subpopulation of interest to wage disparity
    *   and population size information.
    * @param gini The gini index for this group where the gini index is calculated
    *   after grouping by the dimension of interest.
    */
-  constructor(name, pay, gapInfo, gini) {
+  constructor(name, value, gapInfo, gini) {
     const self = this;
     self._name = name;
-    self._pay = pay;
+    self._value = value;
     self._gapInfo = gapInfo;
     self._gini = gini;
   }
@@ -46,16 +46,16 @@ class Record {
   }
 
   /**
-   * Get the average hourly pay for this occupation with filters applied.
+   * Get the average value for this occupation with filters applied.
    *
-   * @returns Float representing the hourly pay for this occupation with
-   *   filters applied. So, if only Female is selected in filters, this
+   * @returns Float representing the value like hourly pay for this occupation
+   *   with filters applied. So, if only Female is selected in filters, this
    *   will be average wage for those reporting Female within this
    *   occupation.
    */
-  getPay() {
+  getValue() {
     const self = this;
-    return self._pay;
+    return self._value;
   }
 
   /**
@@ -63,9 +63,9 @@ class Record {
    *
    * @returns Mapping from name of subpopulation to object with "value"
    *   representing how many more percentage points that subpopulation's mean
-   *   hourly pay is above or below the occupation overall mean pay.
-   *   Subpopulations are based on selected metric / dimension like Gender
-   *   which would yield a gap info map with Male and Female keys.
+   *   value is above or below the occupation overall mean value. Subpopulations
+   *   are based on selected metric / dimension like Gender which would yield a
+   *   gap info map with Male and Female keys.
    */
   getGapInfo() {
     const self = this;
@@ -173,8 +173,9 @@ class Dataset {
     validResultsFilter.forEach((rawRecord) => {
       const groupingAttr = rawRecord[groupingAttrName];
       const occupation = rawRecord["docc03"];
-      const values = parseFloat(rawRecord["wageotc"]);
-      const count = parseFloat(rawRecord["wageCount"]);
+      const targetVariableAttrs = getVariableAttrs();
+      const values = parseFloat(rawRecord[targetVariableAttrs["variable"]]);
+      const count = parseFloat(rawRecord[targetVariableAttrs["count"]]);
 
       if (!occupationRollup.has(occupation)) {
         occupationRollup.set(occupation, {
@@ -254,12 +255,12 @@ class Dataset {
     occupationRollup.forEach((rawRecord, occupationName) => {
       const valueTotal = rawRecord["valueTotal"];
       const countTotal = rawRecord["countTotal"];
-      const pay = countTotal > 0 ? valueTotal / countTotal : 0;
-      const gapInfo = self._getGapInfo(pay, rawRecord["groupings"], names);
+      const value = countTotal > 0 ? valueTotal / countTotal : 0;
+      const gapInfo = self._getGapInfo(value, rawRecord["groupings"], names);
       const gini = self._getGini(rawRecord["groupings"]);
       const outputRecord = new Record(
         occupationName,
-        pay,
+        value,
         gapInfo,
         gini
       );
@@ -273,7 +274,7 @@ class Dataset {
       } else if (b.getName() === "All occupations") {
         return 1;
       } else {
-        return a.getPay() - b.getPay();
+        return a.getValue() - b.getValue();
       }
     });
 
@@ -283,13 +284,13 @@ class Dataset {
   /**
    * Get how much more or less a subpopulation is paid relative to pop mean.
    *
-   * @param meanPay The average pay for the overall population in the
-   *   occupation after applying filters.
+   * @param meanValue The value like average pay for the overall population in
+   *   the occupation after applying filters.
    * @param rawGroupings Mapping from subgroup (Male, Female) for an occupation
    *   to object with valueTotal and countTotal.
    * @param names The ordered list of subgroup names (like Male, Female).
    */
-  _getGapInfo(meanPay, rawGroupings, names) {
+  _getGapInfo(meanValue, rawGroupings, names) {
     const self = this;
     const retMap = new Map();
 
@@ -297,8 +298,11 @@ class Dataset {
       if (rawGroupings.has(name)) {
         const rollup = rawGroupings.get(name);
         const groupingMean = rollup["valueTotal"] / rollup["countTotal"];
-        const percentDiff = ((groupingMean - meanPay) / meanPay) * 100;
-        retMap.set(name, {"value": percentDiff, "pop": rollup["countTotal"]});
+        const diff = groupingMean - meanValue;
+        const percentDiff = (diff / meanValue) * 100;
+        const isIncome = getVariable() === "income";
+        const effectiveDiff = isIncome ? percentDiff : diff;
+        retMap.set(name, {"value": effectiveDiff, "pop": rollup["countTotal"]});
       } else {
         retMap.set(name, {"value": null, "pop": 0});
       }

@@ -18,8 +18,8 @@ class VizPresenter {
    * underlying data changes such that the number of glyphs per occupation is
    * different.
    *
-   * @param maxPay The maximum hourly pay to show the user. Pays past this will
-   *   potentially render off screen.
+   * @param maxValue The maximum value like hourly pay to show the user. Values
+   *   past this will potentially render off screen.
    * @param minGap The lowest percent difference (the largest negative percent
    *   difference from the overall mean) to show for an occupation. Gaps below
    *   this value may render off screen.
@@ -29,10 +29,10 @@ class VizPresenter {
    * @param maxGini The maximum gini index to show the user. Ginis past this
    *   will potentially render off screen.
    */
-  constructor(maxPay, minGap, maxGap, maxGini) {
+  constructor(maxValue, minGap, maxGap, maxGini) {
     const self = this;
 
-    self._maxPay = maxPay;
+    self._maxValue = maxValue;
     self._minGap = minGap;
     self._maxGap = maxGap;
     self._maxGini = maxGini;
@@ -62,7 +62,7 @@ class VizPresenter {
       const selectionUpdated = self._createElements(selection);
 
       const metricsDisabled = !isMetricDisplayEnabled();
-      d3.selectAll(".cell-pay").classed("hidden-metric", metricsDisabled);
+      d3.selectAll(".cell-value").classed("hidden-metric", metricsDisabled);
       d3.selectAll(".cell-gini").classed("hidden-metric", metricsDisabled);
 
       self._updateWidths(queryResults);
@@ -89,10 +89,10 @@ class VizPresenter {
     const staticGapMin = staticGapMinMax["min"];
     const staticGapMax = staticGapMinMax["max"];
 
-    const effectiveMaxPay = self._getMax(
-      self._maxPay,
+    const effectiveMaxValue = self._getMax(
+      self._maxValue,
       dataset,
-      (x) => x.getPay()
+      (x) => x.getValue()
     );
 
     const effectiveMaxGini = self._getMax(
@@ -113,15 +113,15 @@ class VizPresenter {
       self._makeGapInfoGetter((x) => x["value"], (x) => Math.max(...x))
     );
 
-    self._maxPayWidth = self._getWidth("cell-pay");
+    self._maxValueWidth = self._getWidth("cell-value");
     self._maxGapWidth = self._getWidth("cell-gap");
     self._maxGiniWidth = self._getWidth("cell-gini");
 
-    self._payScale = d3.scaleLinear()
-      .domain([0, effectiveMaxPay])
-      .range([0, self._maxPayWidth]);
+    self._valueScale = d3.scaleLinear()
+      .domain([0, effectiveMaxValue])
+      .range([0, self._maxValueWidth]);
 
-    d3.select("#maxPay").html(self._numFormatConcise(effectiveMaxPay));
+    d3.select("#maxValue").html(self._numFormatConcise(effectiveMaxValue));
 
     self._gapScale = d3.scaleLinear()
       .domain([effectiveGapMin, effectiveGapMax])
@@ -180,7 +180,7 @@ class VizPresenter {
     const midX = self._gapScale(0);
 
     const ticks = [];
-    for (let i = -200; i <= 200; i += 20) {
+    for (let i = -1000; i <= 1000; i += 20) {
         ticks.push(i);
     }
 
@@ -202,13 +202,13 @@ class VizPresenter {
       .classed("occupation-label", true)
       .html((x) => x.getName().replaceAll(" occupations", ""));
 
-    const newPayElements = newElements.append("td")
-      .classed("cell-pay", true);
+    const newValueElements = newElements.append("td")
+      .classed("cell-value", true);
 
-    newPayElements.append("div")
+    newValueElements.append("div")
       .classed("bar-label", true);
 
-    newPayElements.append("div")
+    newValueElements.append("div")
       .classed("bar-body", true)
       .style("width", 0);
 
@@ -253,14 +253,14 @@ class VizPresenter {
   _updateFixedElements(selection) {
     const self = this;
 
-    const payElements = selection.select(".cell-pay");
+    const valueElements = selection.select(".cell-value");
 
-    payElements.select(".bar-label")
-      .html((x) => self._numFormat(x.getPay()));
+    valueElements.select(".bar-label")
+      .html((x) => self._numFormat(x.getValue()));
 
-    payElements.select(".bar-body")
+    valueElements.select(".bar-body")
       .transition()
-      .style("width", (x) => self._payScale(x.getPay()) + "px");
+      .style("width", (x) => self._valueScale(x.getValue()) + "px");
 
     const giniElements = selection.select(".cell-gini");
 
@@ -273,9 +273,9 @@ class VizPresenter {
   }
 
   /**
-   * Update elements showing pay gaps.
+   * Update elements showing value gaps.
    *
-   * Update elements showing pay gaps where there may be a variable number of
+   * Update elements showing value gaps where there may be a variable number of
    * elements per occupation based on subgroups / metric selected.
    *
    * @param selection Selection over all of the viz rows with the new data
