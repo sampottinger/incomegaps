@@ -193,7 +193,7 @@ class VizPresenter {
     d3.select("#gapAxes").selectAll(".label").data(ticks, (x) => x).enter()
       .append("text")
       .classed("label", true)
-      .attr("x", midX)
+      .attr("x", (x) => self._gapScale(x) + 5)
       .attr("y", 10)
       .html((x) => self._numFormatInt(x) + "%");
 
@@ -231,7 +231,7 @@ class VizPresenter {
     newGapSvg.selectAll("tick").data(ticks, (x) => x).enter().append("rect")
       .classed("tick", true)
       .classed("center-line", (x) => x == 0)
-      .attr("x", midX);
+      .attr("x", (x) => self._gapScale(x) + 5);
 
     const newGiniElements = newElements.append("td")
       .classed("cell-gini", true);

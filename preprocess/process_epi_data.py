@@ -70,7 +70,7 @@ def load_data(locs: typing.List[str], start_year: int, start_month: int, end_yea
         'educ',
         'docc03',
         'wageotc',
-        'unemp',
+        'lfstat',
         'wage',
         'wbhaom',
         'female',
@@ -154,7 +154,7 @@ def agg_data(source: pandas.DataFrame) -> typing.Dict:
         weight = row['orgwgt'] if numpy.isfinite(row['orgwgt']) else 0
 
         agg[key]['unemp'].append(
-            (1 if row['unemp'] == 'Unemployed' else 0) * weight
+            (1 if row['lfstat'] == 'Unemployed' else 0) * weight
         )
         agg[key]['unempCount'] += weight
 

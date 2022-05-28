@@ -38,19 +38,19 @@ const ATTRS = [
 const GAP_SIZES = {
   "income": {
     "female": {"max": 40, "min": -40},
-    "wbhaom": {"max": 60, "min": -60},
+    "wbhaom": {"max": 40, "min": -40},
     "educ": {"max": 80, "min": -80},
     "region": {"max": 40, "min": -40},
     "citistat": {"max": 40, "min": -40},
     "age": {"max": 40, "min": -60}
   },
   "unemployment": {
-    "female": {"max": 6, "min": -6},
+    "female": {"max": 10, "min": -10},
     "wbhaom": {"max": 10, "min": -10},
-    "educ": {"max": 20, "min": -20},
-    "region": {"max": 6, "min": -6},
-    "citistat": {"max": 20, "min": -20},
-    "age": {"max": 6, "min": -6}
+    "educ": {"max": 10, "min": -10},
+    "region": {"max": 10, "min": -10},
+    "citistat": {"max": 10, "min": -10},
+    "age": {"max": 10, "min": -10}
   }
 };
 
@@ -68,13 +68,13 @@ const VARIABLE_NAMES = {
 
 const TICK_INFO = {
   "income": {
-    "min": -200,
-    "max": 200,
+    "min": -1000,
+    "max": 1000,
     "step": 20
   },
   "unemployment": {
-    "min": -30,
-    "max": 30,
-    "step": 2
+    "min": -100,
+    "max": 100,
+    "step": 5
   }
 };

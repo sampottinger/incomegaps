@@ -115,8 +115,9 @@ class Dataset {
    * @param groupingAttrName The name of the attribute on which to group the
    *   subpopulations. For example, Gender. This is the dimension / metric of
    *   interest.
+   * @param minGroupSize The minimum size for a group to be included.
    */
-  query(groupingAttrName, removedGroups) {
+  query(groupingAttrName, removedGroups, minGroupSize) {
     const self = this;
 
     if (removedGroups === undefined) {
@@ -125,7 +126,8 @@ class Dataset {
 
     const occupationRollup = self._rollupQuery(
       groupingAttrName,
-      removedGroups
+      removedGroups,
+      minGroupSize
     );
 
     if (occupationRollup === null) {
@@ -142,16 +144,18 @@ class Dataset {
    *   (like Gender).
    * @param removedGroups The name of the groups like Male or Female to filter
    *   out.
+   * @param minGroupSize The minimum size for a group to be included.
    * @returns Mapping from occupation name to sum of wage and population count
    *   records for that occupation. Also includes an all occupations record.
    */
-  _rollupQuery(groupingAttrName, removedGroups) {
+  _rollupQuery(groupingAttrName, removedGroups, minGroupSize) {
     const self = this;
 
     const occupationRollup = new Map();
 
-    const validResults = self._rawResults.filter((x) => x["docc03"] !== undefined)
-      .filter((x) => x[groupingAttrName] !== undefined);
+    const validResults = self._rawResults.filter(
+      (x) => x["docc03"] !== undefined
+    ).filter((x) => x[groupingAttrName] !== undefined);
 
     const totalGroup = {
       "groupings": new Map(),
@@ -215,6 +219,25 @@ class Dataset {
       const totalGroupingInfo = totalGroupings.get(groupingAttr);
       totalGroupingInfo["valueTotal"] += values * count;
       totalGroupingInfo["countTotal"] += count;
+    });
+
+    const overallTotal = totalGroup["countTotal"];
+    const minGroupSizeCalculated = minGroupSize * overallTotal;
+
+    occupationRollup.forEach((occupation, occupationName) => {
+      const groupings = occupation["groupings"];
+      const toRemove = [];
+
+      groupings.forEach((group, groupName) => {
+        const total = group["countTotal"];
+        if (total < minGroupSizeCalculated) {
+          toRemove.push(groupName);
+        }
+      });
+
+      toRemove.forEach((key) => {
+        groupings.delete(key);
+      });
     });
 
     occupationRollup.set("All occupations", totalGroup);

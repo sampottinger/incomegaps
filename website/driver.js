@@ -308,7 +308,11 @@ function updateViz(removalList) {
       removalList = getRemovalList();
     }
 
-    const queryResults = result.query(curTarget, removalList);
+    const requireMinCheck = document.getElementById("requireMinCheck");
+    const requireMin = !requireMinCheck.checked;
+
+    const minGroupSize = requireMin ? 0.0002 : 0;
+    const queryResults = result.query(curTarget, removalList, minGroupSize);
 
     const vizBody = document.getElementById("vizBody");
     const noDataMessage = document.getElementById("noDataMessage");
@@ -321,7 +325,7 @@ function updateViz(removalList) {
       currentPresenter.draw(queryResults);
     }
 
-    const numFilters = removalList.length;
+    const numFilters = removalList.length + (requireMin ? 1 : 0);
     const filterCountLabel = numFilters == 0 ? "No" : numFilters;
     const filterUnitLabel = numFilters == 1 ? "filter" : "filters"
     const filterLabel = filterCountLabel + " " + filterUnitLabel;
@@ -372,11 +376,13 @@ function init() {
   addHardRedrawListenerId("zoomingAxisCheck");
   addHardRedrawListenerId("colorblindModeCheck");
   addHardRedrawListenerId("metricsCheck");
+  addHardRedrawListenerId("requireMinCheck");
+  addHardRedrawListenerId("variable");
+
   const otherChecks = document.querySelectorAll(".filter-check");
   otherChecks.forEach(addHardRedrawListener);
 
   addRedrawListenerId("dimension");
-  addHardRedrawListenerId("variable");
   addRedrawListenerId("groupSizeCheck");
 
   document.addEventListener("scroll", onScroll);
