@@ -313,6 +313,26 @@ QUnit.module("incomeGaps", function() {
     });
   });
 
+  QUnit.test("renderIncome", function(assert) {
+    const done = assert.async();
+    document.getElementById("variable").value = "income";
+    updateViz().then(() => {
+      const numOccupations = document.getElementsByClassName("cell-occupation").length;
+      assert.ok(numOccupations > 1);
+      done();
+    });
+  });
+
+  QUnit.test("renderUnemployment", function(assert) {
+    const done = assert.async();
+    document.getElementById("variable").value = "unemployment";
+    updateViz().then(() => {
+      const numOccupations = document.getElementsByClassName("cell-occupation").length;
+      assert.ok(numOccupations > 1);
+      done();
+    });
+  });
+
   QUnit.test("dataAvailableFilter", function(assert) {
     const done = assert.async();
     updateViz(["Male"]).then(() => {

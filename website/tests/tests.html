@@ -13,8 +13,8 @@
         <thead>
           <tr>
             <th class="cell-occupation">Name</th>
-            <th class="cell-value">Pay</th>
-            <th class="cell-gap">Gap</th>
+            <th class="cell-value" id="valueLabel">Pay</th>
+            <th class="cell-gap" id="gapLabel">Gap</th>
             <th class="cell-gini">Gini</th>
           </tr>
         </thead>
@@ -22,6 +22,8 @@
         </tbody>
       </table>
     </div>
+
+    <input type="text" id="variable" value="income">
     <input type="text" id="dimension" value="educ">
     <input id="groupSizeCheck" type="checkbox" checked>
     <input id="colorblindModeCheck" type="checkbox" checked>
