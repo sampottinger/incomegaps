@@ -21,16 +21,16 @@ class Record {
    * Create a new record of a dataset group.
    *
    * @param name The name of the group (occupation).
-   * @param pay The mean houly pay for this group.
+   * @param value The mean value like houly pay for this group.
    * @param gapInfo Mapping from subpopulation of interest to wage disparity
    *   and population size information.
    * @param gini The gini index for this group where the gini index is calculated
    *   after grouping by the dimension of interest.
    */
-  constructor(name, pay, gapInfo, gini) {
+  constructor(name, value, gapInfo, gini) {
     const self = this;
     self._name = name;
-    self._pay = pay;
+    self._value = value;
     self._gapInfo = gapInfo;
     self._gini = gini;
   }
@@ -46,26 +46,26 @@ class Record {
   }
 
   /**
-   * Get the average hourly pay for this occupation with filters applied.
+   * Get the average value for this occupation with filters applied.
    *
-   * @returns Float representing the hourly pay for this occupation with
-   *   filters applied. So, if only Female is selected in filters, this
+   * @returns Float representing the value like hourly pay for this occupation
+   *   with filters applied. So, if only Female is selected in filters, this
    *   will be average wage for those reporting Female within this
    *   occupation.
    */
-  getPay() {
+  getValue() {
     const self = this;
-    return self._pay;
+    return self._value;
   }
 
   /**
    * Get information about subpopulations within the selected occupation.
-   * 
+   *
    * @returns Mapping from name of subpopulation to object with "value"
    *   representing how many more percentage points that subpopulation's mean
-   *   hourly pay is above or below the occupation overall mean pay.
-   *   Subpopulations are based on selected metric / dimension like Gender
-   *   which would yield a gap info map with Male and Female keys.
+   *   value is above or below the occupation overall mean value. Subpopulations
+   *   are based on selected metric / dimension like Gender which would yield a
+   *   gap info map with Male and Female keys.
    */
   getGapInfo() {
     const self = this;
@@ -90,7 +90,7 @@ class Record {
 
 /**
  * Object abstracting a dataset which can be queried and filtered.
- * 
+ *
  * Object representing the overall dataset which can be queried based on user
  * input into the data visualization's controls like filters and selected
  * metric / dimension.
@@ -127,11 +127,11 @@ class Dataset {
       groupingAttrName,
       removedGroups
     );
-    
+
     if (occupationRollup === null) {
       return null;
     }
-    
+
     return self._summarizeQuery(occupationRollup);
   }
 
@@ -155,7 +155,7 @@ class Dataset {
 
     const totalGroup = {
       "groupings": new Map(),
-      "wageTotal": 0,
+      "valueTotal": 0,
       "countTotal": 0
     };
 
@@ -165,7 +165,7 @@ class Dataset {
       });
       return foundGroups.length == 0;
     });
-    
+
     if (validResultsFilter.length == 0) {
       return null;
     }
@@ -173,46 +173,47 @@ class Dataset {
     validResultsFilter.forEach((rawRecord) => {
       const groupingAttr = rawRecord[groupingAttrName];
       const occupation = rawRecord["docc03"];
-      const wages = parseFloat(rawRecord["wageotc"]);
-      const count = parseFloat(rawRecord["count"]);
+      const targetVariableAttrs = getVariableAttrs();
+      const values = parseFloat(rawRecord[targetVariableAttrs["variable"]]);
+      const count = parseFloat(rawRecord[targetVariableAttrs["count"]]);
 
       if (!occupationRollup.has(occupation)) {
         occupationRollup.set(occupation, {
           "groupings": new Map(),
-          "wageTotal": 0,
+          "valueTotal": 0,
           "countTotal": 0
         });
       }
 
       const occupationRecord = occupationRollup.get(occupation);
-      occupationRecord["wageTotal"] += wages * count;
+      occupationRecord["valueTotal"] += values * count;
       occupationRecord["countTotal"] += count;
 
-      totalGroup["wageTotal"] += wages * count;
+      totalGroup["valueTotal"] += values * count;
       totalGroup["countTotal"] += count;
 
       const groupings = occupationRecord["groupings"];
       if (!groupings.has(groupingAttr)) {
         groupings.set(groupingAttr, {
-          "wageTotal": 0,
+          "valueTotal": 0,
           "countTotal": 0
         });
       }
 
       const groupingInfo = groupings.get(groupingAttr);
-      groupingInfo["wageTotal"] += wages * count;
+      groupingInfo["valueTotal"] += values * count;
       groupingInfo["countTotal"] += count;
 
       const totalGroupings = totalGroup["groupings"];
       if (!totalGroupings.has(groupingAttr)) {
         totalGroupings.set(groupingAttr, {
-          "wageTotal": 0,
+          "valueTotal": 0,
           "countTotal": 0
         });
       }
 
       const totalGroupingInfo = totalGroupings.get(groupingAttr);
-      totalGroupingInfo["wageTotal"] += wages * count;
+      totalGroupingInfo["valueTotal"] += values * count;
       totalGroupingInfo["countTotal"] += count;
     });
 
@@ -252,15 +253,18 @@ class Dataset {
 
     const outputRecords = [];
     occupationRollup.forEach((rawRecord, occupationName) => {
-      const pay = rawRecord["wageTotal"] / rawRecord["countTotal"];
-      const gapInfo = self._getGapInfo(pay, rawRecord["groupings"], names);
+      const valueTotal = rawRecord["valueTotal"];
+      const countTotal = rawRecord["countTotal"];
+      const value = countTotal > 0 ? valueTotal / countTotal : 0;
+      const gapInfo = self._getGapInfo(value, rawRecord["groupings"], names);
       const gini = self._getGini(rawRecord["groupings"]);
       const outputRecord = new Record(
         occupationName,
-        pay,
+        value,
         gapInfo,
         gini
       );
+
       outputRecords.push(outputRecord);
     });
 
@@ -270,7 +274,7 @@ class Dataset {
       } else if (b.getName() === "All occupations") {
         return 1;
       } else {
-        return a.getPay() - b.getPay();
+        return a.getValue() - b.getValue();
       }
     });
 
@@ -279,23 +283,26 @@ class Dataset {
 
   /**
    * Get how much more or less a subpopulation is paid relative to pop mean.
-   * 
-   * @param meanPay The average pay for the overall population in the
-   *   occupation after applying filters.
+   *
+   * @param meanValue The value like average pay for the overall population in
+   *   the occupation after applying filters.
    * @param rawGroupings Mapping from subgroup (Male, Female) for an occupation
-   *   to object with wageTotal and countTotal.
+   *   to object with valueTotal and countTotal.
    * @param names The ordered list of subgroup names (like Male, Female).
    */
-  _getGapInfo(meanPay, rawGroupings, names) {
+  _getGapInfo(meanValue, rawGroupings, names) {
     const self = this;
     const retMap = new Map();
 
     names.forEach((name) => {
       if (rawGroupings.has(name)) {
         const rollup = rawGroupings.get(name);
-        const groupingMean = rollup["wageTotal"] / rollup["countTotal"];
-        const percentDiff = ((groupingMean - meanPay) / meanPay) * 100;
-        retMap.set(name, {"value": percentDiff, "pop": rollup["countTotal"]});
+        const groupingMean = rollup["valueTotal"] / rollup["countTotal"];
+        const diff = groupingMean - meanValue;
+        const percentDiff = (diff / meanValue) * 100;
+        const isIncome = getVariable() === "income";
+        const effectiveDiff = isIncome ? percentDiff : diff;
+        retMap.set(name, {"value": effectiveDiff, "pop": rollup["countTotal"]});
       } else {
         retMap.set(name, {"value": null, "pop": 0});
       }
@@ -307,7 +314,7 @@ class Dataset {
   /**
    * Get the gini index for the provided set of groupings.
    *
-   * @param groupings List of objects with wageTotal and countTotal
+   * @param groupings List of objects with valueTotal and countTotal
    *   representing the subpopulations.
    * @returns Gini index using the given subpopulations.
    */
@@ -321,7 +328,7 @@ class Dataset {
     }
 
     const totalIncome = groupingsItems
-      .map((x) => x["wageTotal"])
+      .map((x) => x["valueTotal"])
       .reduce((a, b) => a + b);
 
     const totalPopulation = groupingsItems
@@ -329,8 +336,8 @@ class Dataset {
       .reduce((a, b) => a + b);
 
     groupingsItems.sort((a, b) => {
-      const aWage = a["wageTotal"] / a["countTotal"];
-      const bWage = b["wageTotal"] / b["countTotal"];
+      const aWage = a["valueTotal"] / a["countTotal"];
+      const bWage = b["valueTotal"] / b["countTotal"];
       return aWage - bWage;
     });
 
@@ -341,7 +348,7 @@ class Dataset {
       percentRemaining -= popPercent;
 
       return {
-        "income": x["wageTotal"] / totalIncome,
+        "income": x["valueTotal"] / totalIncome,
         "population": popPercent,
         "higher": percentRemaining
       };
@@ -414,4 +421,3 @@ function loadSourceData(loc) {
     });
   }
 }
-  

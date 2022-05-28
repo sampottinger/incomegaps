@@ -13,8 +13,8 @@
         <thead>
           <tr>
             <th class="cell-occupation">Name</th>
-            <th class="cell-pay">Pay</th>
-            <th class="cell-gap">Gap</th>
+            <th class="cell-value" id="valueLabel">Pay</th>
+            <th class="cell-gap" id="gapLabel">Gap</th>
             <th class="cell-gini">Gini</th>
           </tr>
         </thead>
@@ -22,7 +22,9 @@
         </tbody>
       </table>
     </div>
-    <input type="text" id="metric" value="educ">
+
+    <input type="text" id="variable" value="income">
+    <input type="text" id="dimension" value="educ">
     <input id="groupSizeCheck" type="checkbox" checked>
     <input id="colorblindModeCheck" type="checkbox" checked>
     <input id="zoomingAxisCheck" type="checkbox" checked>
@@ -42,7 +44,7 @@
   <script src="../data.js"></script>
   <script src="../glpyhs.js"></script>
   <script src="../presenter.js"></script>
-  
+
   <script src="../driver.js"></script>
 
   <script src="./tests.js"></script>

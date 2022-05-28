@@ -106,7 +106,7 @@ function initalLoadViz() {
         d3.select("#vizHolder").transition().style("opacity", "1");
       });
   };
-  
+
   updateViz().then(fadeInViz);
 }
 
@@ -144,8 +144,14 @@ function getGapMinMax() {
   const zoomingAxisCheck = document.getElementById("zoomingAxisCheck");
   const isZoomingAxis = zoomingAxisCheck.checked;
 
-  const selectedMetric = document.getElementById("metric").value;
-  return isZoomingAxis ? GAP_SIZES[selectedMetric] : {"max": MAX_GAP, "min": MIN_GAP};
+  const selectedDimension = document.getElementById("dimension").value;
+  const variable = document.getElementById("variable").value;
+
+  const globalMinMaxes = getMinMaxes();
+  const maxGap = globalMinMaxes["maxValue"];
+  const minGap = globalMinMaxes["minGap"];
+
+  return isZoomingAxis ? GAP_SIZES[variable][selectedDimension] : {"max": maxGap, "min": minGap};
 }
 
 
@@ -223,13 +229,64 @@ function getRemovalList() {
 
 
 /**
+ * Get the min max values to use for global metric displays.
+ *
+ * @returns Object with minValue, minGap, maxGap, maxGini.
+ */
+function getMinMaxes() {
+  const variable = document.getElementById("variable").value;
+  return GLOBAL_MIN_MAXES[variable];
+}
+
+
+/**
+ * Get the name of the variable selected by the user.
+ *
+ * @returns Name of the variable selected.
+ */
+function getVariable() {
+  return document.getElementById("variable").value;
+}
+
+
+/**
+ * Get the record attribute names for a variable.
+ *
+ * @returns Object with "variable" and "count" attributes.
+ */
+function getVariableAttrs() {
+  const variable = getVariable();
+  return VARIABLE_NAMES[variable];
+}
+
+
+/**
+ * Get the tick information based on the variable.
+ *
+ * @returns Object with tick info;
+ */
+function getTickInfo() {
+  const variable = getVariable();
+  return TICK_INFO[variable];
+}
+
+
+/**
  * Clear the contents of the viz table and create a new presenter.
  *
  * @returns Newly created presenter.
  */
 function createNewPresenter() {
+  const minMaxes = getMinMaxes();
+
+  d3.select("#gapAxes").html("");
   d3.select("#vizTableBody").html("");
-  currentPresenter = new VizPresenter(MAX_PAY, MIN_GAP, MAX_GAP, MAX_GINI);
+  currentPresenter = new VizPresenter(
+    minMaxes["maxValue"],
+    minMaxes["minGap"],
+    minMaxes["maxGap"],
+    minMaxes["maxGini"]
+  );
   return currentPresenter;
 }
 
@@ -245,14 +302,14 @@ function updateViz(removalList) {
     currentPresenter = createNewPresenter();
   }
 
-  const curTarget = document.getElementById("metric").value;
+  const curTarget = document.getElementById("dimension").value;
   return loadSourceData().then((result) => {
     if (removalList === undefined) {
       removalList = getRemovalList();
     }
-    
+
     const queryResults = result.query(curTarget, removalList);
-    
+
     const vizBody = document.getElementById("vizBody");
     const noDataMessage = document.getElementById("noDataMessage");
     if (queryResults === null) {
@@ -306,7 +363,7 @@ function onResize() {
 function init() {
   const metricsCheck = document.getElementById("metricsCheck");
   metricsCheck.checked = getClientWidth() > 600;
-  
+
   initalLoadViz();
 
   rememberClientWidth();
@@ -317,8 +374,9 @@ function init() {
   addHardRedrawListenerId("metricsCheck");
   const otherChecks = document.querySelectorAll(".filter-check");
   otherChecks.forEach(addHardRedrawListener);
-  
-  addRedrawListenerId("metric");
+
+  addRedrawListenerId("dimension");
+  addHardRedrawListenerId("variable");
   addRedrawListenerId("groupSizeCheck");
 
   document.addEventListener("scroll", onScroll);

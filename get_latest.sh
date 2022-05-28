@@ -1,0 +1,1 @@
+python3 ./preprocess/process_epi_data.py auto 2021 3 2022 3 ./website/data.csv
