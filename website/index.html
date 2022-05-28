@@ -47,9 +47,9 @@
                 <select name="dimension" id="dimension" class="drop" aria-label="dimension">
                   <option value="female">gender</option>
                   <option value="wbhaom">race and ethnicity</option>
-                  <option value="educ">education</option>
                   <option value="region">census region</option>
                   <option value="citistat">citizenship</option>
+                  <option value="educ">education</option>
                   <option value="age">age</option>
                 </select>
               </span>
@@ -103,7 +103,7 @@
                 <div><label for="islandsCheck"><input id="islandsCheck" filtervalue="Native, born in Puerto Rico or other US island areas" type="checkbox" class="citizenship-check filter-check" checked> Native, born in Puerto Rico or other US island areas</label></div>
                 <div><label for="nativeCheck"><input id="nativeCheck" filtervalue="Native, born in US" type="checkbox" class="citizenship-check filter-check" checked> Native, born in US</label></div>
               </div>
-              <div class="filter last">
+              <div class="filter">
                 <div class="filter-title">Age</div>
                 <div><label for="ageLt25Check"><input id="ageLt25Check" filtervalue="<25 yr" type="checkbox" class="age-check filter-check" checked> <25 yr</label></div>
                 <div><label for="age25Check"><input id="age25Check" filtervalue="25-35 yr" type="checkbox" class="age-check filter-check" checked> 25-35 yr</label></div>
@@ -111,6 +111,10 @@
                 <div><label for="age45Check"><input id="age45Check" filtervalue="45-55 yr" type="checkbox" class="age-check filter-check" checked> 45-55 yr</label></div>
                 <div><label for="age55Check"><input id="age55Check" filtervalue="55-65 yr" type="checkbox" class="age-check filter-check" checked> 55-65 yr</label></div>
                 <div><label for="ageGt65Check"><input id="ageGt65Check" filtervalue="65+ yr" type="checkbox" class="age-check filter-check" checked> 65+ yr</label></div>
+              </div>
+              <div class="filter last">
+                <div class="filter-title">Small samples</div>
+                <div><label for="requireMillionCheck"><input id="requireMinCheck" type="checkbox" class="min-size-check" checked> Exclude groups < 300,000 people.</label></div>
               </div>
             </div>
           </div>
