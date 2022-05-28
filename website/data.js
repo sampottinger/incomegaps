@@ -221,13 +221,16 @@ class Dataset {
       totalGroupingInfo["countTotal"] += count;
     });
 
+    const overallTotal = totalGroup["countTotal"];
+    const minGroupSizeCalculated = minGroupSize * overallTotal;
+
     occupationRollup.forEach((occupation, occupationName) => {
       const groupings = occupation["groupings"];
       const toRemove = [];
 
       groupings.forEach((group, groupName) => {
         const total = group["countTotal"];
-        if (total < minGroupSize) {
+        if (total < minGroupSizeCalculated) {
           toRemove.push(groupName);
         }
       });

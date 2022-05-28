@@ -49,7 +49,7 @@ const GAP_SIZES = {
     "wbhaom": {"max": 10, "min": -10},
     "educ": {"max": 10, "min": -10},
     "region": {"max": 10, "min": -10},
-    "citistat": {"max": 20, "min": -20},
+    "citistat": {"max": 10, "min": -10},
     "age": {"max": 10, "min": -10}
   }
 };
