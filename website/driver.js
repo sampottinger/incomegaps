@@ -390,6 +390,13 @@ function onResize() {
 function init() {
   loadUrlState();
 
+  document.getElementById("shareLink").addEventListener("click", (event) => {
+    const fullUrl = "https://incomegaps.com/?" + getDeepLinkUrl();
+    navigator.clipboard.writeText(fullUrl);
+    alert("URL copied to clipboard.");
+    event.preventDefault();
+  });
+
   const metricsCheck = document.getElementById("metricsCheck");
   metricsCheck.checked = getClientWidth() > 600;
 

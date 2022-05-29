@@ -9,10 +9,6 @@
  */
 
 const FILTER_CHECK_IDS = [
-  "groupSizeCheck",
-  "colorblindModeCheck",
-  "zoomingAxisCheck",
-  "metricsCheck",
   "femaleCheck",
   "maleCheck",
   "asianCheck",
