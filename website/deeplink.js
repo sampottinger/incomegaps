@@ -131,7 +131,7 @@ function applyDeepLinkObj(target) {
 
   FILTER_CHECK_IDS.forEach((id, i) => { setBinary(id, filterStr[i]); });
   CONFIG_CHECK_IDS.forEach((id, i) => { setBinary(id, configStr[i]); });
-  DROP_IDS.forEach((x) => { setValue(x, outputRecord[x]); });
+  DROP_IDS.forEach((x) => { setValue(x, target[x]); });
 }
 
 
@@ -142,7 +142,7 @@ function applyDeepLinkObj(target) {
  */
 function getDeepLinkUrl() {
   const paramsObj = getDeepLinkObj();
-  const params = new URLSearchParams();
+  const params = new URLSearchParams(paramsObj);
   const paramsStr = params.toString();
 
   return paramsStr;

@@ -363,4 +363,72 @@ QUnit.module("incomeGaps", function() {
     });
   });
 
+  QUnit.test("getDeepLinkObj", function(assert) {
+    document.getElementById("variable").value = "unemployment";
+    document.getElementById("dimension").value = "educ";
+    document.getElementById("groupSizeCheck").checked = true;
+    document.getElementById("colorblindModeCheck").checked = false;
+    document.getElementById("zoomingAxisCheck").checked = true;
+    document.getElementById("metricsCheck").checked = false;
+    document.getElementById("requireMinCheck").checked = true;
+
+    const objBefore = getDeepLinkObj();
+    assert.deepEqual(objBefore["config"], "1010");
+    assert.deepEqual(objBefore["variable"], "unemployment");
+    assert.deepEqual(objBefore["dimension"], "educ");
+
+    document.getElementById("groupSizeCheck").checked = true;
+    document.getElementById("colorblindModeCheck").checked = true;
+    document.getElementById("zoomingAxisCheck").checked = true;
+    document.getElementById("metricsCheck").checked = true;
+    document.getElementById("requireMinCheck").checked = true;
+
+    const objAfter = getDeepLinkObj();
+    assert.deepEqual(objAfter["config"], "1111");
+  });
+
+  QUnit.test("applyDeepLinkObj", function(assert) {
+    document.getElementById("variable").value = "unemployment";
+    document.getElementById("dimension").value = "educ";
+
+    const objBefore = getDeepLinkObj();
+    objBefore["variable"] = "income";
+    applyDeepLinkObj(objBefore);
+
+    assert.deepEqual(
+      document.getElementById("variable").value,
+      "income"
+    );
+  });
+
+  QUnit.test("getDeepLink", function(assert) {
+    document.getElementById("variable").value = "income";
+    document.getElementById("dimension").value = "educ";
+
+    const urlBefore = getDeepLinkUrl();
+    assert.ok(urlBefore.indexOf("income") != -1);
+    assert.ok(urlBefore.indexOf("unemployment") == -1);
+
+    document.getElementById("variable").value = "unemployment";
+    document.getElementById("dimension").value = "educ";
+
+    const urlAfter = getDeepLinkUrl();
+    assert.ok(urlAfter.indexOf("income") == -1);
+    assert.ok(urlAfter.indexOf("unemployment") != -1);
+  });
+
+  QUnit.test("applyDeepLinkUrl", function(assert) {
+    document.getElementById("variable").value = "income";
+    document.getElementById("dimension").value = "educ";
+
+    const urlBefore = getDeepLinkUrl();
+    const newUrl = urlBefore.replaceAll("income", "unemployment");
+    applyDeepLinkUrl(newUrl);
+
+    assert.deepEqual(
+      document.getElementById("variable").value,
+      "unemployment"
+    );
+  });
+
 });
