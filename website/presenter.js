@@ -75,7 +75,7 @@ class VizPresenter {
       const valueText = isIncome ? "Pay" : "Rate";
       d3.select("#valueLabel").html(valueText);
 
-      const gapPrefix = isIncome ? "% " : "";
+      const gapPrefix = isIncome ? "% " : "points ";
       const gapText = "Gap (" + gapPrefix + "diff from mean)";
       d3.select("#gapLabel").html(gapText);
 
