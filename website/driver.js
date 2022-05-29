@@ -292,12 +292,35 @@ function createNewPresenter() {
 
 
 /**
+ * Load the serialized visualization state from the URL if one avilable.
+ */
+function loadUrlState() {
+  const urlComponents = window.location.href.split("?");
+  if (urlComponents.length >= 2) {
+    applyDeepLinkUrl(urlComponents[1]);
+  }
+}
+
+
+/**
+ * Write the current visualization state to the URL.
+ */
+function saveUrlState() {
+  const baseUrl = window.location.href.split("?")[0]
+  const fullUrl = baseUrl + "?" + getDeepLinkUrl();
+  history.pushState({}, "", fullUrl);
+}
+
+
+/**
  * Update the visualization.
  *
  * @param removalList List of groups (names of groups like Male, Female) to
  *   exclude.
  */
 function updateViz(removalList) {
+  saveUrlState();
+
   if (currentPresenter === null) {
     currentPresenter = createNewPresenter();
   }
@@ -365,6 +388,8 @@ function onResize() {
  * Register event listeners for the visualization and perform first render.
  */
 function init() {
+  loadUrlState();
+
   const metricsCheck = document.getElementById("metricsCheck");
   metricsCheck.checked = getClientWidth() > 600;
 
