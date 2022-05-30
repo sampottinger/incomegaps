@@ -19,7 +19,7 @@
         <div class="intro-step active" id="step0">
           <div>This visualization explores the shape of the United States labor market, examining differences in income between professions, gender, race / ethnicity, age, and education to better understand various pay gaps.</div>
           <div class="intro-link-holder">
-            <a href="#step10" class="skip step-link" targetstep="step10">Skip</a> / <a href="#step1" class="forward step-link" targetstep="step1">Start Intro >></a>
+            <a href="#step10" class="skip step-link" targetstep="step10">Skip Intro</a> / <a href="#step1" class="forward step-link" targetstep="step1">Start Intro >></a>
           </div>
         </div>
         <div class="intro-step" id="step1">
@@ -29,43 +29,43 @@
           </div>
         </div>
         <div class="intro-step" id="step2">
-          <div>However, when talking about differences in pay, how you frame the question is really important. If we expand our understanding to look per occupation, food preparation and serving sees a fairly small gap while the disparity in legal occupations is huge.</div>
+          <div>However, when talking about differences in pay, how you frame the question is really important. If we expand our understanding to look per occupation, food preparation and serving sees a fairly small gap compared to the disparity in legal occupations.</div>
           <div class="intro-link-holder">
             <a href="#step1" class="backward step-link" targetstep="step1"><< Back</a> / <a href="#step3" class="forward step-link" targetstep="step3">Next >></a>
           </div>
         </div>
         <div class="intro-step" id="step3">
-          <div>Adding more nuance, clicking group size shows how many people are in each group by gender. Here, for example, "installation, maintenance, and repair" sees a smaller gap but a large disparity in participation by gender.</div>
+          <div>Adding more nuance, checking the group size option shows how many people are in each group by gender. Here, for example, "installation, maintenance, and repair" sees a smaller gap but a large disparity in participation by gender.</div>
           <div class="intro-link-holder">
             <a href="#step2" class="backward step-link" targetstep="step2"><< Back</a> / <a href="#step4" class="forward step-link" targetstep="step4">Next >></a>
           </div>
         </div>
         <div class="intro-step" id="step4">
-          <div>What about other types of gaps? Switch to "race and ethnicity". Notice that the "Hispanic" population sees lower wages than the "White" population across many occupations.</div>
+          <div>What about other types of gaps? Switch to "race and ethnicity". Notice that the "Hispanic" and "Black" populations see lower wages than the "White" population across many occupations.</div>
           <div class="intro-link-holder">
             <a href="#step3" class="backward step-link" targetstep="step3"><< Back</a> / <a href="#step5" class="forward step-link" targetstep="step5">Next >></a>
           </div>
         </div>
         <div class="intro-step" id="step5">
-          <div>Of course, gaps may reflect differences in educational attainment. Click on edit filters and uncheck everything but "Advanced" and "College" under education. Then, click close filters. Note that, despite filtering down just to just college graduates, the same trend still holds.</div>
+          <div>Click the "metrics" checkbox. Note that "Pay" refers to average hourly pay and Gini refers to the Gini Index which is a measure of inequality (higher being more inequitable). This in mind, pay for things like "Healthcare practitioner and technical" (like doctors) compared to, for example, the "Healthcare support" professions is higher but racial / ethnic disparity in pay is also higher.</div>
           <div class="intro-link-holder">
             <a href="#step4" class="backward step-link" targetstep="step4"><< Back</a> / <a href="#step6" class="forward step-link" targetstep="step6">Next >></a>
           </div>
         </div>
         <div class="intro-step" id="step6">
-          <div>Notice that this also appears for those identifying as black. However, income isn't the only way gaps emerge. Select unemployment with the filters still applied. In many (though not all) professions, those identifying as black see higher higher unemployment.</div>
+          <div>Of course, gaps may reflect differences in educational attainment. Click on edit filters and uncheck everything but "Advanced" and "College" under education. Then, click close filters. Note that, despite filtering down just to just college graduates, the similar disparities between those identifying as "White" versus those identifying as "Black" or "Hispanic" still hold.</div>
           <div class="intro-link-holder">
             <a href="#step5" class="backward step-link" targetstep="step5"><< Back</a> / <a href="#step7" class="forward step-link" targetstep="step7">Next >></a>
           </div>
         </div>
         <div class="intro-step" id="step7">
-          <div>For example, while architecture and engineering sees only 1.7% unemployment, those identifying as black within that profession see unemployment at about 3% despite having similar educational background.</div>
+          <div>However, income isn't the only way gaps emerge. Select unemployment with the filters still applied. In many (though not all) professions, those identifying as black see higher unemployment.</div>
           <div class="intro-link-holder">
             <a href="#step6" class="backward step-link" targetstep="step6"><< Back</a> / <a href="#step8" class="forward step-link" targetstep="step8">Next >></a>
           </div>
         </div>
         <div class="intro-step" id="step8">
-          <div>Go back to income for a moment and click "metrics" to note that the pay for things like "Farming, fishing, and forestry" compared to, for example, the "Legal" professions is also lower. How might this interact with differences in unemployment or disparities in participation? Note that "Pay" refers to average hourly pay and Gini refers to the Gini Index which is a measure of inequality (higher being more inequitable).</div>
+          <div>For example, while architecture and engineering sees only 1.7% unemployment, those identifying as black within that profession see unemployment at about 3% despite having applied filters for only those with college degrees.</div>
           <div class="intro-link-holder">
             <a href="#step7" class="backward step-link" targetstep="step7"><< Back</a> / <a href="#step9" class="forward step-link" targetstep="step9">Next >></a>
           </div>
@@ -213,7 +213,7 @@
                     </div>
                   </th>
                   <th class="cell-gini">
-                    Gini
+                    <span id="giniLabel">Gini</span>
                     <div class="axes">
                       <div class="right" id="maxGini"></div>
                       <div class="left">0</div>
@@ -259,14 +259,14 @@
   <script src="/dependencies/papaparse.min.js"></script>
   <script src="/dependencies/d3.min.js"></script>
 
-  <script src="/const.js?version=20220530"></script>
-  <script src="/deeplink.js?version=20220530"></script>
-  <script src="/data.js?version=20220530"></script>
-  <script src="/glpyhs.js?version=20220530"></script>
-  <script src="/intro.js?version=20220530"></script>
-  <script src="/presenter.js?version=20220530"></script>
+  <script src="/const.js?version=202205302"></script>
+  <script src="/deeplink.js?version=202205302"></script>
+  <script src="/data.js?version=202205302"></script>
+  <script src="/glpyhs.js?version=202205302"></script>
+  <script src="/intro.js?version=202205302"></script>
+  <script src="/presenter.js?version=202205302"></script>
 
-  <script src="/driver.js?version=20220530"></script>
+  <script src="/driver.js?version=202205302"></script>
 
   <script>init();</script>
 

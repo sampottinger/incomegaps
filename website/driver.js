@@ -84,7 +84,7 @@ function addRedrawListenerId(targetId) {
  *   listener should be added.
  */
 function onScroll(event) {
-  const scolledDown = window.pageYOffset > 300;
+  const scolledDown = window.pageYOffset > (filtersOpen ? 600 : 300);
   const glyphHolder = d3.select("#glyphLegendHolder");
   glyphHolder.classed("fixed", scolledDown);
 }
@@ -298,6 +298,7 @@ function loadUrlState() {
   const urlComponents = window.location.href.split("?");
   if (urlComponents.length >= 2) {
     applyDeepLinkUrl(urlComponents[1]);
+    d3.select("#toolSection").classed("fade-in", true);
   }
 }
 
