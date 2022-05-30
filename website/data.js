@@ -239,8 +239,10 @@ class Dataset {
         const groupToRemove = groupings.get(key);
         const value = groupToRemove["valueTotal"];
         const count = groupToRemove["countTotal"];
-        totalGroupingInfo["valueTotal"] -= value;
-        totalGroupingInfo["countTotal"] -= count;
+        
+        occupation["valueTotal"] -= value;
+        occupation["countTotal"] -= count;
+
         groupings.delete(key);
       });
     });
