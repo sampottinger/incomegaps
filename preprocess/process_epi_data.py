@@ -104,10 +104,10 @@ def load_data(locs: typing.List[str], start_year: int, start_month: int, end_yea
         return {
             '0-20 hours': 'Less than 35 Hours',
             '21-34 hours': 'Less than 35 Hours',
-            '35-39 hours': '35 or More Hours',
-            '40 hours': '35 or More Hours',
-            '41-49 hours': '35 or More Hours',
-            '50 or more hours': '35 or More Hours',
+            '35-39 hours': 'At Least 35 Hours',
+            '40 hours': 'At Least 35 Hours',
+            '41-49 hours': 'At Least 35 Hours',
+            '50 or more hours': 'At Least 35 Hours',
             'Hours vary: full-time': 'Varies or Other',
             'Hours vary: part-time': 'Varies or Other'
         }.get(target, 'Varies or Other')
