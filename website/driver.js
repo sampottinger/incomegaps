@@ -354,6 +354,8 @@ function updateViz(removalList) {
     const filterLabel = filterCountLabel + " " + filterUnitLabel;
     document.getElementById("filtersCountLabel").innerHTML = filterLabel;
 
+    updateFlashTargets();
+
     return queryResults;
   });
 }
@@ -421,4 +423,6 @@ function init() {
 
   const editFilterLink = document.getElementById("editFilterLink");
   editFilterLink.addEventListener("click", toggleFiltersPanel);
+
+  initIntro();
 }

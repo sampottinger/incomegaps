@@ -16,7 +16,69 @@
         <div>Where are there income differences between groups within the same areas of work?</div>
       </div>
       <div class="intro">
-        This visualization explores the shape of the United States labor market, examining differences in income between professions, gender, race / ethnicity, age, and education to better understand various pay gaps.
+        <div class="intro-step active" id="step0">
+          <div>This visualization explores the shape of the United States labor market, examining differences in income between professions, gender, race / ethnicity, age, and education to better understand various pay gaps.</div>
+          <div class="intro-link-holder">
+            <a href="#step10" class="skip step-link" targetstep="step10">Skip</a> / <a href="#step1" class="forward step-link" targetstep="step1">Start Intro >></a>
+          </div>
+        </div>
+        <div class="intro-step" id="step1">
+          <div>Below is the gap between the pay for men and women (using census gender definitions). The vertical line represents overall average pay. On the left, you can hover over to see that women make 12% less than the overall average while men make 11% more than the average.</div>
+          <div class="intro-link-holder">
+            <a href="#step0" class="backward step-link" targetstep="step0"><< Back</a> / <a href="#step2" class="forward step-link" targetstep="step2">Next >></a>
+          </div>
+        </div>
+        <div class="intro-step" id="step2">
+          <div>However, when talking about differences in pay, how you frame the question is really important. If we expand our understanding look per occupation, food preparation and serving sees a fairly small gap while the disparity in legal occupations is huge.</div>
+          <div class="intro-link-holder">
+            <a href="#step1" class="backward step-link" targetstep="step1"><< Back</a> / <a href="#step3" class="forward step-link" targetstep="step3">Next >></a>
+          </div>
+        </div>
+        <div class="intro-step" id="step3">
+          <div>Adding more nuance, clicking group size shows how many people are in each group by gender. Here, for example, "installation, maintenance, and repair" sees a smaller gap but a large disparity in participation by gender.</div>
+          <div class="intro-link-holder">
+            <a href="#step2" class="backward step-link" targetstep="step2"><< Back</a> / <a href="#step4" class="forward step-link" targetstep="step4">Next >></a>
+          </div>
+        </div>
+        <div class="intro-step" id="step4">
+          <div>What about other types of gaps? Switch to "race and ethnicity". Notice that the "Hispanic" population both sees lower wages than the "White" population across almost all all occupations.</div>
+          <div class="intro-link-holder">
+            <a href="#step3" class="backward step-link" targetstep="step3"><< Back</a> / <a href="#step5" class="forward step-link" targetstep="step5">Next >></a>
+          </div>
+        </div>
+        <div class="intro-step" id="step5">
+          <div>If it isn't already selected, check "metrics" and note that the pay for things like "Farming, fishing, and forestry" compared to, for example, the "Legal" professions is also lower. Note that "Pay" refers to average hourly pay and Gini refers to the Gini Index which is a measure of inequality (higher being more inequitable).</div>
+          <div class="intro-link-holder">
+            <a href="#step4" class="backward step-link" targetstep="step4"><< Back</a> / <a href="#step6" class="forward step-link" targetstep="step6">Next >></a>
+          </div>
+        </div>
+        <div class="intro-step" id="step6">
+          <div>Of course, this may reflect differences in educational attainment. Click on edit filters and uncheck everything but "Advanced" and "College" under education. Then, click close filters. Note that, despite filtering down just to just college graduates, the same trend still holds.</div>
+          <div class="intro-link-holder">
+            <a href="#step5" class="backward step-link" targetstep="step5"><< Back</a> / <a href="#step7" class="forward step-link" targetstep="step7">Next >></a>
+          </div>
+        </div>
+        <div class="intro-step" id="step7">
+          <div>This also holds for those identifying as black but income isn't the only way gaps emerge. Select unemployment with the filters still applied. In many professions, those identifying as black see higher higher unemployment in many professions.</div>
+          <div class="intro-link-holder">
+            <a href="#step6" class="backward step-link" targetstep="step6"><< Back</a> / <a href="#step8" class="forward step-link" targetstep="step8">Next >></a>
+          </div>
+        </div>
+        <div class="intro-step" id="step8">
+          <div>For example, despite architecture and engineering seeing only 1.7% unemployment, those identifying as black within that profession see unemployment about 3% despite having similar educational background.</div>
+          <div class="intro-link-holder">
+            <a href="#step7" class="backward step-link" targetstep="step7"><< Back</a> / <a href="#step9" class="forward step-link" targetstep="step9">Next >></a>
+          </div>
+        </div>
+        <div class="intro-step" id="step9">
+          <div>Note that there's a share button where you can send others a link to your results.</div>
+          <div class="intro-link-holder">
+            <a href="#step8" class="backward step-link" targetstep="step8"><< Back</a> / <a href="#step10" class="forward step-link" targetstep="step10">Finish >></a>
+          </div>
+        </div>
+        <div class="intro-step" id="step10">
+          <div>That's it for the tour! What other trends can you find?</div>
+        </div>
       </div>
     </header>
 
@@ -60,10 +122,10 @@
               <span id="filtersCountLabel">No filters</span> enabled. - <a href="#filtersPanel" id="editFilterLink">Edit filters</a> / <a href="#" id="shareLink">Share</a>
             </div>
             <div class="left">
-              <span class="check-holder"><label for="groupSizeCheck"><input id="groupSizeCheck" type="checkbox"> Group Size</label></span>
+              <span class="check-holder" id="groupSizeHolder"><label for="groupSizeCheck"><input id="groupSizeCheck" type="checkbox"> Group Size</label></span>
               <span class="check-holder"><label for="colorblindModeCheck"><input id="colorblindModeCheck" type="checkbox"> Colorblind Mode</label></span>
               <span class="check-holder"><label for="zoomingAxisCheck"><input id="zoomingAxisCheck" type="checkbox" checked> Zooming Axis</label></span>
-              <span class="check-holder"><label for="metricsCheck"><input id="metricsCheck" type="checkbox" checked> Metrics</label></span>
+              <span class="check-holder" id="metricsCheckHolder"><label for="metricsCheck"><input id="metricsCheck" type="checkbox" checked> Metrics</label></span>
             </div>
             <div id="filtersPanel">
               <div class="filter">
@@ -81,7 +143,7 @@
                 <div><label for="whiteCheck"><input id="whiteCheck" filtervalue="White" type="checkbox" class="race-check filter-check" checked> White</label></div>
               </div>
               <div class="filter">
-                <div class="filter-title">Education</div>
+                <div class="filter-title" id="educationTitle">Education</div>
                 <div><label for="advancedCheck"><input id="advancedCheck" filtervalue="Advanced" type="checkbox" class="education-check filter-check" checked> Advanced</label></div>
                 <div><label for="collegeCheck"><input id="collegeCheck" filtervalue="College" type="checkbox" class="education-check filter-check" checked> College</label></div>
                 <div><label for="someCheck"><input id="someCheck" filtervalue="Some college" type="checkbox" class="education-check filter-check" checked> Some college</label></div>
@@ -197,11 +259,12 @@
   <script src="/dependencies/papaparse.min.js"></script>
   <script src="/dependencies/d3.min.js"></script>
 
-  <script src="/const.js?version=202205292"></script>
-  <script src="/deeplink.js?version=202205292"></script>
-  <script src="/data.js?version=202205292"></script>
-  <script src="/glpyhs.js?version=202205292"></script>
-  <script src="/presenter.js?version=202205292"></script>
+  <script src="/const.js?version=202205293"></script>
+  <script src="/deeplink.js?version=202205293"></script>
+  <script src="/data.js?version=202205293"></script>
+  <script src="/glpyhs.js?version=202205293"></script>
+  <script src="/intro.js?version=202205293"></script>
+  <script src="/presenter.js?version=202205293"></script>
 
   <script src="/driver.js?version=202205171"></script>
 
