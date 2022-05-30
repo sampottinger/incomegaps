@@ -372,6 +372,12 @@ html {
   margin: 0;
 }
 
+.fade-in {
+  animation: fade 1.5s;
+  animation-iteration-count: 1;
+  opacity: 100% !important;
+}
+
 .flash {
   animation: pulse 2s infinite;
   border: 2px solid;
@@ -409,6 +415,10 @@ html {
     top: 10px;
     background: #E0E0E0;
     padding: 3px;
+}
+
+#toolSection {
+  opacity: 0%;
 }
 
 #variableHolder.flash {
@@ -529,4 +539,10 @@ html {
   100% {
     border-color: rgba(150, 150, 150, 0.1);
   }
+}
+
+
+@keyframes fade {
+   0% {opacity: 0;}
+   100% {opacity: 1;}
 }

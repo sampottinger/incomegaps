@@ -298,6 +298,7 @@ function loadUrlState() {
   const urlComponents = window.location.href.split("?");
   if (urlComponents.length >= 2) {
     applyDeepLinkUrl(urlComponents[1]);
+    d3.select("#toolSection").classed("fade-in", true);
   }
 }
 

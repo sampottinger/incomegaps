@@ -6,7 +6,13 @@ const FLASH_TARGETS = {
   "step2": ["FoodpreparationandservingrelatedDisplay", "LegalDisplay"],
   "step3": ["groupSizeHolder", "InstallationmaintenanceandrepairDisplay"],
   "step4": ["dimensionHolder"],
-  "step5": ["metricsCheckHolder", "HealthcarepractitionerandtechnicalDisplay", "HealthcaresupportDisplay"],
+  "step5": [
+    "metricsCheckHolder",
+    "HealthcarepractitionerandtechnicalDisplay",
+    "HealthcaresupportDisplay",
+    "valueLabel",
+    "giniLabel"
+  ],
   "step6": ["editFilterLink", "educationTitle"],
   "step7": ["variableHolder"],
   "step8": ["ArchitectureandengineeringDisplay"],
@@ -20,6 +26,8 @@ function initIntro() {
   for (var i=0; i < elements.length; i++) {
     let element = elements[i];
     element.addEventListener("click", (event) => {
+      d3.select("#toolSection").classed("fade-in", true);
+
       step = event.target.getAttribute("targetstep");
 
       if (step === "step1") {
