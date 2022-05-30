@@ -77,6 +77,7 @@ def load_data(locs: typing.List[str], start_year: int, start_month: int, end_yea
         'orgwgt',
         'region',
         'citistat',
+        'hoursuint',
         'age'
     ]].copy().reset_index()
 
@@ -99,7 +100,20 @@ def load_data(locs: typing.List[str], start_year: int, start_month: int, end_yea
         else:
             return "65+ yr"
 
+    def determine_hours(target):
+        return {
+            '0-20 hours': 'Less than 35 Hours',
+            '21-34 hours': 'Less than 35 Hours',
+            '35-39 hours': 'At Least 35 Hours',
+            '40 hours': 'At Least 35 Hours',
+            '41-49 hours': 'At Least 35 Hours',
+            '50 or more hours': 'At Least 35 Hours',
+            'Hours vary: full-time': 'Varies or Other',
+            'Hours vary: part-time': 'Varies or Other'
+        }.get(target, 'Varies or Other')
+
     with_wage['age'] = with_wage['age'].apply(determine_age)
+    with_wage['hoursuint'] = with_wage['hoursuint'].apply(determine_hours)
 
     return with_wage
 
@@ -115,7 +129,7 @@ def get_key(row: typing.Dict) -> str:
     """
     key_pieces = map(
         lambda key: row[key],
-        ['educ', 'docc03', 'wbhaom', 'female', 'region', 'citistat', 'age']
+        ['educ', 'docc03', 'wbhaom', 'female', 'region', 'citistat', 'age', 'hoursuint']
     )
     key_pieces_str = map(lambda x: str(x), key_pieces)
     return '-'.join(key_pieces_str)
@@ -148,6 +162,7 @@ def agg_data(source: pandas.DataFrame) -> typing.Dict:
                 'region': row['region'],
                 'citistat': row['citistat'],
                 'age': row['age'],
+                'hoursuint': row['hoursuint'],
                 'wageCount': 0,
                 'unempCount': 0
             }
@@ -199,6 +214,7 @@ def summarize_agg(agg: typing.Dict) -> typing.List[typing.Dict]:
             'female': record['female'],
             'region': record['region'],
             'age': record['age'],
+            'hoursuint': record['hoursuint'],
             'citistat': record['citistat']
         })
 

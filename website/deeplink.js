@@ -37,6 +37,9 @@ const FILTER_CHECK_IDS = [
   "age45Check",
   "age55Check",
   "ageGt65Check",
+  "lessThan35HoursCheck",
+  "atLeast35HoursCheck",
+  "otherHoursCheck",
   "requireMinCheck"
 ];
 
