@@ -197,6 +197,12 @@ class VizPresenter {
       .attr("y", 10)
       .html((x) => self._numFormatInt(x) + "%");
 
+    const getIdName = (target) => {
+      const name = target.getName().replaceAll(" occupations", "");
+      const nameSafe = name.replaceAll(" ", "").replaceAll(",", "");
+      return nameSafe + "Display";
+    }
+
     const newElements = selection.enter()
       .append("tr")
       .classed("viz-row", true);
@@ -222,6 +228,7 @@ class VizPresenter {
       .classed("cell-gap", true);
 
     const newGapSvg = newGapElements.append("svg")
+      .attr("id", getIdName)
       .classed("cell-gap-svg", true);
 
     newGapSvg.append("rect")

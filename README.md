@@ -63,4 +63,4 @@ Code available under the [MIT license](https://mit-license.org/) (see `LICENSE.m
 
 Data
 --------------------------------------------------------------------------------
-Uses [US Census Microdata](https://www.census.gov/programs-surveys/acs/microdata.html) samples via [EPI Microdata Extracts](https://microdata.epi.org). The live version at https://incomegaps.com uses all of 2021. Citation: Economic Policy Institute. 2022. Current Population Survey Extracts, Version 1.0.29, https://microdata.epi.org.
+Uses [US Census Microdata](https://www.census.gov/programs-surveys/acs/microdata.html) samples via [EPI Microdata Extracts](https://microdata.epi.org). The live version at https://incomegaps.com uses March 2021 to March 2022. Citation: Economic Policy Institute. 2022. Current Population Survey Extracts, Version 1.0.29, https://microdata.epi.org.

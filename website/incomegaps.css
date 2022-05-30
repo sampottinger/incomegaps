@@ -225,6 +225,16 @@ article #vizTable .cell-gap .glyph-hovering .gap-label {
   opacity: 1;
 }
 
+article #vizTable .cell-gap-svg {
+  padding-left: 3px;
+  padding-right: 3px;
+}
+
+article #vizTable .cell-gap-svg.flash {
+  padding-left: 0px;
+  padding-right: 0px;
+}
+
 article #vizTable .cell-gap-svg .gap-line {
   y: 10px;
   height: 1px;
@@ -335,6 +345,24 @@ header .intro {
   font-size: 16px;
 }
 
+header .intro .intro-link-holder {
+  padding-top: 10px;
+}
+
+header .intro .intro-link-holder .forward {
+  animation: pulse 2s infinite;
+  border: 2px solid;
+  padding: 2px;
+}
+
+header .intro .intro-step {
+  display: none;
+}
+
+header .intro .intro-step.active {
+  display: block;
+}
+
 header .intro .lead {
   font-weight: bold;
 }
@@ -342,6 +370,12 @@ header .intro .lead {
 html {
   padding: 0;
   margin: 0;
+}
+
+.flash {
+  animation: pulse 2s infinite;
+  border: 2px solid;
+  padding: 1px;
 }
 
 .hidden-metric {
@@ -356,6 +390,15 @@ html {
   transform: rotate(45deg);
 }
 
+#dimensionHolder.flash {
+  padding: 10px;
+}
+
+#gapAxes {
+  padding-left: 3px;
+  padding-right: 3px;
+}
+
 #skip-link {
     top: -20px;
     left: 0;
@@ -366,6 +409,10 @@ html {
     top: 10px;
     background: #E0E0E0;
     padding: 3px;
+}
+
+#variableHolder.flash {
+  padding: 10px;
 }
 
 @media (max-width: 600px) {
@@ -469,4 +516,17 @@ html {
     padding-right: 20px;
   }
 
+}
+
+
+@keyframes pulse {
+  0% {
+    border-color: rgba(150, 150, 150, 0);
+  }
+  50% {
+    border-color: rgba(150, 150, 150, 0.5);
+  }
+  100% {
+    border-color: rgba(150, 150, 150, 0);
+  }
 }
