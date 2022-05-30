@@ -521,12 +521,12 @@ html {
 
 @keyframes pulse {
   0% {
-    border-color: rgba(150, 150, 150, 0);
+    border-color: rgba(150, 150, 150, 0.1);
   }
   50% {
-    border-color: rgba(150, 150, 150, 0.5);
+    border-color: rgba(150, 150, 150, 0.7);
   }
   100% {
-    border-color: rgba(150, 150, 150, 0);
+    border-color: rgba(150, 150, 150, 0.1);
   }
 }

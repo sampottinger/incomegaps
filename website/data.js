@@ -178,7 +178,7 @@ class Dataset {
       const groupingAttr = rawRecord[groupingAttrName];
       const occupation = rawRecord["docc03"];
       const targetVariableAttrs = getVariableAttrs();
-      const values = parseFloat(rawRecord[targetVariableAttrs["variable"]]);
+      const value = parseFloat(rawRecord[targetVariableAttrs["variable"]]);
       const count = parseFloat(rawRecord[targetVariableAttrs["count"]]);
 
       if (!occupationRollup.has(occupation)) {
@@ -190,10 +190,10 @@ class Dataset {
       }
 
       const occupationRecord = occupationRollup.get(occupation);
-      occupationRecord["valueTotal"] += values * count;
+      occupationRecord["valueTotal"] += value * count;
       occupationRecord["countTotal"] += count;
 
-      totalGroup["valueTotal"] += values * count;
+      totalGroup["valueTotal"] += value * count;
       totalGroup["countTotal"] += count;
 
       const groupings = occupationRecord["groupings"];
@@ -205,7 +205,7 @@ class Dataset {
       }
 
       const groupingInfo = groupings.get(groupingAttr);
-      groupingInfo["valueTotal"] += values * count;
+      groupingInfo["valueTotal"] += value * count;
       groupingInfo["countTotal"] += count;
 
       const totalGroupings = totalGroup["groupings"];
@@ -217,7 +217,7 @@ class Dataset {
       }
 
       const totalGroupingInfo = totalGroupings.get(groupingAttr);
-      totalGroupingInfo["valueTotal"] += values * count;
+      totalGroupingInfo["valueTotal"] += value * count;
       totalGroupingInfo["countTotal"] += count;
     });
 
@@ -236,6 +236,11 @@ class Dataset {
       });
 
       toRemove.forEach((key) => {
+        const groupToRemove = groupings.get(key);
+        const value = groupToRemove["valueTotal"];
+        const count = groupToRemove["countTotal"];
+        totalGroupingInfo["valueTotal"] -= value;
+        totalGroupingInfo["countTotal"] -= count;
         groupings.delete(key);
       });
     });

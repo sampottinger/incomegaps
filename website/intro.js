@@ -6,10 +6,10 @@ const FLASH_TARGETS = {
   "step2": ["FoodpreparationandservingrelatedDisplay", "LegalDisplay"],
   "step3": ["groupSizeHolder", "InstallationmaintenanceandrepairDisplay"],
   "step4": ["dimensionHolder"],
-  "step5": ["editFilterLink", "educationTitle"],
-  "step6": ["variableHolder"],
-  "step7": ["ArchitectureandengineeringDisplay"],
-  "step8": ["variableHolder", "metricsCheckHolder"],
+  "step5": ["metricsCheckHolder"],
+  "step6": ["editFilterLink", "educationTitle"],
+  "step7": ["variableHolder"],
+  "step8": ["ArchitectureandengineeringDisplay"],
   "step9": ["shareLink"],
   "step10": []
 }
