@@ -34,7 +34,7 @@ function initIntro() {
         applyDeepLinkObj({
           "variable": "income",
           "dimension": "female",
-          "filters": "11111111111111111111111111110",
+          "filters": "11111111111111111111111111111110",
           "config": "0010"
         });
         hardRedraw();
