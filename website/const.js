@@ -32,7 +32,8 @@ const ATTRS = [
   "educ",
   "region",
   "citistat",
-  "age"
+  "age",
+  "hoursuint"
 ];
 
 const GAP_SIZES = {
