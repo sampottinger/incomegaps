@@ -32,7 +32,7 @@ function initIntro() {
 
       if (step === "step1") {
         applyDeepLinkObj({
-          "variable": "income",
+          "variable": "income.median",
           "dimension": "female",
           "filters": "11111111111111111111111111110100",
           "config": "0010"

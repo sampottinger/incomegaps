@@ -351,34 +351,7 @@ class Dataset {
     }
 
     const summaryType = getSummaryType();
-    const summarizeStrategy = {
-      "mean": (rawRecord) => {
-        const valueTotal = rawRecord["valueTotal"];
-        const countTotal = rawRecord["countTotal"];
-        const value = countTotal > 0 ? valueTotal / countTotal : 0;
-        return value;
-      },
-      "median": (rawRecord) => {
-        const countTotal = rawRecord["countTotal"];
-        const midpointCount = countTotal / 2;
-        rawRecord["values"].sort((a, b) => a["value"] - b["value"]);
-
-        let accumulator = 0;
-        let i = 0;
-
-        const values = rawRecord["values"];
-        const getCurrentCount = () => {
-          return accumulator + values[i]["weight"];
-        };
-
-        while (getCurrentCount() < midpointCount) {
-          i++;
-          accumulator = getCurrentCount();
-        }
-
-        return values[i]["value"];
-      }
-    }[summaryType];
+    const summarizeStrategy = self._getSummarizeStrategy(summaryType);
 
     const outputRecords = [];
     occupationRollup.forEach((rawRecord, occupationName) => {
@@ -409,24 +382,27 @@ class Dataset {
   }
 
   /**
-   * Get how much more or less a subpopulation is paid relative to pop mean.
+   * Get how much more or less a subpopulation is paid relative to pop mean/med.
    *
-   * @param meanValue The value like average pay for the overall population in
-   *   the occupation after applying filters.
+   * @param centralValue The value like average pay for the overall population
+   *   in the occupation after applying filters.
    * @param rawGroupings Mapping from subgroup (Male, Female) for an occupation
    *   to object with valueTotal and countTotal.
    * @param names The ordered list of subgroup names (like Male, Female).
    */
-  _getGapInfo(meanValue, rawGroupings, names) {
+  _getGapInfo(centralValue, rawGroupings, names) {
     const self = this;
     const retMap = new Map();
+
+    const summaryType = getSummaryType();
+    const summarizeStrategy = self._getSummarizeStrategy(summaryType);
 
     names.forEach((name) => {
       if (rawGroupings.has(name)) {
         const rollup = rawGroupings.get(name);
-        const groupingMean = rollup["valueTotal"] / rollup["countTotal"];
-        const diff = groupingMean - meanValue;
-        const percentDiff = (diff / meanValue) * 100;
+        const groupingCentral = summarizeStrategy(rollup);
+        const diff = groupingCentral - centralValue;
+        const percentDiff = (diff / centralValue) * 100;
         const isIncome = getVariable() === "income";
         const effectiveDiff = isIncome ? percentDiff : diff;
         retMap.set(name, {"value": effectiveDiff, "pop": rollup["countTotal"]});
@@ -436,6 +412,39 @@ class Dataset {
     });
 
     return retMap;
+  }
+
+  _getSummarizeStrategy(summaryType) {
+    const self = this;
+
+    return {
+      "mean": (rawRecord) => {
+        const valueTotal = rawRecord["valueTotal"];
+        const countTotal = rawRecord["countTotal"];
+        const value = countTotal > 0 ? valueTotal / countTotal : 0;
+        return value;
+      },
+      "median": (rawRecord) => {
+        const countTotal = rawRecord["countTotal"];
+        const midpointCount = countTotal / 2;
+        rawRecord["values"].sort((a, b) => a["value"] - b["value"]);
+
+        let accumulator = 0;
+        let i = 0;
+
+        const values = rawRecord["values"];
+        const getCurrentCount = () => {
+          return accumulator + values[i]["weight"];
+        };
+
+        while (getCurrentCount() < midpointCount) {
+          i++;
+          accumulator = getCurrentCount();
+        }
+
+        return values[i]["value"];
+      }
+    }[summaryType];
   }
 
   /**
