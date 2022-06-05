@@ -328,22 +328,13 @@ function saveUrlState() {
   history.pushState({}, "", fullUrl);
 }
 
-
 /**
- * Update the visualization.
+ * Build promises for showing / hiding indicator.
  *
- * @param showLoading Boolean flag for if the loading indicator animation should
- *   play.
- * @param removalList List of groups (names of groups like Male, Female) to
- *   exclude.
+ * @param showLoading If true, will play animation. If false, returns noops.
+ * @returns Indicator loading promises (object with prepare and cleanup).
  */
-function updateViz(showLoading, removalList) {
-  saveUrlState();
-
-  if (currentPresenter === null) {
-    currentPresenter = createNewPresenter();
-  }
-
+function buildIndicatorPromises(showLoading) {
   const prepareNoop = (x) => {
     return new Promise((resolve, reject) => {
       resolve(x);
@@ -375,40 +366,68 @@ function updateViz(showLoading, removalList) {
   const prepareIndicator = showLoading ? prepareActive : prepareNoop;
   const cleanUpIndicator = showLoading ? cleanUpActive : cleanUpNoop;
 
+  return {
+    "prepare": prepareIndicator,
+    "cleanup": cleanUpIndicator
+  };
+}
+
+
+/**
+ * Update the visualization.
+ *
+ * @param showLoading Boolean flag for if the loading indicator animation should
+ *   play.
+ * @param removalList List of groups (names of groups like Male, Female) to
+ *   exclude.
+ */
+function updateViz(showLoading, removalList) {
+  saveUrlState();
+
+  if (currentPresenter === null) {
+    currentPresenter = createNewPresenter();
+  }
+
+  const indicatorPromises = buildIndicatorPromises(showLoading);
+  const prepareIndicator = indicatorPromises["prepare"];
+  const cleanUpIndicator = indicatorPromises["cleanup"];
+
   const curTarget = document.getElementById("dimension").value;
   return prepareIndicator()
     .then(loadSourceData)
     .then((result) => {
-      if (removalList === undefined) {
-        removalList = getRemovalList();
-      }
+      return new Promise((resolve, reject) => {
+        if (removalList === undefined) {
+          removalList = getRemovalList();
+        }
 
-      const requireMinCheck = document.getElementById("requireMinCheck");
-      const requireMin = !requireMinCheck.checked;
+        const requireMinCheck = document.getElementById("requireMinCheck");
+        const requireMin = !requireMinCheck.checked;
 
-      const minGroupSize = requireMin ? 0.00025 : 0;
-      const queryResults = result.query(curTarget, removalList, minGroupSize);
+        const minGroupSize = requireMin ? 0.00025 : 0;
+        const queryResults = result.query(curTarget, removalList, minGroupSize);
 
-      const vizBody = document.getElementById("vizBody");
-      const noDataMessage = document.getElementById("noDataMessage");
-      if (queryResults === null) {
-        vizBody.style.display = "none";
-        noDataMessage.style.display = "block";
-      } else {
-        vizBody.style.display = "block";
-        noDataMessage.style.display = "none";
-        currentPresenter.draw(queryResults);
-      }
+        const vizBody = document.getElementById("vizBody");
+        const noDataMessage = document.getElementById("noDataMessage");
+        if (queryResults === null) {
+          vizBody.style.display = "none";
+          noDataMessage.style.display = "block";
+        } else {
+          vizBody.style.display = "block";
+          noDataMessage.style.display = "none";
+          currentPresenter.draw(queryResults);
+        }
 
-      const numFilters = removalList.length + (requireMin ? 1 : 0);
-      const filterCountLabel = numFilters == 0 ? "No" : numFilters;
-      const filterUnitLabel = numFilters == 1 ? "filter" : "filters"
-      const filterLabel = filterCountLabel + " " + filterUnitLabel;
-      document.getElementById("filtersCountLabel").innerHTML = filterLabel;
+        const numFilters = removalList.length + (requireMin ? 1 : 0);
+        const filterCountLabel = numFilters == 0 ? "No" : numFilters;
+        const filterUnitLabel = numFilters == 1 ? "filter" : "filters"
+        const filterLabel = filterCountLabel + " " + filterUnitLabel;
+        document.getElementById("filtersCountLabel").innerHTML = filterLabel;
 
-      updateFlashTargets();
+        updateFlashTargets();
 
-      return queryResults;
+        resolve(queryResults);
+      });
     })
     .then(cleanUpIndicator);
 }
@@ -416,17 +435,25 @@ function updateViz(showLoading, removalList) {
 
 /**
  * Clear existing elements and create a new presenter.
+ *
+ * @param showLoading Flag indicating if the loading indicator animation should
+ *   run. Defaults to true.
  */
-function hardRedraw() {
+function hardRedraw(showLoading) {
   const lateLoadingIndicator = d3.select("#lateLoadingIndicator");
 
-  lateLoadingIndicator.style("opacity", "0");
-  lateLoadingIndicator.transition().style("opacity", 1).on("end", () => {
-    createNewPresenter();
-    updateViz(false);
+  if (showLoading === undefined) {
+    showLoading = true;
+  }
 
-    lateLoadingIndicator.style("opacity", 0);
-  });
+  const indicatorPromises = buildIndicatorPromises(showLoading);
+  const prepareIndicator = indicatorPromises["prepare"];
+  const cleanUpIndicator = indicatorPromises["cleanup"];
+
+  prepareIndicator().then(() => {
+    createNewPresenter();
+    return updateViz(false);
+  }).then(cleanUpIndicator);
 }
 
 

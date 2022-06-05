@@ -44,6 +44,7 @@ function initIntro() {
       d3.select("#" + step).classed("active", true);
       updateFlashTargets();
 
+      document.getElementById(step).focus();
       event.preventDefault();
     });
   }
