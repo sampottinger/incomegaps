@@ -145,7 +145,7 @@ function getGapMinMax() {
   const isZoomingAxis = zoomingAxisCheck.checked;
 
   const selectedDimension = document.getElementById("dimension").value;
-  const variable = document.getElementById("variable").value;
+  const variable = getVariable();
 
   const globalMinMaxes = getMinMaxes();
   const maxGap = globalMinMaxes["maxValue"];
@@ -240,7 +240,7 @@ function getRemovalList() {
  * @returns Object with minValue, minGap, maxGap, maxGini.
  */
 function getMinMaxes() {
-  const variable = document.getElementById("variable").value;
+  const variable = getVariable();
   return GLOBAL_MIN_MAXES[variable];
 }
 
@@ -251,7 +251,17 @@ function getMinMaxes() {
  * @returns Name of the variable selected.
  */
 function getVariable() {
-  return document.getElementById("variable").value;
+  return document.getElementById("variable").value.split(".")[0];
+}
+
+
+/**
+ * Get the name of the type of aggregation to use (mean, median).
+ *
+ * @returns Strategy name either mean or median.
+ */
+function getSummaryType() {
+  return document.getElementById("variable").value.split(".")[1];
 }
 
 

@@ -350,11 +350,39 @@ class Dataset {
       names.splice(2, 0, "Some college");
     }
 
+    const summaryType = getSummaryType();
+    const summarizeStrategy = {
+      "mean": (rawRecord) => {
+        const valueTotal = rawRecord["valueTotal"];
+        const countTotal = rawRecord["countTotal"];
+        const value = countTotal > 0 ? valueTotal / countTotal : 0;
+        return value;
+      },
+      "median": (rawRecord) => {
+        const countTotal = rawRecord["countTotal"];
+        const midpointCount = countTotal / 2;
+        rawRecord["values"].sort((a, b) => a["value"] - b["value"]);
+
+        let accumulator = 0;
+        let i = 0;
+
+        const values = rawRecord["values"];
+        const getCurrentCount = () => {
+          return accumulator + values[i]["weight"];
+        };
+
+        while (getCurrentCount() < midpointCount) {
+          i++;
+          accumulator = getCurrentCount();
+        }
+
+        return values[i]["value"];
+      }
+    }[summaryType];
+
     const outputRecords = [];
     occupationRollup.forEach((rawRecord, occupationName) => {
-      const valueTotal = rawRecord["valueTotal"];
-      const countTotal = rawRecord["countTotal"];
-      const value = countTotal > 0 ? valueTotal / countTotal : 0;
+      const value = summarizeStrategy(rawRecord);
       const gapInfo = self._getGapInfo(value, rawRecord["groupings"], names);
       const gini = self._getGini(rawRecord["groupings"]);
       const outputRecord = new Record(
