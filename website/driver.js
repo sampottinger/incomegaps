@@ -384,8 +384,6 @@ function updateViz(removalList) {
 function hardRedraw() {
   const lateLoadingIndicator = d3.select("#lateLoadingIndicator");
 
-  debugger;
-
   lateLoadingIndicator.style("display", "block");
   lateLoadingIndicator.style("opacity", "0");
   lateLoadingIndicator.transition().style("opacity", 1).on("end", () => {
