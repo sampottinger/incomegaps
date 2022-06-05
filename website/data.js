@@ -429,7 +429,7 @@ class Dataset {
    */
   _parseWageTuples(wageTupleStr) {
     const self = this;
-    const groupStrs = wageTotalStr.split(';');
+    const groupStrs = wageTupleStr.split(';');
     return groupStrs.map((groupStr) => {
       const numbersStr = groupStr.split(" ");
       const numbers = numbersStr.map((numberStr) => parseFloat(numberStr));
