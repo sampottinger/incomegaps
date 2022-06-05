@@ -477,7 +477,7 @@ class Dataset {
     const variableName = variableAttrs["variable"];
 
     const variableTotalStrategy = {
-      "unemp": (record) => parseFloat(record["unemp"]),
+      "unemp": (x) => parseFloat(x["unemp"]) * parseFloat(x["unempCount"]),
       "wageotc": (record) => {
         const wageGroups = self._parseWageTuples(record["wageotc"]);
         const subTotals = wageGroups.map(
