@@ -153,16 +153,12 @@ class Dataset {
 
     const occupationRollup = new Map();
 
+    // Remove unusable results
     const validResults = self._rawResults.filter(
       (x) => x["docc03"] !== undefined
     ).filter((x) => x[groupingAttrName] !== undefined);
 
-    const totalGroup = {
-      "groupings": new Map(),
-      "valueTotal": 0,
-      "countTotal": 0
-    };
-
+    // Remove groups requested to be excluded by user
     const validResultsFilter = validResults.filter((rawRecord) => {
       const foundGroups = ATTRS.filter((attr) => {
         return removedGroups.indexOf(rawRecord[attr]) != -1;
@@ -170,18 +166,28 @@ class Dataset {
       return foundGroups.length == 0;
     });
 
+    // Check if anything is still left over
     if (validResultsFilter.length == 0) {
       return null;
     }
 
+    // Parse and filter for min sample size
     const resultsParsed = self._parseResults(
       validResultsFilter,
       groupingAttrName
     );
+
     const minResultsFilter = self._filterMinResults(
       resultsParsed,
       minGroupSize
     );
+
+    // Aggregate
+    const totalGroup = {
+      "groupings": new Map(),
+      "valueTotal": 0,
+      "countTotal": 0
+    };
 
     minResultsFilter.forEach((inputRecord) => {
       const groupingAttr = inputRecord["groupingAttr"];
