@@ -21,7 +21,7 @@ class Record {
    * Create a new record of a dataset group.
    *
    * @param name The name of the group (occupation).
-   * @param value The mean value like houly pay for this group.
+   * @param value The mean or median value like houly pay for this group.
    * @param gapInfo Mapping from subpopulation of interest to wage disparity
    *   and population size information.
    * @param gini The gini index for this group where the gini index is calculated
@@ -178,8 +178,9 @@ class Dataset {
       const groupingAttr = rawRecord[groupingAttrName];
       const occupation = rawRecord["docc03"];
       const targetVariableAttrs = getVariableAttrs();
-      const value = parseFloat(rawRecord[targetVariableAttrs["variable"]]);
-      const count = parseFloat(rawRecord[targetVariableAttrs["count"]]);
+      const variableStrategies = self._getVariableStrategies(targetVariableAttrs);
+      const valueTotal = variableStrategies["variableTotal"](rawRecord);
+      const count = variableStrategies["count"](rawRecord);
 
       if (!occupationRollup.has(occupation)) {
         occupationRollup.set(occupation, {
@@ -190,10 +191,10 @@ class Dataset {
       }
 
       const occupationRecord = occupationRollup.get(occupation);
-      occupationRecord["valueTotal"] += value * count;
+      occupationRecord["valueTotal"] += valueTotal;
       occupationRecord["countTotal"] += count;
 
-      totalGroup["valueTotal"] += value * count;
+      totalGroup["valueTotal"] += valueTotal;
       totalGroup["countTotal"] += count;
 
       const groupings = occupationRecord["groupings"];
@@ -205,7 +206,7 @@ class Dataset {
       }
 
       const groupingInfo = groupings.get(groupingAttr);
-      groupingInfo["valueTotal"] += value * count;
+      groupingInfo["valueTotal"] += valueTotal;
       groupingInfo["countTotal"] += count;
 
       const totalGroupings = totalGroup["groupings"];
@@ -217,7 +218,7 @@ class Dataset {
       }
 
       const totalGroupingInfo = totalGroupings.get(groupingAttr);
-      totalGroupingInfo["valueTotal"] += value * count;
+      totalGroupingInfo["valueTotal"] += valueTotal;
       totalGroupingInfo["countTotal"] += count;
     });
 
@@ -393,6 +394,50 @@ class Dataset {
     const decimal = 1 - sumScores;
 
     return decimal * 100;
+  }
+
+  /**
+   * Build strategies for parsing records for counts and variable values.
+   * 
+   * @param variableAttrs The name of the variables of interest for the visualization.
+   * @returns Object with strategies.
+   */
+  _getVariableStrategies(variableAttrs) {
+    const self = this;
+
+    const variableName = variableAttrs["variable"];
+    const variableTotalStrategy = {
+      "unemp": (record) => parseFloat(record["unemp"]),
+      "wageotc": (record) => {
+        const wageGroups = self._parseWageTuples(record["wageotc"]);
+        const subTotals = wageGroups.map((group) => group["wage"] * group["weight"]);
+        return subTotals.reduce((a, b) => a + b);
+      }
+    }[variableName];
+
+    return {
+      "variableTotal": variableTotalStrategy,
+      "count": (x) => parseFloat(x[variableAttrs["count"]])
+    };
+  }
+
+  /**
+   * Parse a string containing wages and weights / counts for those wages.
+   * 
+   * @param wageTupleStr The string containing the wages and weights string.
+   * @returns Parsed string
+   */
+  _parseWageTuples(wageTupleStr) {
+    const self = this;
+    const groupStrs = wageTotalStr.split(';');
+    return groupStrs.map((groupStr) => {
+      const numbersStr = groupStr.split(" ");
+      const numbers = numbersStr.map((numberStr) => parseFloat(numberStr));
+      return {
+        "wage": numbers[0],
+        "weight": numbers[1]
+      };
+    });
   }
 
 }
