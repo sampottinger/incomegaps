@@ -241,7 +241,7 @@ class Dataset {
   }
 
   /**
-   * 
+   *
    * @param resultsRaw The raw records read from the data CSV file.
    * @param groupingAttrName The name of the attribute by which to aggregate
    *   (like Gender).
@@ -252,7 +252,7 @@ class Dataset {
 
     const targetVariableAttrs = getVariableAttrs();
     const variableStrategies = self._getVariableStrategies(targetVariableAttrs);
-    
+
     return resultsRaw.map((rawRecord) => {
       const groupingAttr = rawRecord[groupingAttrName];
       const occupation = rawRecord["docc03"];
@@ -270,15 +270,44 @@ class Dataset {
 
   /**
    * Filter for a minimum population size.
-   * 
+   *
    * @param results Parsed results.
    * @param minGroupSize The min group size as a percentage 0 - 1.
    * @returns Filtered list of parsed results.
    */
   _filterMinResults(results, minGroupSize) {
+    const self = this;
+    
     const overallTotal = results.map((x) => x["count"]).reduce((a, b) => a + b);
     const minGroupSizeCalculated = minGroupSize * overallTotal;
-    return results.filter((x) => x["count"] >= minGroupSizeCalculated);
+
+    const groupSizes = new Map();
+    results.forEach((x) => {
+      const occupation = x["occupation"];
+      const group = x["groupingAttr"];
+      const count = x["count"];
+      const key = occupation + "\t" + group;
+
+      if (!groupSizes.has(key)) {
+        groupSizes.set(key, 0);
+      }
+
+      groupSizes.set(key, groupSizes.get(key) + count);
+    });
+
+    const groupsExclude = new Set();
+    groupSizes.forEach((value, key) => {
+      if (value < minGroupSizeCalculated) {
+        groupsExclude.add(key);
+      }
+    });
+
+    return results.filter((x) => {
+      const occupation = x["occupation"];
+      const group = x["groupingAttr"];
+      const key = occupation + "\t" + group;
+      return !groupsExclude.has(key);
+    });
   }
 
   /**
@@ -426,7 +455,7 @@ class Dataset {
 
   /**
    * Build strategies for parsing records for counts and variable values.
-   * 
+   *
    * @param variableAttrs The name of the variables of interest for the
    *    visualization.
    * @returns Object with strategies.
@@ -454,7 +483,7 @@ class Dataset {
 
   /**
    * Parse a string containing wages and weights / counts for those wages.
-   * 
+   *
    * @param wageTupleStr The string containing the wages and weights string.
    * @returns Parsed string
    */

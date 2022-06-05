@@ -341,7 +341,7 @@ function updateViz(removalList) {
     const requireMinCheck = document.getElementById("requireMinCheck");
     const requireMin = !requireMinCheck.checked;
 
-    const minGroupSize = requireMin ? 0.0002 : 0;
+    const minGroupSize = requireMin ? 0.00025 : 0;
     const queryResults = result.query(curTarget, removalList, minGroupSize);
 
     const vizBody = document.getElementById("vizBody");
