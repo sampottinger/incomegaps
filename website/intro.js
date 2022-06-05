@@ -4,7 +4,7 @@ const FLASH_TARGETS = {
   "step0": [],
   "step1": ["AllDisplay"],
   "step2": ["FoodpreparationandservingrelatedDisplay", "LegalDisplay"],
-  "step3": ["groupSizeHolder", "InstallationmaintenanceandrepairDisplay"],
+  "step3": ["groupSizeHolder", "FarmingfishingandforestryDisplay"],
   "step4": ["dimensionHolder"],
   "step5": [
     "metricsCheckHolder",
