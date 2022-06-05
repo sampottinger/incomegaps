@@ -174,7 +174,7 @@ def agg_data(source: pandas.DataFrame) -> typing.Dict:
         agg[key]['unempCount'] += weight
 
         if numpy.isfinite(row['wageotc']):
-            agg[key]['wageotc'].append(row['wageotc'] * weight)
+            agg[key]['wageotc'].append((row['wageotc'], weight))
             agg[key]['wageCount'] += weight
 
     return agg
@@ -195,9 +195,13 @@ def summarize_agg(agg: typing.Dict) -> typing.List[typing.Dict]:
 
     for record in has_records:
         if record['wageCount'] == 0:
-            mean_wage = 0
+            wages = [(0, 0)]
         else:
-            mean_wage = sum(record['wageotc']) / record['wageCount']
+            wages = record['wageotc']
+        
+        wages.sort(key=lambda x: x[1])
+        wages_strs = map(lambda x: '%f %f' % x, wages)
+        wages_str = ';'.join(wages_strs)
 
         mean_unemployemnt = (
             sum(record['unemp']) + 0.0
@@ -206,7 +210,7 @@ def summarize_agg(agg: typing.Dict) -> typing.List[typing.Dict]:
         output_rows.append({
             'educ': record['educ'],
             'docc03': record['docc03'],
-            'wageotc': mean_wage,
+            'wageotc': wages_str,
             'unemp': mean_unemployemnt,
             'wageCount': record['wageCount'],
             'unempCount': record['unempCount'],
