@@ -5,7 +5,7 @@
     <title>Income Gaps</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="/dependencies/loading.css">
-    <link rel="stylesheet" href="/incomegaps.css?version=202206051">
+    <link rel="stylesheet" href="/incomegaps.css?version=202206052">
   </head>
 
   <body>
@@ -47,7 +47,7 @@
           </div>
         </div>
         <div class="intro-step" id="step5">
-          <div>Click the "metrics" checkbox. Note that "Pay" refers to average hourly pay and Gini refers to the Gini Index which is a measure of inequality (higher being more inequitable). This in mind, pay for things like "Healthcare practitioner and technical" (like doctors) compared to, for example, the "Healthcare support" professions is higher but racial / ethnic disparity in pay is also higher.</div>
+          <div>Click the "metrics" checkbox. Note that "Pay" refers to median hourly pay (salaried employees' hourly equivalent). Meanwhile, Gini refers to the Gini Index which is a measure of inequality (higher being more inequitable). This in mind, pay for "Healthcare practitioner and technical" (like doctors) exceeds that of the "Healthcare support" professions but also sees higher racial / ethnic disparity in pay.</div>
           <div class="intro-link-holder">
             <a href="#step4" class="backward step-link" targetstep="step4"><< Back</a> / <a href="#step6" class="forward step-link" targetstep="step6">Next >></a>
           </div>
@@ -189,14 +189,7 @@
           </div>
         </div>
         <div id="lateLoadingIndicator" class="loading-indicator">
-          <div>Loading data...</div>
-          <div class="la-ball-circus la-dark">
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-          </div>
+          <div class="inner">Loading data...</div>
         </div>
         <div id="noDataMessage">
           No matching data.
@@ -276,14 +269,14 @@
   <script src="/dependencies/papaparse.min.js"></script>
   <script src="/dependencies/d3.min.js"></script>
 
-  <script src="/const.js?version=202206051"></script>
-  <script src="/deeplink.js?version=202206051"></script>
-  <script src="/data.js?version=202206051"></script>
-  <script src="/glpyhs.js?version=202206051"></script>
-  <script src="/intro.js?version=202206051"></script>
-  <script src="/presenter.js?version=202206051"></script>
+  <script src="/const.js?version=202206052"></script>
+  <script src="/deeplink.js?version=202206052"></script>
+  <script src="/data.js?version=202206052"></script>
+  <script src="/glpyhs.js?version=202206052"></script>
+  <script src="/intro.js?version=202206052"></script>
+  <script src="/presenter.js?version=202206052"></script>
 
-  <script src="/driver.js?version=202206051"></script>
+  <script src="/driver.js?version=202206052"></script>
 
   <script>init();</script>
 

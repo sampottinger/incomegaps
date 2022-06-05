@@ -55,7 +55,12 @@ article #glyphLegendHolder.fixed {
 }
 
 article #lateLoadingIndicator {
-  display: none;
+  opacity: 0;
+  padding: 10px;
+}
+
+article #lateLoadingIndicator .inner {
+  animation: pulseLoad 2s infinite;
 }
 
 article #noDataMessage {
@@ -543,6 +548,13 @@ html {
   100% {
     border-color: rgba(150, 150, 150, 0.1);
   }
+}
+
+
+@keyframes pulseLoad {
+  0% {opacity: 0.8;}
+  50% {opacity: 1;}
+  100% {opacity: 0.8;}
 }
 
 

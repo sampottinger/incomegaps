@@ -316,7 +316,7 @@ QUnit.module("incomeGaps", function() {
 
   QUnit.test("updateViz", function(assert) {
     const done = assert.async();
-    updateViz().then(() => {
+    updateViz(true).then(() => {
       const numOccupations = document.getElementsByClassName("cell-occupation").length;
       assert.ok(numOccupations > 1);
       done();
@@ -326,7 +326,7 @@ QUnit.module("incomeGaps", function() {
   QUnit.test("renderIncomeMedian", function(assert) {
     const done = assert.async();
     document.getElementById("variable").value = "income.median";
-    updateViz().then(() => {
+    updateViz(true).then(() => {
       const numOccupations = document.getElementsByClassName("cell-occupation").length;
       assert.ok(numOccupations > 1);
       done();
@@ -336,7 +336,7 @@ QUnit.module("incomeGaps", function() {
   QUnit.test("renderIncomeMean", function(assert) {
     const done = assert.async();
     document.getElementById("variable").value = "income.mean";
-    updateViz().then(() => {
+    updateViz(true).then(() => {
       const numOccupations = document.getElementsByClassName("cell-occupation").length;
       assert.ok(numOccupations > 1);
       done();
@@ -346,7 +346,7 @@ QUnit.module("incomeGaps", function() {
   QUnit.test("renderUnemployment", function(assert) {
     const done = assert.async();
     document.getElementById("variable").value = "unemployment.mean";
-    updateViz().then(() => {
+    updateViz(true).then(() => {
       const numOccupations = document.getElementsByClassName("cell-occupation").length;
       assert.ok(numOccupations > 1);
       done();
@@ -355,7 +355,7 @@ QUnit.module("incomeGaps", function() {
 
   QUnit.test("dataAvailableFilter", function(assert) {
     const done = assert.async();
-    updateViz(["Male"]).then(() => {
+    updateViz(true, ["Male"]).then(() => {
       assert.deepEqual(
         document.getElementById("noDataMessage").style.display,
         "none"
@@ -370,7 +370,7 @@ QUnit.module("incomeGaps", function() {
 
   QUnit.test("dataNotAvailableFilter", function(assert) {
     const done = assert.async();
-    updateViz(["Male", "Female"]).then(() => {
+    updateViz(true, ["Male", "Female"]).then(() => {
       assert.deepEqual(
         document.getElementById("noDataMessage").style.display,
         "block"
