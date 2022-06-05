@@ -338,8 +338,6 @@ function saveUrlState() {
 function updateViz(removalList) {
   saveUrlState();
 
-  document.getElementById("lateLoadingIndicator").style.display = "block";
-
   if (currentPresenter === null) {
     currentPresenter = createNewPresenter();
   }
@@ -375,8 +373,6 @@ function updateViz(removalList) {
 
     updateFlashTargets();
 
-    document.getElementById("lateLoadingIndicator").style.display = "none";
-
     return queryResults;
   });
 }
@@ -386,8 +382,18 @@ function updateViz(removalList) {
  * Clear existing elements and create a new presenter.
  */
 function hardRedraw() {
-  createNewPresenter();
-  updateViz();
+  const lateLoadingIndicator = d3.select("#lateLoadingIndicator");
+
+  lateLoadingIndicator.style("display", "block");
+  lateLoadingIndicator.style("opacity", "0");
+  lateLoadingIndicator.transition().style("opacity", 1).on("end", () => {
+    createNewPresenter();
+    updateViz();
+
+    lateLoadingIndicator.transition().style("opacity", 0).on("end", () => {
+      lateLoadingIndicator.style("display", "none");
+    });
+  });
 }
 
 
