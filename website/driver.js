@@ -151,7 +151,11 @@ function getGapMinMax() {
   const maxGap = globalMinMaxes["maxValue"];
   const minGap = globalMinMaxes["minGap"];
 
-  return isZoomingAxis ? GAP_SIZES[variable][selectedDimension] : {"max": maxGap, "min": minGap};
+  if (isZoomingAxis) {
+    return GAP_SIZES[variable][selectedDimension];
+  } else {
+    return {"max": maxGap, "min": minGap};
+  }
 }
 
 
@@ -221,7 +225,9 @@ function rememberClientWidth() {
  *   Female).
  */
 function getRemovalList() {
-  const filterChecks = Array.from(document.getElementsByClassName("filter-check"));
+  const filterChecks = Array.from(
+    document.getElementsByClassName("filter-check")
+  );
   const unchecked = filterChecks.filter((x) => !x.checked);
   const values = unchecked.map((x) => x.getAttribute("filtervalue"));
   return values;
