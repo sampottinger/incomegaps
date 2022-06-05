@@ -55,7 +55,7 @@ function addHardRedrawListenerId(targetId) {
  */
 function addRedrawListener(target) {
   target.addEventListener("change", () => {
-    updateViz();
+    updateViz(true);
   });
 }
 
@@ -107,7 +107,7 @@ function initalLoadViz() {
       });
   };
 
-  updateViz().then(fadeInViz);
+  updateViz(false).then(fadeInViz);
 }
 
 
@@ -332,49 +332,85 @@ function saveUrlState() {
 /**
  * Update the visualization.
  *
+ * @param showLoading Boolean flag for if the loading indicator animation should
+ *   play.
  * @param removalList List of groups (names of groups like Male, Female) to
  *   exclude.
  */
-function updateViz(removalList) {
+function updateViz(showLoading, removalList) {
   saveUrlState();
 
   if (currentPresenter === null) {
     currentPresenter = createNewPresenter();
   }
 
+  const prepareNoop = (x) => {
+    return new Promise((resolve, reject) => {
+      resolve(x);
+    });
+  };
+  const cleanUpNoop = (x) => {
+    return new Promise((resolve, reject) => {
+      resolve(x);
+    });
+  };
+
+  const prepareActive = (x) => {
+    return new Promise((resolve, reject) => {
+      const lateLoadingIndicator = d3.select("#lateLoadingIndicator");
+      lateLoadingIndicator.style("opacity", "0");
+      lateLoadingIndicator.transition().style("opacity", 1).on("end", () => {
+        resolve(x);
+      });
+    });
+  };
+  const cleanUpActive = (x) => {
+    return new Promise((resolve, reject) => {
+      const lateLoadingIndicator = d3.select("#lateLoadingIndicator");
+      lateLoadingIndicator.style("opacity", "0");
+      resolve(x);
+    });
+  };
+
+  const prepareIndicator = showLoading ? prepareActive : prepareNoop;
+  const cleanUpIndicator = showLoading ? cleanUpActive : cleanUpNoop;
+
   const curTarget = document.getElementById("dimension").value;
-  return loadSourceData().then((result) => {
-    if (removalList === undefined) {
-      removalList = getRemovalList();
-    }
+  return prepareIndicator()
+    .then(loadSourceData)
+    .then((result) => {
+      if (removalList === undefined) {
+        removalList = getRemovalList();
+      }
 
-    const requireMinCheck = document.getElementById("requireMinCheck");
-    const requireMin = !requireMinCheck.checked;
+      const requireMinCheck = document.getElementById("requireMinCheck");
+      const requireMin = !requireMinCheck.checked;
 
-    const minGroupSize = requireMin ? 0.00025 : 0;
-    const queryResults = result.query(curTarget, removalList, minGroupSize);
+      const minGroupSize = requireMin ? 0.00025 : 0;
+      const queryResults = result.query(curTarget, removalList, minGroupSize);
 
-    const vizBody = document.getElementById("vizBody");
-    const noDataMessage = document.getElementById("noDataMessage");
-    if (queryResults === null) {
-      vizBody.style.display = "none";
-      noDataMessage.style.display = "block";
-    } else {
-      vizBody.style.display = "block";
-      noDataMessage.style.display = "none";
-      currentPresenter.draw(queryResults);
-    }
+      const vizBody = document.getElementById("vizBody");
+      const noDataMessage = document.getElementById("noDataMessage");
+      if (queryResults === null) {
+        vizBody.style.display = "none";
+        noDataMessage.style.display = "block";
+      } else {
+        vizBody.style.display = "block";
+        noDataMessage.style.display = "none";
+        currentPresenter.draw(queryResults);
+      }
 
-    const numFilters = removalList.length + (requireMin ? 1 : 0);
-    const filterCountLabel = numFilters == 0 ? "No" : numFilters;
-    const filterUnitLabel = numFilters == 1 ? "filter" : "filters"
-    const filterLabel = filterCountLabel + " " + filterUnitLabel;
-    document.getElementById("filtersCountLabel").innerHTML = filterLabel;
+      const numFilters = removalList.length + (requireMin ? 1 : 0);
+      const filterCountLabel = numFilters == 0 ? "No" : numFilters;
+      const filterUnitLabel = numFilters == 1 ? "filter" : "filters"
+      const filterLabel = filterCountLabel + " " + filterUnitLabel;
+      document.getElementById("filtersCountLabel").innerHTML = filterLabel;
 
-    updateFlashTargets();
+      updateFlashTargets();
 
-    return queryResults;
-  });
+      return queryResults;
+    })
+    .then(cleanUpIndicator);
 }
 
 
@@ -384,15 +420,12 @@ function updateViz(removalList) {
 function hardRedraw() {
   const lateLoadingIndicator = d3.select("#lateLoadingIndicator");
 
-  lateLoadingIndicator.style("display", "block");
   lateLoadingIndicator.style("opacity", "0");
   lateLoadingIndicator.transition().style("opacity", 1).on("end", () => {
     createNewPresenter();
-    updateViz();
+    updateViz(false);
 
-    lateLoadingIndicator.transition().style("opacity", 0).on("end", () => {
-      lateLoadingIndicator.style("display", "none");
-    });
+    lateLoadingIndicator.style("opacity", 0);
   });
 }
 

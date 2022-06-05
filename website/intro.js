@@ -37,12 +37,14 @@ function initIntro() {
           "filters": "11111111111111111111111111110100",
           "config": "0010"
         });
-        hardRedraw();
+        hardRedraw(false);
       }
 
       d3.selectAll(".active").classed("active", false);
       d3.select("#" + step).classed("active", true);
       updateFlashTargets();
+
+      event.preventDefault();
     });
   }
 }
