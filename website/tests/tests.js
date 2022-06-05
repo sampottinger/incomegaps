@@ -49,6 +49,16 @@ QUnit.module("incomeGaps", function() {
       assert.ok(dataset !== null);
       assert.ok(dataset !== undefined);
       assert.ok(dataset._rawResults.length > 0);
+
+      const exampleRecord = dataset._rawResults[0];
+      assert.ok(!isNaN(parseFloat(exampleRecord["unempCount"])));
+      assert.ok(!isNaN(parseFloat(exampleRecord["unemp"])));
+      assert.ok(!isNaN(parseFloat(exampleRecord["wageCount"])));
+
+      const wageOtc = dataset._rawResults[0]["wageotc"];
+      const exampleWage = parseFloat(wageOtc.split(" ")[0]);
+      assert.ok(!isNaN(exampleWage));
+
       done();
     }).catch((err) => {
       assert.deepEqual(err, "");

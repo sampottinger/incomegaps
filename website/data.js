@@ -186,7 +186,8 @@ class Dataset {
     const totalGroup = {
       "groupings": new Map(),
       "valueTotal": 0,
-      "countTotal": 0
+      "countTotal": 0,
+      "values": []
     };
 
     minResultsFilter.forEach((inputRecord) => {
@@ -194,45 +195,53 @@ class Dataset {
       const occupation = inputRecord["occupation"];
       const valueTotal = inputRecord["valueTotal"];
       const count = inputRecord["count"];
+      const values = inputRecord["values"];
 
       if (!occupationRollup.has(occupation)) {
         occupationRollup.set(occupation, {
           "groupings": new Map(),
           "valueTotal": 0,
-          "countTotal": 0
+          "countTotal": 0,
+          "values": []
         });
       }
 
       const occupationRecord = occupationRollup.get(occupation);
       occupationRecord["valueTotal"] += valueTotal;
       occupationRecord["countTotal"] += count;
+      occupationRecord["values"].push(...values);
 
       totalGroup["valueTotal"] += valueTotal;
       totalGroup["countTotal"] += count;
+      totalGroup["values"].push(...values);
 
       const groupings = occupationRecord["groupings"];
       if (!groupings.has(groupingAttr)) {
         groupings.set(groupingAttr, {
           "valueTotal": 0,
-          "countTotal": 0
+          "countTotal": 0,
+          "values": []
         });
       }
 
       const groupingInfo = groupings.get(groupingAttr);
       groupingInfo["valueTotal"] += valueTotal;
       groupingInfo["countTotal"] += count;
+      groupingInfo["values"].push(...values);
 
       const totalGroupings = totalGroup["groupings"];
       if (!totalGroupings.has(groupingAttr)) {
         totalGroupings.set(groupingAttr, {
           "valueTotal": 0,
-          "countTotal": 0
+          "countTotal": 0,
+          "values": []
         });
       }
 
       const totalGroupingInfo = totalGroupings.get(groupingAttr);
       totalGroupingInfo["valueTotal"] += valueTotal;
       totalGroupingInfo["countTotal"] += count;
+      totalGroupingInfo["values"].push(...values);
     });
 
     occupationRollup.set("All occupations", totalGroup);
@@ -257,12 +266,14 @@ class Dataset {
       const groupingAttr = rawRecord[groupingAttrName];
       const occupation = rawRecord["docc03"];
       const valueTotal = variableStrategies["variableTotal"](rawRecord);
+      const values = variableStrategies["variables"](rawRecord);
       const count = variableStrategies["count"](rawRecord);
 
       return {
         "groupingAttr": groupingAttr,
         "occupation": occupation,
         "valueTotal": valueTotal,
+        "values": values,
         "count": count
       };
     });
@@ -277,7 +288,7 @@ class Dataset {
    */
   _filterMinResults(results, minGroupSize) {
     const self = this;
-    
+
     const overallTotal = results.map((x) => x["count"]).reduce((a, b) => a + b);
     const minGroupSizeCalculated = minGroupSize * overallTotal;
 
@@ -464,19 +475,32 @@ class Dataset {
     const self = this;
 
     const variableName = variableAttrs["variable"];
+
     const variableTotalStrategy = {
       "unemp": (record) => parseFloat(record["unemp"]),
       "wageotc": (record) => {
         const wageGroups = self._parseWageTuples(record["wageotc"]);
         const subTotals = wageGroups.map(
-          (group) => group["wage"] * group["weight"]
+          (group) => group["value"] * group["weight"]
         );
         return subTotals.reduce((a, b) => a + b);
       }
     }[variableName];
 
+    const variableStrategy = {
+      "unemp": (record) => {
+        const unemp = parseFloat(record["unemp"]);
+        const count = parseFloat(record[variableAttrs["count"]]);
+        return [{"value": unemp, "weight": count}];
+      },
+      "wageotc": (record) => {
+        return self._parseWageTuples(record["wageotc"]);
+      }
+    }[variableName];
+
     return {
       "variableTotal": variableTotalStrategy,
+      "variables": variableStrategy,
       "count": (x) => parseFloat(x[variableAttrs["count"]])
     };
   }
@@ -494,7 +518,7 @@ class Dataset {
       const numbersStr = groupStr.split(" ");
       const numbers = numbersStr.map((numberStr) => parseFloat(numberStr));
       return {
-        "wage": numbers[0],
+        "value": numbers[0],
         "weight": numbers[1]
       };
     });

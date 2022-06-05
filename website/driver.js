@@ -328,6 +328,8 @@ function saveUrlState() {
 function updateViz(removalList) {
   saveUrlState();
 
+  document.getElementById("lateLoadingIndicator").style.display = "block";
+
   if (currentPresenter === null) {
     currentPresenter = createNewPresenter();
   }
@@ -362,6 +364,8 @@ function updateViz(removalList) {
     document.getElementById("filtersCountLabel").innerHTML = filterLabel;
 
     updateFlashTargets();
+
+    document.getElementById("lateLoadingIndicator").style.display = "none";
 
     return queryResults;
   });
