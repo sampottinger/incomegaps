@@ -145,13 +145,17 @@ function getGapMinMax() {
   const isZoomingAxis = zoomingAxisCheck.checked;
 
   const selectedDimension = document.getElementById("dimension").value;
-  const variable = document.getElementById("variable").value;
+  const variable = getVariable();
 
   const globalMinMaxes = getMinMaxes();
   const maxGap = globalMinMaxes["maxValue"];
   const minGap = globalMinMaxes["minGap"];
 
-  return isZoomingAxis ? GAP_SIZES[variable][selectedDimension] : {"max": maxGap, "min": minGap};
+  if (isZoomingAxis) {
+    return GAP_SIZES[variable][selectedDimension];
+  } else {
+    return {"max": maxGap, "min": minGap};
+  }
 }
 
 
@@ -221,7 +225,9 @@ function rememberClientWidth() {
  *   Female).
  */
 function getRemovalList() {
-  const filterChecks = Array.from(document.getElementsByClassName("filter-check"));
+  const filterChecks = Array.from(
+    document.getElementsByClassName("filter-check")
+  );
   const unchecked = filterChecks.filter((x) => !x.checked);
   const values = unchecked.map((x) => x.getAttribute("filtervalue"));
   return values;
@@ -234,7 +240,7 @@ function getRemovalList() {
  * @returns Object with minValue, minGap, maxGap, maxGini.
  */
 function getMinMaxes() {
-  const variable = document.getElementById("variable").value;
+  const variable = getVariable();
   return GLOBAL_MIN_MAXES[variable];
 }
 
@@ -245,7 +251,17 @@ function getMinMaxes() {
  * @returns Name of the variable selected.
  */
 function getVariable() {
-  return document.getElementById("variable").value;
+  return document.getElementById("variable").value.split(".")[0];
+}
+
+
+/**
+ * Get the name of the type of aggregation to use (mean, median).
+ *
+ * @returns Strategy name either mean or median.
+ */
+function getSummaryType() {
+  return document.getElementById("variable").value.split(".")[1];
 }
 
 
@@ -322,6 +338,8 @@ function saveUrlState() {
 function updateViz(removalList) {
   saveUrlState();
 
+  document.getElementById("lateLoadingIndicator").style.display = "block";
+
   if (currentPresenter === null) {
     currentPresenter = createNewPresenter();
   }
@@ -335,7 +353,7 @@ function updateViz(removalList) {
     const requireMinCheck = document.getElementById("requireMinCheck");
     const requireMin = !requireMinCheck.checked;
 
-    const minGroupSize = requireMin ? 0.0002 : 0;
+    const minGroupSize = requireMin ? 0.00025 : 0;
     const queryResults = result.query(curTarget, removalList, minGroupSize);
 
     const vizBody = document.getElementById("vizBody");
@@ -356,6 +374,8 @@ function updateViz(removalList) {
     document.getElementById("filtersCountLabel").innerHTML = filterLabel;
 
     updateFlashTargets();
+
+    document.getElementById("lateLoadingIndicator").style.display = "none";
 
     return queryResults;
   });

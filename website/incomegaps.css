@@ -35,6 +35,17 @@ article .legend-holder {
   padding-bottom: 20px;
 }
 
+article .loading-indicator {
+  text-align: center;
+  font-size: 18px;
+  padding: 40px;
+}
+
+article .loading-indicator .la-ball-circus {
+  margin-left: auto;
+  margin-right: auto;
+}
+
 article #glyphLegendHolder.fixed {
   position: fixed;
   top: 0;
@@ -43,15 +54,8 @@ article #glyphLegendHolder.fixed {
   background-color: rgba(255, 255, 255, 0.9);
 }
 
-article #loadingIndicator {
-  text-align: center;
-  font-size: 18px;
-  padding: 40px;
-}
-
-article #loadingIndicator .la-ball-circus {
-  margin-left: auto;
-  margin-right: auto;
+article #lateLoadingIndicator {
+  display: none;
 }
 
 article #noDataMessage {

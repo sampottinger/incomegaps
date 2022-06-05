@@ -23,7 +23,7 @@
       </table>
     </div>
 
-    <input type="text" id="variable" value="income">
+    <input type="text" id="variable" value="income.median">
     <input type="text" id="dimension" value="educ">
     <input id="groupSizeCheck" type="checkbox" checked>
     <input id="colorblindModeCheck" type="checkbox" checked>
@@ -35,6 +35,7 @@
       No matching data.
     </div>
     <div id="filtersPanel">
+      <div id="lateLoadingIndicator"></div>
       <div class="filter">
         <div class="filter-title">Gender</div>
         <div><label for="femaleCheck"><input id="femaleCheck" filtervalue="Female" type="checkbox" class="gender-check filter-check" checked> Female</label></div>

@@ -21,11 +21,11 @@ class Record {
    * Create a new record of a dataset group.
    *
    * @param name The name of the group (occupation).
-   * @param value The mean value like houly pay for this group.
+   * @param value The mean or median value like houly pay for this group.
    * @param gapInfo Mapping from subpopulation of interest to wage disparity
    *   and population size information.
-   * @param gini The gini index for this group where the gini index is calculated
-   *   after grouping by the dimension of interest.
+   * @param gini The gini index for this group where the gini index is
+   *   calculated after grouping by the dimension of interest.
    */
   constructor(name, value, gapInfo, gini) {
     const self = this;
@@ -153,16 +153,12 @@ class Dataset {
 
     const occupationRollup = new Map();
 
+    // Remove unusable results
     const validResults = self._rawResults.filter(
       (x) => x["docc03"] !== undefined
     ).filter((x) => x[groupingAttrName] !== undefined);
 
-    const totalGroup = {
-      "groupings": new Map(),
-      "valueTotal": 0,
-      "countTotal": 0
-    };
-
+    // Remove groups requested to be excluded by user
     const validResultsFilter = validResults.filter((rawRecord) => {
       const foundGroups = ATTRS.filter((attr) => {
         return removedGroups.indexOf(rawRecord[attr]) != -1;
@@ -170,86 +166,159 @@ class Dataset {
       return foundGroups.length == 0;
     });
 
+    // Check if anything is still left over
     if (validResultsFilter.length == 0) {
       return null;
     }
 
-    validResultsFilter.forEach((rawRecord) => {
-      const groupingAttr = rawRecord[groupingAttrName];
-      const occupation = rawRecord["docc03"];
-      const targetVariableAttrs = getVariableAttrs();
-      const value = parseFloat(rawRecord[targetVariableAttrs["variable"]]);
-      const count = parseFloat(rawRecord[targetVariableAttrs["count"]]);
+    // Parse and filter for min sample size
+    const resultsParsed = self._parseResults(
+      validResultsFilter,
+      groupingAttrName
+    );
+
+    const minResultsFilter = self._filterMinResults(
+      resultsParsed,
+      minGroupSize
+    );
+
+    // Aggregate
+    const totalGroup = {
+      "groupings": new Map(),
+      "valueTotal": 0,
+      "countTotal": 0,
+      "values": []
+    };
+
+    minResultsFilter.forEach((inputRecord) => {
+      const groupingAttr = inputRecord["groupingAttr"];
+      const occupation = inputRecord["occupation"];
+      const valueTotal = inputRecord["valueTotal"];
+      const count = inputRecord["count"];
+      const values = inputRecord["values"];
 
       if (!occupationRollup.has(occupation)) {
         occupationRollup.set(occupation, {
           "groupings": new Map(),
           "valueTotal": 0,
-          "countTotal": 0
+          "countTotal": 0,
+          "values": []
         });
       }
 
       const occupationRecord = occupationRollup.get(occupation);
-      occupationRecord["valueTotal"] += value * count;
+      occupationRecord["valueTotal"] += valueTotal;
       occupationRecord["countTotal"] += count;
+      occupationRecord["values"].push(...values);
 
-      totalGroup["valueTotal"] += value * count;
+      totalGroup["valueTotal"] += valueTotal;
       totalGroup["countTotal"] += count;
+      totalGroup["values"].push(...values);
 
       const groupings = occupationRecord["groupings"];
       if (!groupings.has(groupingAttr)) {
         groupings.set(groupingAttr, {
           "valueTotal": 0,
-          "countTotal": 0
+          "countTotal": 0,
+          "values": []
         });
       }
 
       const groupingInfo = groupings.get(groupingAttr);
-      groupingInfo["valueTotal"] += value * count;
+      groupingInfo["valueTotal"] += valueTotal;
       groupingInfo["countTotal"] += count;
+      groupingInfo["values"].push(...values);
 
       const totalGroupings = totalGroup["groupings"];
       if (!totalGroupings.has(groupingAttr)) {
         totalGroupings.set(groupingAttr, {
           "valueTotal": 0,
-          "countTotal": 0
+          "countTotal": 0,
+          "values": []
         });
       }
 
       const totalGroupingInfo = totalGroupings.get(groupingAttr);
-      totalGroupingInfo["valueTotal"] += value * count;
+      totalGroupingInfo["valueTotal"] += valueTotal;
       totalGroupingInfo["countTotal"] += count;
-    });
-
-    const overallTotal = totalGroup["countTotal"];
-    const minGroupSizeCalculated = minGroupSize * overallTotal;
-
-    occupationRollup.forEach((occupation, occupationName) => {
-      const groupings = occupation["groupings"];
-      const toRemove = [];
-
-      groupings.forEach((group, groupName) => {
-        const total = group["countTotal"];
-        if (total < minGroupSizeCalculated) {
-          toRemove.push(groupName);
-        }
-      });
-
-      toRemove.forEach((key) => {
-        const groupToRemove = groupings.get(key);
-        const value = groupToRemove["valueTotal"];
-        const count = groupToRemove["countTotal"];
-        
-        occupation["valueTotal"] -= value;
-        occupation["countTotal"] -= count;
-
-        groupings.delete(key);
-      });
+      totalGroupingInfo["values"].push(...values);
     });
 
     occupationRollup.set("All occupations", totalGroup);
 
     return occupationRollup;
+  }
+
+  /**
+   *
+   * @param resultsRaw The raw records read from the data CSV file.
+   * @param groupingAttrName The name of the attribute by which to aggregate
+   *   (like Gender).
+   * @returns Object with groupingAttr, occupation, valueTotal, and count attrs.
+   */
+  _parseResults(resultsRaw, groupingAttrName) {
+    const self = this;
+
+    const targetVariableAttrs = getVariableAttrs();
+    const variableStrategies = self._getVariableStrategies(targetVariableAttrs);
+
+    return resultsRaw.map((rawRecord) => {
+      const groupingAttr = rawRecord[groupingAttrName];
+      const occupation = rawRecord["docc03"];
+      const valueTotal = variableStrategies["variableTotal"](rawRecord);
+      const values = variableStrategies["variables"](rawRecord);
+      const count = variableStrategies["count"](rawRecord);
+
+      return {
+        "groupingAttr": groupingAttr,
+        "occupation": occupation,
+        "valueTotal": valueTotal,
+        "values": values,
+        "count": count
+      };
+    });
+  }
+
+  /**
+   * Filter for a minimum population size.
+   *
+   * @param results Parsed results.
+   * @param minGroupSize The min group size as a percentage 0 - 1.
+   * @returns Filtered list of parsed results.
+   */
+  _filterMinResults(results, minGroupSize) {
+    const self = this;
+
+    const overallTotal = results.map((x) => x["count"]).reduce((a, b) => a + b);
+    const minGroupSizeCalculated = minGroupSize * overallTotal;
+
+    const groupSizes = new Map();
+    results.forEach((x) => {
+      const occupation = x["occupation"];
+      const group = x["groupingAttr"];
+      const count = x["count"];
+      const key = occupation + "\t" + group;
+
+      if (!groupSizes.has(key)) {
+        groupSizes.set(key, 0);
+      }
+
+      groupSizes.set(key, groupSizes.get(key) + count);
+    });
+
+    const groupsExclude = new Set();
+    groupSizes.forEach((value, key) => {
+      if (value < minGroupSizeCalculated) {
+        groupsExclude.add(key);
+      }
+    });
+
+    return results.filter((x) => {
+      const occupation = x["occupation"];
+      const group = x["groupingAttr"];
+      const key = occupation + "\t" + group;
+      return !groupsExclude.has(key);
+    });
   }
 
   /**
@@ -281,11 +350,12 @@ class Dataset {
       names.splice(2, 0, "Some college");
     }
 
+    const summaryType = getSummaryType();
+    const summarizeStrategy = self._getSummarizeStrategy(summaryType);
+
     const outputRecords = [];
     occupationRollup.forEach((rawRecord, occupationName) => {
-      const valueTotal = rawRecord["valueTotal"];
-      const countTotal = rawRecord["countTotal"];
-      const value = countTotal > 0 ? valueTotal / countTotal : 0;
+      const value = summarizeStrategy(rawRecord);
       const gapInfo = self._getGapInfo(value, rawRecord["groupings"], names);
       const gini = self._getGini(rawRecord["groupings"]);
       const outputRecord = new Record(
@@ -312,24 +382,27 @@ class Dataset {
   }
 
   /**
-   * Get how much more or less a subpopulation is paid relative to pop mean.
+   * Get how much more or less a subpopulation is paid relative to pop mean/med.
    *
-   * @param meanValue The value like average pay for the overall population in
-   *   the occupation after applying filters.
+   * @param centralValue The value like average pay for the overall population
+   *   in the occupation after applying filters.
    * @param rawGroupings Mapping from subgroup (Male, Female) for an occupation
    *   to object with valueTotal and countTotal.
    * @param names The ordered list of subgroup names (like Male, Female).
    */
-  _getGapInfo(meanValue, rawGroupings, names) {
+  _getGapInfo(centralValue, rawGroupings, names) {
     const self = this;
     const retMap = new Map();
+
+    const summaryType = getSummaryType();
+    const summarizeStrategy = self._getSummarizeStrategy(summaryType);
 
     names.forEach((name) => {
       if (rawGroupings.has(name)) {
         const rollup = rawGroupings.get(name);
-        const groupingMean = rollup["valueTotal"] / rollup["countTotal"];
-        const diff = groupingMean - meanValue;
-        const percentDiff = (diff / meanValue) * 100;
+        const groupingCentral = summarizeStrategy(rollup);
+        const diff = groupingCentral - centralValue;
+        const percentDiff = (diff / centralValue) * 100;
         const isIncome = getVariable() === "income";
         const effectiveDiff = isIncome ? percentDiff : diff;
         retMap.set(name, {"value": effectiveDiff, "pop": rollup["countTotal"]});
@@ -339,6 +412,39 @@ class Dataset {
     });
 
     return retMap;
+  }
+
+  _getSummarizeStrategy(summaryType) {
+    const self = this;
+
+    return {
+      "mean": (rawRecord) => {
+        const valueTotal = rawRecord["valueTotal"];
+        const countTotal = rawRecord["countTotal"];
+        const value = countTotal > 0 ? valueTotal / countTotal : 0;
+        return value;
+      },
+      "median": (rawRecord) => {
+        const countTotal = rawRecord["countTotal"];
+        const midpointCount = countTotal / 2;
+        rawRecord["values"].sort((a, b) => a["value"] - b["value"]);
+
+        let accumulator = 0;
+        let i = 0;
+
+        const values = rawRecord["values"];
+        const getCurrentCount = () => {
+          return accumulator + values[i]["weight"];
+        };
+
+        while (getCurrentCount() < midpointCount) {
+          i++;
+          accumulator = getCurrentCount();
+        }
+
+        return values[i]["value"];
+      }
+    }[summaryType];
   }
 
   /**
@@ -393,6 +499,66 @@ class Dataset {
     const decimal = 1 - sumScores;
 
     return decimal * 100;
+  }
+
+  /**
+   * Build strategies for parsing records for counts and variable values.
+   *
+   * @param variableAttrs The name of the variables of interest for the
+   *    visualization.
+   * @returns Object with strategies.
+   */
+  _getVariableStrategies(variableAttrs) {
+    const self = this;
+
+    const variableName = variableAttrs["variable"];
+
+    const variableTotalStrategy = {
+      "unemp": (x) => parseFloat(x["unemp"]) * parseFloat(x["unempCount"]),
+      "wageotc": (record) => {
+        const wageGroups = self._parseWageTuples(record["wageotc"]);
+        const subTotals = wageGroups.map(
+          (group) => group["value"] * group["weight"]
+        );
+        return subTotals.reduce((a, b) => a + b);
+      }
+    }[variableName];
+
+    const variableStrategy = {
+      "unemp": (record) => {
+        const unemp = parseFloat(record["unemp"]);
+        const count = parseFloat(record[variableAttrs["count"]]);
+        return [{"value": unemp, "weight": count}];
+      },
+      "wageotc": (record) => {
+        return self._parseWageTuples(record["wageotc"]);
+      }
+    }[variableName];
+
+    return {
+      "variableTotal": variableTotalStrategy,
+      "variables": variableStrategy,
+      "count": (x) => parseFloat(x[variableAttrs["count"]])
+    };
+  }
+
+  /**
+   * Parse a string containing wages and weights / counts for those wages.
+   *
+   * @param wageTupleStr The string containing the wages and weights string.
+   * @returns Parsed string
+   */
+  _parseWageTuples(wageTupleStr) {
+    const self = this;
+    const groupStrs = wageTupleStr.split(';');
+    return groupStrs.map((groupStr) => {
+      const numbersStr = groupStr.split(" ");
+      const numbers = numbersStr.map((numberStr) => parseFloat(numberStr));
+      return {
+        "value": numbers[0],
+        "weight": numbers[1]
+      };
+    });
   }
 
 }
