@@ -116,8 +116,8 @@ print('Size: %f' % dataset.get_size(query))
 
 If using [Sketchingpy](https://sketchingpy.org), you can pass sketch to `load_from_file` like `load_from_file(loc, sketch=sketch)` to load through the Sketch2D instance.
 
-### Citation
-Uses [US Census Microdata](https://www.census.gov/programs-surveys/acs/microdata.html) samples via [EPI Microdata Extracts](https://microdata.epi.org). The live version at https://incomegaps.com indicates current timeframe in footer. Citation: Economic Policy Institute. 2025. Current Population Survey Extracts, Version 1.0.29, https://microdata.epi.org.
-
 ### Data license
-Our [output CSV file](https://incomegaps.com/data.csv) is available under [CC-BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/deed.en). Please also cite [EPI Microdata Extracts](https://microdata.epi.org).
+Our [output CSV file](https://incomegaps.com/data.csv) is available under [CC-BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/deed.en). Please also cite [EPI Microdata Extracts](https://microdata.epi.org) as shown in Data Source.
+
+### Data Source
+Uses [US Census Microdata](https://www.census.gov/programs-surveys/acs/microdata.html) samples via [EPI Microdata Extracts](https://microdata.epi.org). The live version at https://incomegaps.com indicates current timeframe in footer. Citation: Economic Policy Institute. 2025. Current Population Survey Extracts, Version 1.0.29, https://microdata.epi.org.
