@@ -41,7 +41,11 @@ def load_data(locs: typing.List[str], start_year: int, start_month: int, end_yea
     """
     all_data = None
     for loc in locs:
-        sub_frame = pandas.read_stata(loc, convert_missing=False, preserve_dtypes=False)
+        sub_frame = pandas.read_stata(
+            loc,
+            convert_missing=False,
+            preserve_dtypes=False
+        )
         if all_data is None:
             all_data = sub_frame
         else:

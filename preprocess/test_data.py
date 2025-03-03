@@ -38,6 +38,18 @@ def main():
     assert dataset.get_unemp(query) > 0
     assert dataset.get_size(query) > 0
 
+    assert dataset.get_max_wage() > 0
+    assert dataset.get_max_unemployment() > 0
+
+    assert len(dataset.get_educ_vals()) > 0
+    assert len(dataset.get_docc03_vals()) > 0
+    assert len(dataset.get_wbhaom_vals()) > 0
+    assert len(dataset.get_female_vals()) > 0
+    assert len(dataset.get_region_vals()) > 0
+    assert len(dataset.get_age_vals()) > 0
+    assert len(dataset.get_hoursuint_vals()) > 0
+    assert len(dataset.get_citistat_vals()) > 0
+
 
 if __name__ == '__main__':
     main()

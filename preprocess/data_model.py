@@ -50,7 +50,7 @@ class InputRecord:
             index (int): Unique integer identifying this input record.
             educ (str): Education level label as string.
             docc03 (str): Occupation classification as string.
-            wageotc (List[WageTuple]): Equivalent hourly wage in USD with
+            wageotc (Iterable[WageTuple]): Equivalent hourly wage in USD with
                 weights as list of WageTuple.
             unemp (float): Percent unemployment (0-100) as float.
             wage_count (float): Sum of weights for wage information as float.
@@ -66,7 +66,7 @@ class InputRecord:
         self._index = index
         self._educ = educ
         self._docc03 = docc03
-        self._wageotc = wageotc
+        self._wageotc = list(wageotc)
         self._unemp = unemp
         self._wage_count = wage_count
         self._unemp_count = unemp_count
@@ -692,6 +692,45 @@ class Dataset:
         return functools.reduce(combine_records, individual)
 
 
+def parse_wage_otc(wage_otc_string):
+    tuple_unparsed = wage_otc_string.split(';')
+    tuple_strs = map(lambda x: x.split(' '), tuple_unparsed)
+    tuple_parsed = map(lambda x: (float(x[0]), float(x[1])), tuple_strs)
+    return map(lambda x: WageTuple(x[0], x[1]))
+
+
+def parse_record(record_raw):
+    index = int(record_raw['index'])
+    educ = str(record_raw['educ'])
+    docc03 = str(record_raw['docc03'])
+    wageotc = parse_wage_otc(record_raw['wageotc'])
+    unemp = float(record_raw['unemp'])
+    wage_count = float(record_raw['wage_count'])
+    unemp_count = float(record_raw['unemp_count'])
+    wbhaom = str(record_raw['wbhaom'])
+    female = str(record_raw['female']) == Female
+    region = str(record_raw['region'])
+    age = str(record_raw['age'])
+    hoursuint = str(record_raw['hoursuint'])
+    citistat = str(record_raw['citistat'])
+
+    return InputRecord(
+        index,
+        educ,
+        docc03,
+        wageotc,
+        unemp,
+        wage_count,
+        unemp_count,
+        wbhaom,
+        female,
+        region,
+        age,
+        hoursuint,
+        citistat
+    )
+
+
 def load_from_file(loc, sketch=None):
     """Load a dataset from a CSV file.
 
@@ -710,5 +749,7 @@ def load_from_file(loc, sketch=None):
     else:
         with open(loc) as f:
             records = list(csv.DictReader(f))
+
+    records_parsed = map(parse_record, records)
 
     return Dataset(records)
