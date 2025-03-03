@@ -187,6 +187,178 @@ class InputRecord:
         return self._citistat
 
 
+class Query:
+    """Class to represent a query against a dataset.
+
+    This class provides a way to filter a dataset by specifying values for
+    different dimensions. When a dimension is set to None, no filtering is
+    applied for that dimension.
+    """
+
+    def __init__(self):
+        """Initialize a new Query with no filters applied.
+
+        All filter dimensions are initially set to None, meaning no filtering
+        will be applied unless explicitly set.
+        """
+        self._educ = None
+        self._docc03 = None
+        self._wbhaom = None
+        self._female = None
+        self._region = None
+        self._age = None
+        self._hoursuint = None
+        self._citistat = None
+
+    def get_educ(self):
+        """Get the education level filter.
+
+        Returns:
+            str or None: The education level to filter for, or None if no
+                filtering should be applied.
+        """
+        return self._educ
+
+    def set_educ(self, value):
+        """Set the education level filter.
+
+        Args:
+            value (str or None): The education level to filter for, or None to
+                disable filtering by education.
+        """
+        self._educ = value
+
+    def clear_educ(self):
+        """Clear the filer for education level."""
+        self._educ = None
+
+    def get_docc03(self):
+        """Get the occupation filter.
+
+        Returns:
+            str or None: The occupation to filter for, or None if no filtering
+                should be applied.
+        """
+        return self._docc03
+
+    def set_docc03(self, value):
+        """Set the occupation filter.
+
+        Args:
+            value (str or None): The occupation to filter for, or None to disable
+                filtering by occupation.
+        """
+        self._docc03 = value
+
+    def get_wbhaom(self):
+        """Get the race/ethnicity filter.
+
+        Returns:
+            str or None: The race/ethnicity to filter for, or None if no filtering
+                should be applied.
+        """
+        return self._wbhaom
+
+    def set_wbhaom(self, value):
+        """Set the race/ethnicity filter.
+
+        Args:
+            value (str or None): The race/ethnicity to filter for, or None to
+                disable filtering by race/ethnicity.
+        """
+        self._wbhaom = value
+
+    def get_female(self):
+        """Get the gender filter.
+
+        Returns:
+            bool or None: True to filter for Female, False to filter for Male,
+                or None if no filtering should be applied.
+        """
+        return self._female
+
+    def set_female(self, value):
+        """Set the gender filter.
+
+        Args:
+            value (bool or None): True to filter for Female, False to filter for
+                Male, or None to disable filtering by gender.
+        """
+        self._female = value
+
+    def get_region(self):
+        """Get the geographic region filter.
+
+        Returns:
+            str or None: The region to filter for, or None if no filtering should
+                be applied.
+        """
+        return self._region
+
+    def set_region(self, value):
+        """Set the geographic region filter.
+
+        Args:
+            value (str or None): The region to filter for, or None to disable
+                filtering by region.
+        """
+        self._region = value
+
+    def get_age(self):
+        """Get the age group filter.
+
+        Returns:
+            str or None: The age group to filter for, or None if no filtering
+                should be applied.
+        """
+        return self._age
+
+    def set_age(self, value):
+        """Set the age group filter.
+
+        Args:
+            value (str or None): The age group to filter for, or None to disable
+                filtering by age group.
+        """
+        self._age = value
+
+    def get_hoursuint(self):
+        """Get the hours worked filter.
+
+        Returns:
+            str or None: The hours worked category to filter for, or None if no
+                filtering should be applied.
+        """
+        return self._hoursuint
+
+    def set_hoursuint(self, value):
+        """Set the hours worked filter.
+
+        Args:
+            value (str or None): The hours worked category to filter for, or None
+                to disable filtering by hours worked.
+        """
+        self._hoursuint = value
+
+    def get_citistat(self):
+        """Get the citizenship status filter.
+
+        Returns:
+            str or None: The citizenship status to filter for, or None if no
+                filtering should be applied.
+        """
+        return self._citistat
+
+    def set_citistat(self, value):
+        """Set the citizenship status filter.
+
+        Args:
+            value (str or None): The citizenship status to filter for, or None
+                to disable filtering by citizenship status.
+        """
+        self._citistat = value
+
+
 class Dataset:
 
     def __init__(self, input_records):
@@ -226,6 +398,57 @@ class Dataset:
             lambda x: x.get_citistat(),
             input_records
         )
+
+    def get_wageotc(self, query):
+        """Get median wage for a group with overtime, tips, and comissions.
+
+        Args:
+            query (Query): A Query object describing the population for which
+                the median wage should be returned.
+
+        Returns:
+            float: The estimated median wage for the given population.
+        """
+        pass
+
+    def get_unemp(self, query):
+        """Get the overall unemployment rate for a group.
+
+        Args:
+            query (Query): A Query object describing the population for which
+                the unemployemnt rate should be returned.
+
+        Returns:
+            float: The estimated unemployment rate for the specified group.
+        """
+        pass
+
+    def get_size_count(self, query):
+        """Get the size of a population as summed census weight.
+
+        Args:
+            query (Query): A Query object describing the population for which
+                the size should be returned.
+
+        Returns:
+            float: Estimated size of this population as a weight. This is
+                propotional to the size of the population represented. Note
+                that this uses the wage count though the wage and unemployemnt
+                count are often the same.
+        """
+        pass
+
+    def _get_subpopulation(self, query):
+
+        def filter_value(accumulator_index, filter_index, filter_value):
+            if filter_value is None:
+                return accumulator_index
+
+            allowed = filter_index[filter_value]
+            return allowed.intersection(accumulator_index)
+
+        ret_index = set(self._records_by_id.keys())
+        ret_index = filter_value(ret_index, self._id_by_educ, query.get_educ())
 
     def _make_index(self, getter, records):
         def combine_records(a, b):
