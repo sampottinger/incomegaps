@@ -7,8 +7,8 @@ import csv
 import statistics
 import sys
 
-USAGE_STR = 'USAGE: python make_median.py [input file] []'
-NUM_ARGS = 6
+USAGE_STR = 'USAGE: python make_median.py [input file] [output file]'
+NUM_ARGS = 2
 
 OUTPUT_FIELDS = [
     'educ',
