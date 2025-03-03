@@ -57,7 +57,7 @@ def main():
         rows_out = map(process_row, rows_in)
 
         with open(output_loc, 'w') as f_out:
-            writer = csv.DictWriter(f_out, colnames=OUTPUT_FIELDS)
+            writer = csv.DictWriter(f_out, fieldnames=OUTPUT_FIELDS)
             writer.writeheader()
             writer.writerows(rows_out)
 
