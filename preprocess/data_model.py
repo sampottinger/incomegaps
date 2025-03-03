@@ -198,6 +198,38 @@ class Dataset:
             lambda x: x.get_educ(),
             input_records
         )
+        self._id_by_docc03 = self._make_index(
+            lambda x: x.get_docc03(),
+            input_records
+        )
+        self._id_by_unemp = self._make_index(
+            lambda x: x.get_unemp(),
+            input_records
+        )
+        self._id_by_wbhaom = self._make_index(
+            lambda x: x.get_wbhaom(),
+            input_records
+        )
+        self._id_by_female = self._make_index(
+            lambda x: x.get_female(),
+            input_records
+        )
+        self._id_by_region = self._make_index(
+            lambda x: x.get_region(),
+            input_records
+        )
+        self._id_by_age = self._make_index(
+            lambda x: x.get_age(),
+            input_records
+        )
+        self._id_by_hoursuint = self._make_index(
+            lambda x: x.get_hoursuint(),
+            input_records
+        )
+        self._id_by_citistat = self._make_index(
+            lambda x: x.get_citistat(),
+            input_records
+        )
 
     def _make_index(self, getter, records):
         def combine_records(a, b):
