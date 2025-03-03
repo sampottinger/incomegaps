@@ -1,0 +1,1 @@
+python3 ./preprocess/make_median.py ./website/data.csv ./website/median.csv

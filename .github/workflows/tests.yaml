@@ -37,3 +37,5 @@ jobs:
         run: pip install -r requirements.txt
       - name: Get latest
         run: bash get_latest.sh
+      - name: Make median
+        uses: bash make_median.sh
