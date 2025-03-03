@@ -678,25 +678,22 @@ class Dataset:
             dict: A dictionary where each key is a distinct attribute value
                 and each value is a set of record IDs that have that attribute.
         """
-        def combine_records(a, b):
-            keys = set(a.keys()).union(b.keys())
-            return dict(map(
-                lambda key: (key, a.get(key, set()).union(b.get(key, set()))),
-                keys
-            ))
+        index = {}
 
-        individual = map(
-            lambda x: {getter(x): {x.get_index()}},
-            records
-        )
-        return functools.reduce(combine_records, individual)
+        for record in records:
+            value = getter(record)
+            sub_index = index.get(value, set())
+            sub_index.add(record.get_index())
+            index[value] = sub_index
+
+        return index
 
 
 def parse_wage_otc(wage_otc_string):
     tuple_unparsed = wage_otc_string.split(';')
     tuple_strs = map(lambda x: x.split(' '), tuple_unparsed)
     tuple_parsed = map(lambda x: (float(x[0]), float(x[1])), tuple_strs)
-    return map(lambda x: WageTuple(x[0], x[1]))
+    return map(lambda x: WageTuple(x[0], x[1]), tuple_parsed)
 
 
 def parse_record(record_raw):
@@ -705,10 +702,10 @@ def parse_record(record_raw):
     docc03 = str(record_raw['docc03'])
     wageotc = parse_wage_otc(record_raw['wageotc'])
     unemp = float(record_raw['unemp'])
-    wage_count = float(record_raw['wage_count'])
-    unemp_count = float(record_raw['unemp_count'])
+    wage_count = float(record_raw['wageCount'])
+    unemp_count = float(record_raw['unempCount'])
     wbhaom = str(record_raw['wbhaom'])
-    female = str(record_raw['female']) == Female
+    female = str(record_raw['female']) == 'Female'
     region = str(record_raw['region'])
     age = str(record_raw['age'])
     hoursuint = str(record_raw['hoursuint'])
@@ -752,4 +749,4 @@ def load_from_file(loc, sketch=None):
 
     records_parsed = map(parse_record, records)
 
-    return Dataset(records)
+    return Dataset(records_parsed)

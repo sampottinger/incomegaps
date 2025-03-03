@@ -26,7 +26,7 @@ def main():
     assert dataset.get_unemp(query) > 0
     assert dataset.get_size(query) > 0
 
-    query.get_region('West')
+    query.set_region('West')
 
     assert dataset.get_wageotc(query) > 0
     assert dataset.get_unemp(query) > 0
