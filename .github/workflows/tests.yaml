@@ -38,4 +38,4 @@ jobs:
       - name: Get latest
         run: bash get_latest.sh
       - name: Make median
-        uses: bash make_median.sh
+        run: bash make_median.sh

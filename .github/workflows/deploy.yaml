@@ -24,7 +24,7 @@ jobs:
       - name: Get latest
         uses: bash get_latest.sh
       - name: Make median
-        uses: bash make_median.sh
+        run: bash make_median.sh
       - name: Upload Files
         id: upload
         uses: Creepios/sftp-action@v1.0.3
