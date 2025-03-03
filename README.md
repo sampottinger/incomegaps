@@ -65,11 +65,8 @@ Data
 --------------------------------------------------------------------------------
 We use public packaging of census data provided by the Economic Policy Insitute. We make our output data available as a CSV file.
 
-### Citation
-Uses [US Census Microdata](https://www.census.gov/programs-surveys/acs/microdata.html) samples via [EPI Microdata Extracts](https://microdata.epi.org). The live version at https://incomegaps.com indicates current timeframe in footer. Citation: Economic Policy Institute. 2025. Current Population Survey Extracts, Version 1.0.29, https://microdata.epi.org.
-
 ### Output CSV
-Our [output CSV file](https://incomegaps.com/data.csv) is available under [CC-BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/deed.en). Please also cite [EPI Microdata Extracts](https://microdata.epi.org). It contains the following columns:
+Our [output CSV file](https://incomegaps.com/data.csv) contains the following columns:
 
  - `educ`: Education level converted to labels. This will take on the value of less than high school, high school, some college, college, and advanced.
  - `docc03`: Occupation like "computer and mathematical science occupations" as [defined by the US Census](https://www.census.gov/topics/employment/industry-occupation/guidance/code-lists.html).
@@ -85,3 +82,42 @@ Our [output CSV file](https://incomegaps.com/data.csv) is available under [CC-BY
  - `citistat`: Citizenship status as defined by the US Census for this group. Take on values of "foreign born, naturalized US citizen", "foreign born, not a US citizen", "native, born abroad with American parent(s)", "native, born in Puerto Rico or other US island areas", and "native, born in US".
 
 You may also interact with these data through Python as provided in `preprocess/data_model.py`.
+
+### Data model
+We provide pure-Python open source code to interact with our [public CSV file](https://incomegaps.com/data.csv). Available at `preprocess/data_model.py`, the following example executes a few sample queries.
+
+```
+import data_model
+
+dataset = data_model.load_from_file(loc)
+
+query = data_model.Query()
+query.set_educ('College')
+
+print('\n== College Graduates ==')
+print('Equivalent Hourly Wage: %f' % dataset.get_wageotc(query))
+print('Unemployment: %f' % dataset.get_unemp(query))
+print('Size: %f' % dataset.get_size(query))
+
+query.set_region('West')
+
+print('\n== College Graduates in the West ==')
+print('Equivalent Hourly Wage: %f' % dataset.get_wageotc(query))
+print('Unemployment: %f' % dataset.get_unemp(query))
+print('Size: %f' % dataset.get_size(query))
+
+query.clear_educ()
+
+print('\n== Everyone in the West ==')
+print('Equivalent Hourly Wage: %f' % dataset.get_wageotc(query))
+print('Unemployment: %f' % dataset.get_unemp(query))
+print('Size: %f' % dataset.get_size(query))
+```
+
+If using [Sketchingpy](https://sketchingpy.org), you can pass sketch to `load_from_file` like `load_from_file(loc, sketch=sketch)` to load through the Sketch2D instance.
+
+### Citation
+Uses [US Census Microdata](https://www.census.gov/programs-surveys/acs/microdata.html) samples via [EPI Microdata Extracts](https://microdata.epi.org). The live version at https://incomegaps.com indicates current timeframe in footer. Citation: Economic Policy Institute. 2025. Current Population Survey Extracts, Version 1.0.29, https://microdata.epi.org.
+
+### Data license
+Our [output CSV file](https://incomegaps.com/data.csv) is available under [CC-BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/deed.en). Please also cite [EPI Microdata Extracts](https://microdata.epi.org).
