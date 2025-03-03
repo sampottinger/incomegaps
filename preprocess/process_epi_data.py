@@ -346,7 +346,9 @@ def main():
         summarized
     ))
 
-    pandas.DataFrame(filtered).to_csv(output_loc)
+    output_frame = pandas.DataFrame(filtered)
+    output_frame.index.name = 'index'
+    output_frame.to_csv(output_loc)
 
 
 if __name__ == '__main__':
