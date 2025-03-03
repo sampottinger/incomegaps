@@ -23,8 +23,6 @@ jobs:
         run: pip install -r requirements.txt
       - name: Get latest
         uses: bash get_latest.sh
-      - name: Make median
-        run: bash make_median.sh
       - name: Upload Files
         id: upload
         uses: Creepios/sftp-action@v1.0.3
