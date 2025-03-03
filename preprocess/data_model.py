@@ -506,6 +506,11 @@ class Dataset:
         return sum(wage_counts)
 
     def get_max_wage(self):
+        """Get the maximum wage value across all records in the dataset.
+
+        Returns:
+            float: The maximum hourly wage value in USD found in the dataset.
+        """
         records = self._records_by_id.values()
         wages_nest = map(lambda x: x.get_wageotc(), records)
         wages = itertools.chain(*wages_nest)
@@ -513,32 +518,78 @@ class Dataset:
         return max(wages_raw)
 
     def get_max_unemployment(self):
+        """Get the maximum unemployment rate across all records in the dataset.
+
+        Returns:
+            float: The maximum unemployment rate as a percentage (0-100) 
+                found in the dataset.
+        """
         records = self._records_by_id.values()
         unemployments = map(lambda x: x.get_unemp(), records)
         return max(unemployments)
     
     def get_educ_vals(self):
+        """Get all unique education level values in the dataset.
+
+        Returns:
+            list: Sorted list of education level labels.
+        """
         return sorted(self._id_by_educ.keys())
     
     def get_docc03_vals(self):
+        """Get all unique occupation classification values in the dataset.
+
+        Returns:
+            list: Sorted list of occupation classification labels.
+        """
         return sorted(self._id_by_docc03.keys())
     
     def get_wbhaom_vals(self):
+        """Get all unique race and ethnicity values in the dataset.
+
+        Returns:
+            list: Sorted list of race and ethnicity labels.
+        """
         return sorted(self._id_by_wbhaom.keys())
     
     def get_female_vals(self):
+        """Get all unique gender values in the dataset.
+
+        Returns:
+            list: Sorted list of gender values (typically [False, True]).
+        """
         return sorted(self._id_by_female.keys())
     
     def get_region_vals(self):
+        """Get all unique geographic region values in the dataset.
+
+        Returns:
+            list: Sorted list of region labels.
+        """
         return sorted(self._id_by_region.keys())
     
     def get_age_vals(self):
+        """Get all unique age group values in the dataset.
+
+        Returns:
+            list: Sorted list of age group labels.
+        """
         return sorted(self._id_by_age.keys())
     
     def get_hoursuint_vals(self):
+        """Get all unique hours worked category values in the dataset.
+
+        Returns:
+            list: Sorted list of hours worked category labels.
+        """
         return sorted(self._id_by_hoursuint.keys())
     
     def get_citistat_vals(self):
+        """Get all unique citizenship status values in the dataset.
+
+        Returns:
+            list: Sorted list of citizenship status labels.
+        """
         return sorted(self._id_by_citistat.keys())
 
     def _get_subpopulation(self, query):
