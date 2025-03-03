@@ -202,10 +202,6 @@ class Dataset:
             lambda x: x.get_docc03(),
             input_records
         )
-        self._id_by_unemp = self._make_index(
-            lambda x: x.get_unemp(),
-            input_records
-        )
         self._id_by_wbhaom = self._make_index(
             lambda x: x.get_wbhaom(),
             input_records
