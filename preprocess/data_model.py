@@ -229,8 +229,36 @@ class Query:
         self._educ = value
 
     def clear_educ(self):
-        """Clear the filer for education level."""
+        """Clear the filter for education level."""
         self._educ = None
+
+    def clear_docc03(self):
+        """Clear the filter for occupation."""
+        self._docc03 = None
+        
+    def clear_wbhaom(self):
+        """Clear the filter for race/ethnicity."""
+        self._wbhaom = None
+        
+    def clear_female(self):
+        """Clear the filter for gender."""
+        self._female = None
+        
+    def clear_region(self):
+        """Clear the filter for geographic region."""
+        self._region = None
+        
+    def clear_age(self):
+        """Clear the filter for age group."""
+        self._age = None
+        
+    def clear_hoursuint(self):
+        """Clear the filter for hours worked category."""
+        self._hoursuint = None
+        
+    def clear_citistat(self):
+        """Clear the filter for citizenship status."""
+        self._citistat = None
 
     def get_docc03(self):
         """Get the occupation filter.
