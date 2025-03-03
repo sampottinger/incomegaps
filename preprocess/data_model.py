@@ -4,6 +4,7 @@ Author: A Samuel Pottinger
 License: MIT License
 """
 import csv
+import itertools
 import functools
 
 
@@ -228,38 +229,6 @@ class Query:
         """
         self._educ = value
 
-    def clear_educ(self):
-        """Clear the filter for education level."""
-        self._educ = None
-
-    def clear_docc03(self):
-        """Clear the filter for occupation."""
-        self._docc03 = None
-        
-    def clear_wbhaom(self):
-        """Clear the filter for race/ethnicity."""
-        self._wbhaom = None
-        
-    def clear_female(self):
-        """Clear the filter for gender."""
-        self._female = None
-        
-    def clear_region(self):
-        """Clear the filter for geographic region."""
-        self._region = None
-        
-    def clear_age(self):
-        """Clear the filter for age group."""
-        self._age = None
-        
-    def clear_hoursuint(self):
-        """Clear the filter for hours worked category."""
-        self._hoursuint = None
-        
-    def clear_citistat(self):
-        """Clear the filter for citizenship status."""
-        self._citistat = None
-
     def get_docc03(self):
         """Get the occupation filter.
 
@@ -386,10 +355,49 @@ class Query:
         """
         self._citistat = value
 
+    def clear_educ(self):
+        """Clear the filter for education level."""
+        self._educ = None
+
+    def clear_docc03(self):
+        """Clear the filter for occupation."""
+        self._docc03 = None
+
+    def clear_wbhaom(self):
+        """Clear the filter for race/ethnicity."""
+        self._wbhaom = None
+
+    def clear_female(self):
+        """Clear the filter for gender."""
+        self._female = None
+
+    def clear_region(self):
+        """Clear the filter for geographic region."""
+        self._region = None
+
+    def clear_age(self):
+        """Clear the filter for age group."""
+        self._age = None
+
+    def clear_hoursuint(self):
+        """Clear the filter for hours worked category."""
+        self._hoursuint = None
+
+    def clear_citistat(self):
+        """Clear the filter for citizenship status."""
+        self._citistat = None
+
 
 class Dataset:
+    """Class to query a dataset made up of InputRecords."""
 
-    def __init__(self, input_records):
+    def __init__(self, input_records_iter):
+        """Create a new dataset.
+
+        Args:
+            iterable: Iterable over InputRecord that 
+        """
+        input_records = list(input_records_iter)
         self._records_by_id = dict(map(
             lambda x: (x.get_index(), x),
             input_records
@@ -435,9 +443,27 @@ class Dataset:
                 the median wage should be returned.
 
         Returns:
-            float: The estimated median wage for the given population.
+            float: The estimated median wage for the given population in USD.
         """
-        pass
+        subpopulation = self._get_subpopulation(query)
+        wages_nested = map(lambda x: x.get_wageotc(), subpopulation)
+        wages_iter = itertools.chain(*wages_nested)
+        wages = list(wages_iter)
+
+        total_count = sum(map(lambda x: x.get_weight(), wages))
+        mid_count = total_count / 2
+
+        wages.sort(key=lambda x: x.get_wage())
+        weight_acc = 0
+        for wage in wages:
+            weight = wage.get_weight()
+
+            if weight_acc + weight >= mid_count:
+                return wage.get_wage()
+
+            weight_acc += wage.get_weight()
+
+        raise RuntimeError('Unable to get median wage.')
 
     def get_unemp(self, query):
         """Get the overall unemployment rate for a group.
@@ -447,11 +473,22 @@ class Dataset:
                 the unemployemnt rate should be returned.
 
         Returns:
-            float: The estimated unemployment rate for the specified group.
+            float: The estimated unemployment rate for the specified group as
+                a percentage between 0 and 100.
         """
-        pass
+        subpopulation = self._get_subpopulation(query)
+        unemp_tuples = map(
+            lambda x: (x.get_unemp_count(), x.get_unemp()),
+            subpopulation
+        )
+        weighted_tuples = map(lambda x: (x[0], x[0] * x[1]), unemp_tuples)
+        reduced = functools.reduce(
+            lambda a, b: (a[0] + b[0], a[1] + b[1]),
+            weighted_tuples
+        )
+        return reduced[1] / reduced[0]
 
-    def get_size_count(self, query):
+    def get_size(self, query):
         """Get the size of a population as summed census weight.
 
         Args:
@@ -464,21 +501,96 @@ class Dataset:
                 that this uses the wage count though the wage and unemployemnt
                 count are often the same.
         """
-        pass
+        subpopulation = self._get_subpopulation(query)
+        wage_counts = map(lambda x: x.get_wage_count(), subpopulation)
+        return sum(wage_counts)
 
     def _get_subpopulation(self, query):
+        """Retrieves part of the dataset based on the given query filters.
 
+        This method filters the dataset according to the dimensions specified in
+        the query object and returns only the subset of records that match all
+        the provided filtering criteria.
+
+        Args:
+            query (Query): A Query object containing the filter settings for
+                each dimension (e.g., education, occupation, race/ethnicity,
+                gender, etc.). Each filter can be set to None to imply no
+                filtering on that dimension.
+
+        Returns:
+            map: A map object containing the records that match all the filter
+                criteria, where each record is an instance of InputRecord.
+        """
         def filter_value(accumulator_index, filter_index, filter_value):
             if filter_value is None:
                 return accumulator_index
+
+            if filter_value not in filter_index:
+                filter_str = str(filter_value)
+                message = 'Cannot find the provided value: %s' % filter_str
+                raise RuntimeError(message)
 
             allowed = filter_index[filter_value]
             return allowed.intersection(accumulator_index)
 
         ret_index = set(self._records_by_id.keys())
-        ret_index = filter_value(ret_index, self._id_by_educ, query.get_educ())
+        ret_index = filter_value(
+            ret_index,
+            self._id_by_educ,
+            query.get_educ()
+        )
+        ret_index = filter_value(
+            ret_index,
+            self._id_by_docc03,
+            query.get_docc03()
+        )
+        ret_index = filter_value(
+            ret_index,
+            self._id_by_wbhaom,
+            query.get_wbhaom()
+        )
+        ret_index = filter_value(
+            ret_index,
+            self._id_by_female,
+            query.get_female()
+        )
+        ret_index = filter_value(
+            ret_index,
+            self._id_by_region,
+            query.get_region()
+        )
+        ret_index = filter_value(
+            ret_index,
+            self._id_by_age,
+            query.get_age()
+        )
+        ret_index = filter_value(
+            ret_index,
+            self._id_by_hoursuint,
+            query.get_hoursuint()
+        )
+        ret_index = filter_value(
+            ret_index,
+            self._id_by_citistat,
+            query.get_citistat()
+        )
+
+        return map(lambda x: self._records_by_id[x], ret_index)
 
     def _make_index(self, getter, records):
+        """Create an index mapping distinct attribute values to record IDs.
+
+        Args:
+            getter (callable): A function to extract the desired attribute for
+                indexing from a record.
+            records (iterable): A collection of records to index based on the
+                extracted attribute.
+
+        Returns:
+            dict: A dictionary where each key is a distinct attribute value
+                and each value is a set of record IDs that have that attribute.
+        """
         def combine_records(a, b):
             keys = set(a.keys()).union(b.keys())
             return dict(map(
@@ -491,3 +603,25 @@ class Dataset:
             records
         )
         return functools.reduce(combine_records, individual)
+
+
+def load_from_file(loc, sketch=None):
+    """Load a dataset from a CSV file.
+
+    Args:
+        loc (str): The location of the CSV file from which to parse
+            InputRecords.
+        sketch (sketchingpy.Sketch2D): The sketch to use to load the file or,
+            if None, uses a regular file. Defaults to None.
+
+    Returns:
+        Dataset parsed from the given location.
+    """
+    if sketch:
+        data_layer = sketch.get_data_layer()
+        records = data_layer.get_csv(loc)
+    else:
+        with open(loc) as f:
+            records = list(csv.DictReader(f))
+
+    return Dataset(records)
