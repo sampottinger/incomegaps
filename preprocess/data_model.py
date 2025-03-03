@@ -505,6 +505,42 @@ class Dataset:
         wage_counts = map(lambda x: x.get_wage_count(), subpopulation)
         return sum(wage_counts)
 
+    def get_max_wage(self):
+        records = self._records_by_id.values()
+        wages_nest = map(lambda x: x.get_wageotc(), records)
+        wages = itertools.chain(*wages_nest)
+        wages_raw = map(lambda x: x.get_wage(), wages)
+        return max(wages_raw)
+
+    def get_max_unemployment(self):
+        records = self._records_by_id.values()
+        unemployments = map(lambda x: x.get_unemp(), records)
+        return max(unemployments)
+    
+    def get_educ_vals(self):
+        return sorted(self._id_by_educ.keys())
+    
+    def get_docc03_vals(self):
+        return sorted(self._id_by_docc03.keys())
+    
+    def get_wbhaom_vals(self):
+        return sorted(self._id_by_wbhaom.keys())
+    
+    def get_female_vals(self):
+        return sorted(self._id_by_female.keys())
+    
+    def get_region_vals(self):
+        return sorted(self._id_by_region.keys())
+    
+    def get_age_vals(self):
+        return sorted(self._id_by_age.keys())
+    
+    def get_hoursuint_vals(self):
+        return sorted(self._id_by_hoursuint.keys())
+    
+    def get_citistat_vals(self):
+        return sorted(self._id_by_citistat.keys())
+
     def _get_subpopulation(self, query):
         """Retrieves part of the dataset based on the given query filters.
 
