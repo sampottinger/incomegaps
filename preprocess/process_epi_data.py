@@ -35,12 +35,17 @@ def load_data(locs: typing.List[str], start_year: int, start_month: int, end_yea
         end_year: Integer year for which to end filtering.
         end_month: Integer month for which to end filtering.
     Returns:
-        Filtered data frame for the target year / month with educ, docc03, wageotc, wbhaom, female
-        included. Only returns those with a finite non-None number for wageotc.
+        Filtered data frame for the target year / month with educ, docc03,
+        wageotc, wbhaom, female included. Only returns those with a finite
+        non-None number for wageotc.
     """
     all_data = None
     for loc in locs:
-        sub_frame = pandas.read_stata(loc, convert_missing=False, preserve_dtypes=False)
+        sub_frame = pandas.read_stata(
+            loc,
+            convert_missing=False,
+            preserve_dtypes=False
+        )
         if all_data is None:
             all_data = sub_frame
         else:
@@ -124,12 +129,21 @@ def get_key(row: typing.Dict) -> str:
     Args:
         row: The row for which to get a key.
     Returns:
-        Key describing the group represented by a row. This key has educ, docc03, wbhaom, and
-        female.
+        Key describing the group represented by a row. This key has educ,
+        docc03, wbhaom, and female.
     """
     key_pieces = map(
         lambda key: row[key],
-        ['educ', 'docc03', 'wbhaom', 'female', 'region', 'citistat', 'age', 'hoursuint']
+        [
+            'educ',
+            'docc03',
+            'wbhaom',
+            'female',
+            'region',
+            'citistat',
+            'age',
+            'hoursuint'
+        ]
     )
     key_pieces_str = map(lambda x: str(x), key_pieces)
     return '-'.join(key_pieces_str)
@@ -138,14 +152,14 @@ def get_key(row: typing.Dict) -> str:
 def agg_data(source: pandas.DataFrame) -> typing.Dict:
     """Aggregate into groups.
 
-    Aggregate wage info by "group" where a group is the combination of educ, docc03, wbhaom, and
-    female variables.
+    Aggregate wage info by "group" where a group is the combination of educ,
+    docc03, wbhaom, ad female variables.
 
     Args:
         source: The data frame to aggregate.
     Returns:
-        Dictionary mapping from group key to dictionary describing the group with individual wage
-        info.
+        Dictionary mapping from group key to dictionary describing the group
+        with individual wage info.
     """
     agg = {}
 
@@ -229,7 +243,8 @@ def find_download_url(url: str = EPI_MICRODATA_LOC) -> str:
     """Find the URL where the CPS zip file can be found.
 
     Args:
-        source_url: The URL for the microdata download page. If not given uses a default.
+        source_url: The URL for the microdata download page. If not given uses a
+            default.
     Returns:
         Path to CPS zip file.
     """
@@ -276,13 +291,13 @@ def download_data(start_year: int, end_year: int, zip_file_loc: str = '/tmp/epi_
     """Download latest EPI microdata and extract in /tmp directory.
 
     Args:
-        start_year: The first year inclusive to include in the data reported to the rest of the
-            script.
-        end_year: The last year inclusive to include in the data reported to the rest of the
-            script.
+        start_year: The first year inclusive to include in the data reported to
+            the rest of the script.
+        end_year: The last year inclusive to include in the data reported to the
+            rest of the script.
         zip_file_loc: The location to where the zip file should be written.
-        directory: The directory to where the files should be extracted. If not given, uses
-            default.
+        directory: The directory to where the files should be extracted. If not
+            given, uses default.
     Returns:
         Path to input files for the rest of the script.
     """
@@ -346,7 +361,9 @@ def main():
         summarized
     ))
 
-    pandas.DataFrame(filtered).to_csv(output_loc)
+    output_frame = pandas.DataFrame(filtered)
+    output_frame.index.name = 'index'
+    output_frame.to_csv(output_loc)
 
 
 if __name__ == '__main__':

@@ -1,0 +1,12 @@
+modules = ["nodejs-20", "web", "python-3.12", "bash"]
+run = "python3 -m http.server"
+
+[nix]
+channel = "stable-24_05"
+
+[deployment]
+run = ["sh", "-c", "node index.js"]
+
+[[ports]]
+localPort = 8000
+externalPort = 80

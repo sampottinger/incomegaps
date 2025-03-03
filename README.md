@@ -63,4 +63,61 @@ Code available under the [MIT license](https://mit-license.org/) (see `LICENSE.m
 
 Data
 --------------------------------------------------------------------------------
-Uses [US Census Microdata](https://www.census.gov/programs-surveys/acs/microdata.html) samples via [EPI Microdata Extracts](https://microdata.epi.org). The live version at https://incomegaps.com uses April 2021 to April 2022. Citation: Economic Policy Institute. 2022. Current Population Survey Extracts, Version 1.0.29, https://microdata.epi.org.
+We use public packaging of census data provided by the Economic Policy Insitute. We make our output data available as a CSV file.
+
+### Output CSV
+Our [output CSV file](https://incomegaps.com/data.csv) contains the following columns:
+
+ - `educ`: Education level converted to labels. This will take on the value of less than high school, high school, some college, college, and advanced.
+ - `docc03`: Occupation like "computer and mathematical science occupations" as [defined by the US Census](https://www.census.gov/topics/employment/industry-occupation/guidance/code-lists.html).
+ - `wageotc`: Equivalent hourly wage in USD including tips, commission, and overtime. This field contains tuples. Each value in the tuple is separated by a space and each tuple is separated by a semicolon. The first number is the value in USD and the second number is the weight which is proportional to the size of the population represented by that number.
+ - `unemp`: The percent unemployement within this group as a number from 0 to 100.
+ - `wageCount`: The sum of weights for this group which is comparable to other groups. This weight is propotional to the size of the population represented in this group. This reports on the sum of weights for wages but is typically the same as unempCount.
+ - `unempCount`: The sum of weights for this group which is comparable to other groups. This weight is propotional to the size of the population represented in this group. This reports on the sum of weights for unemployment rates but is typically the same as wageCount.
+ - `wbhaom`: Race and ethnicity label as provided by the Census. Takes on values White, Black, Hispanic, Asian, Native American, and Multiple races.
+ - `female`: Gender of group as defined by Census. Indication of if the respondent's sex is listed as female. Female if yes and Male otherwise.
+ - `region`: Location of group using Census region definition as converted to labels. Takes on values northeast, midwest, south, and west.
+ - `age`: Age groups typically in increments of years of ten like "45-55 yr" but bounded by "<25 yr" and "65+" on other side.
+ - `hoursuint`: Description of number of hours worked. Takes on values of at least 35 hours, less than 35 hours, and varies or other.
+ - `citistat`: Citizenship status as defined by the US Census for this group. Take on values of "foreign born, naturalized US citizen", "foreign born, not a US citizen", "native, born abroad with American parent(s)", "native, born in Puerto Rico or other US island areas", and "native, born in US".
+
+You may also interact with these data through Python as provided in `preprocess/data_model.py`.
+
+### Data model
+We provide pure-Python open source code to interact with our [public CSV file](https://incomegaps.com/data.csv). Available at `preprocess/data_model.py`, the following example executes a few sample queries.
+
+```
+import data_model
+
+dataset = data_model.load_from_file(loc)
+
+query = data_model.Query()
+query.set_educ('College')
+
+print('\n== College Graduates ==')
+print('Equivalent Hourly Wage: %f' % dataset.get_wageotc(query))
+print('Unemployment: %f' % dataset.get_unemp(query))
+print('Size: %f' % dataset.get_size(query))
+
+query.set_region('West')
+
+print('\n== College Graduates in the West ==')
+print('Equivalent Hourly Wage: %f' % dataset.get_wageotc(query))
+print('Unemployment: %f' % dataset.get_unemp(query))
+print('Size: %f' % dataset.get_size(query))
+
+query.clear_educ()
+
+print('\n== Everyone in the West ==')
+print('Equivalent Hourly Wage: %f' % dataset.get_wageotc(query))
+print('Unemployment: %f' % dataset.get_unemp(query))
+print('Size: %f' % dataset.get_size(query))
+```
+
+If using [Sketchingpy](https://sketchingpy.org), you can pass sketch to `load_from_file` like `load_from_file(loc, sketch=sketch)` to load through the Sketch2D instance.
+
+### Citation
+Uses [US Census Microdata](https://www.census.gov/programs-surveys/acs/microdata.html) samples via [EPI Microdata Extracts](https://microdata.epi.org). The live version at https://incomegaps.com indicates current timeframe in footer. Citation: Economic Policy Institute. 2025. Current Population Survey Extracts, Version 1.0.29, https://microdata.epi.org.
+
+### Data license
+Our [output CSV file](https://incomegaps.com/data.csv) is available under [CC-BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/deed.en). Please also cite [EPI Microdata Extracts](https://microdata.epi.org).
