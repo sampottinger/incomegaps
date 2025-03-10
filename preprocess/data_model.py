@@ -89,7 +89,7 @@ class InputRecord:
         """Get education level.
 
         Returns:
-            str: Education level label (less than high school, high school, 
+            str: Education level label (less than high school, high school,
                 some college, college, or advanced).
         """
         return self._educ
@@ -141,7 +141,7 @@ class InputRecord:
         """Get race and ethnicity information.
 
         Returns:
-            str: Race and ethnicity label (White, Black, Hispanic, Asian, 
+            str: Race and ethnicity label (White, Black, Hispanic, Asian,
                 Native American, or Multiple races).
         """
         return self._wbhaom
@@ -242,8 +242,8 @@ class Query:
         """Set the occupation filter.
 
         Args:
-            value (str or None): The occupation to filter for, or None to disable
-                filtering by occupation.
+            value (str or None): The occupation to filter for, or None to
+                disable filtering by occupation.
         """
         self._docc03 = value
 
@@ -251,8 +251,8 @@ class Query:
         """Get the race/ethnicity filter.
 
         Returns:
-            str or None: The race/ethnicity to filter for, or None if no filtering
-                should be applied.
+            str or None: The race/ethnicity to filter for, or None if no
+                filtering should be applied.
         """
         return self._wbhaom
 
@@ -287,8 +287,8 @@ class Query:
         """Get the geographic region filter.
 
         Returns:
-            str or None: The region to filter for, or None if no filtering should
-                be applied.
+            str or None: The region to filter for, or None if no filtering
+                should be applied.
         """
         return self._region
 
@@ -332,8 +332,8 @@ class Query:
         """Set the hours worked filter.
 
         Args:
-            value (str or None): The hours worked category to filter for, or None
-                to disable filtering by hours worked.
+            value (str or None): The hours worked category to filter for, or
+                None to disable filtering by hours worked.
         """
         self._hoursuint = value
 
@@ -395,7 +395,7 @@ class Dataset:
         """Create a new dataset.
 
         Args:
-            iterable: Iterable over InputRecord that 
+            iterable: Iterable over InputRecord to represent.
         """
         input_records = list(input_records_iter)
         self._records_by_id = dict(map(
@@ -521,13 +521,13 @@ class Dataset:
         """Get the maximum unemployment rate across all records in the dataset.
 
         Returns:
-            float: The maximum unemployment rate as a percentage (0-100) 
+            float: The maximum unemployment rate as a percentage (0-100)
                 found in the dataset.
         """
         records = self._records_by_id.values()
         unemployments = map(lambda x: x.get_unemp(), records)
         return max(unemployments)
-    
+
     def get_educ_vals(self):
         """Get all unique education level values in the dataset.
 
@@ -535,7 +535,7 @@ class Dataset:
             list: Sorted list of education level labels.
         """
         return sorted(self._id_by_educ.keys())
-    
+
     def get_docc03_vals(self):
         """Get all unique occupation classification values in the dataset.
 
@@ -543,7 +543,7 @@ class Dataset:
             list: Sorted list of occupation classification labels.
         """
         return sorted(self._id_by_docc03.keys())
-    
+
     def get_wbhaom_vals(self):
         """Get all unique race and ethnicity values in the dataset.
 
@@ -551,7 +551,7 @@ class Dataset:
             list: Sorted list of race and ethnicity labels.
         """
         return sorted(self._id_by_wbhaom.keys())
-    
+
     def get_female_vals(self):
         """Get all unique gender values in the dataset.
 
@@ -559,7 +559,7 @@ class Dataset:
             list: Sorted list of gender values (typically [False, True]).
         """
         return sorted(self._id_by_female.keys())
-    
+
     def get_region_vals(self):
         """Get all unique geographic region values in the dataset.
 
@@ -567,7 +567,7 @@ class Dataset:
             list: Sorted list of region labels.
         """
         return sorted(self._id_by_region.keys())
-    
+
     def get_age_vals(self):
         """Get all unique age group values in the dataset.
 
@@ -575,7 +575,7 @@ class Dataset:
             list: Sorted list of age group labels.
         """
         return sorted(self._id_by_age.keys())
-    
+
     def get_hoursuint_vals(self):
         """Get all unique hours worked category values in the dataset.
 
@@ -583,7 +583,7 @@ class Dataset:
             list: Sorted list of hours worked category labels.
         """
         return sorted(self._id_by_hoursuint.keys())
-    
+
     def get_citistat_vals(self):
         """Get all unique citizenship status values in the dataset.
 
